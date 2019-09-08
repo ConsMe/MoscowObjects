@@ -1,0 +1,5 @@
+*
+!public/
+!docs/
+!tmp_upload_files/
+!.gitignore

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>img/favicon.ico">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=60a7dbf4-5bcd-4448-8bcc-65c2f095e874" type="text/javascript"></script>
+    <script>
+        window.ymapsState = {
+          isReady: false,
+        };
+        ymaps.ready(() => window.ymapsState.isReady = true);
+        window.isAuthorized = {{ $isAuthorized }};
+        window.isAccepted = {{ $isAccepted }};
+        @if (Auth::check())
+            window.user = @json(Auth::user()->user_info);
+        @endif
+    </script>
+    <title>yandex-map</title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but yandex-map doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
