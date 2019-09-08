@@ -16,35 +16,35 @@ class ObjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        // $jsonString = file_get_contents(base_path('database/seeds/seed.json'));
-        // $objects = json_decode($jsonString, true);
-        // foreach ($objects as $object) {
-        //     $newObject = $object;
-        //     unset($newObject['id']);
-        //     unset($newObject['image']);
-        //     unset($newObject['lot']);
-        //     unset($newObject['responsible']);
-        //     unset($newObject['updated_at']);
-        //     $newObject['costCurrency'] = 'rouble';
-        //     if ($object['type'] === 'ZU') {
-        //         $newObject['kadastrNumberZU'] = $object['kadastrNumber'];
-        //         $newObject['kadastrNumberOKS'] = $object['kadastrNumber'];
-        //         unset($newObject['kadastrNumber']);
-        //         $newObject['purposeZU'] = $object['purpose'];
-        //         $newObject['purposeOKS'] = $object['purpose'];
-        //         unset($newObject['purpose']);
-        //         unset($newObject['imageType']);
-        //     }
-        //     if ($object['type'] === 'Invest') {
-        //         $newObject['GAPCurrency'] = 'rouble';
-        //     }
-        //     $newObject['areaS'] = intval($newObject['areaS']);
-        //     $newObject['groundS'] = floatval($newObject['groundS']);
-        //     $description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        //     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        $jsonString = file_get_contents(base_path('database/seeds/seed.json'));
+        $objects = json_decode($jsonString, true);
+        foreach ($objects as $object) {
+            $newObject = $object;
+            unset($newObject['id']);
+            unset($newObject['image']);
+            unset($newObject['lot']);
+            unset($newObject['responsible']);
+            unset($newObject['updated_at']);
+            $newObject['costCurrency'] = 'rouble';
+            if ($object['type'] === 'ZU') {
+                $newObject['kadastrNumberZU'] = $object['kadastrNumber'];
+                $newObject['kadastrNumberOKS'] = $object['kadastrNumber'];
+                unset($newObject['kadastrNumber']);
+                $newObject['purposeZU'] = $object['purpose'];
+                $newObject['purposeOKS'] = $object['purpose'];
+                unset($newObject['purpose']);
+                unset($newObject['imageType']);
+            }
+            if ($object['type'] === 'Invest') {
+                $newObject['GAPCurrency'] = 'rouble';
+            }
+            $newObject['areaS'] = intval($newObject['areaS']);
+            $newObject['groundS'] = floatval($newObject['groundS']);
+            $description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-        //     EstateObject::create(['characteristics' => $newObject, 'responsible' => 'Иванов И.И.', 'description' => $description]);
-        // }
+            EstateObject::create(['characteristics' => $newObject, 'responsible' => 'Иванов И.И.', 'description' => $description]);
+        }
 
         $objects = EstateObject::get(['id', 'characteristics'])->toArray();
         foreach ($objects as $object) {

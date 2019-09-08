@@ -1,2 +1,2 @@
-composer install
-php artisan storage:link
+composer install  
+php artisan storage:link  
