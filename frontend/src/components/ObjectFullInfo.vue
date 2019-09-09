@@ -172,7 +172,7 @@
 
 <script>
 import FavouriteIcon from './elements/FavouriteIcon.vue';
-import ObjectFullInfoPdf from '../pdf/ObjectFullInfoPdf';
+// import ObjectFullInfoPdf from '../pdf/ObjectFullInfoPdf';
 import Http from '../modules/Http';
 import toastr from './elements/toastr';
 
@@ -226,7 +226,7 @@ export default {
   },
   methods: {
     downloadTizer() {
-      ObjectFullInfoPdf();
+    //   ObjectFullInfoPdf();
     },
     closeObjectFullInfo() {
       this.$store.commit('main/changeCurrentObject', {});

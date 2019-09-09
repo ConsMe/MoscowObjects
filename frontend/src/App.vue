@@ -22,7 +22,7 @@ $fa-font-path: "~font-awesome/fonts";
 html {
   font-size: .8rem;
 }
-@media (min-width: 1281px){
+@media (min-width: 1400px){
   html {
     font-size: 1rem;
   }

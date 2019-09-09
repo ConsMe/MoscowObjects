@@ -80,7 +80,12 @@
     </div>
     <transition name="bounce">
       <span class="download-list" v-show="show">
-        <button class="btn btn-primary rounded-0 shadow border border-left-0">Скачать список</button>
+        <button
+          class="btn btn-primary rounded-0 shadow border border-left-0"
+          type="button"
+          @click="downloadPdf">
+          Скачать список
+        </button>
       </span>
     </transition>
   </div>
@@ -220,6 +225,9 @@ export default {
     showObjectAtMap(object) {
       this.$store.commit('main/changeCurrentObject', object);
       this.$store.commit('main/showObjectAtMap', object.coordinates);
+    },
+    downloadPdf() {
+    //   objectsListPdf(this.objects);
     },
   },
 };
