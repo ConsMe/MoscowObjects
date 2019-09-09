@@ -11,7 +11,7 @@ class PdfController extends Controller
 {
     public function getList()
     {
-        $objects = EstateObject::where('characteristics->type', 'ZU')->limit(3)->with(['images' => function($query) {
+        $objects = EstateObject::where('characteristics->type', 'ZU')->with(['images' => function($query) {
             $query->where('isMain', true);
         }])->get(['id', 'characteristics']);
         $objects = $objects->map(function($object) {
@@ -19,7 +19,6 @@ class PdfController extends Controller
             $modifiedObject['id'] = $object['id'];
             return $modifiedObject;
         });
-        // dd($objects);
         $mpdf = new Mpdf([
             'fontDir' => public_path('/pdf/fonts/'),
             'fontdata' => [

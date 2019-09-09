@@ -1,6 +1,10 @@
+table {
+    border-collapse: collapse;
+}
+
 td, th {
     text-align: left;
-    font-size: 14mm;
+    font-size: 35px;
     padding: 40px;
     border-bottom: 2px solid black;
 }
@@ -9,7 +13,7 @@ td, th {
     white-space: nowrap;
 }
 
-thead > tr > td {
-    background-color: black;
+th {
+    background-color: #060606;
     color: white;
 }

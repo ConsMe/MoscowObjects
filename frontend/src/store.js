@@ -67,6 +67,7 @@ export default new Vuex.Store({
     changeAuthState(state, { isAuthorized, user }) {
       state.isAuthorized = isAuthorized;
       if (isAuthorized) state.user = user;
+      if (user.accepted) state.isAccepted = 1;
     },
     changeSubscriptionStatus(state, status) {
       state.user.subscribed = status;

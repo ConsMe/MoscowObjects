@@ -9,12 +9,17 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class FileController extends Controller
 {
+
+    public $tmpFilepath;
+
     public function __construct()
     {
         $this->middleware('role:admin,manager')->except(['getdoc', 'checkIfObjectHasDocs']);
+        $this->tmpFilepath = str_replace('app/', '', env('TMP_FILES_PATH'));
     }
 
     public function upload(Request $request)
@@ -23,8 +28,7 @@ class FileController extends Controller
             'type' => 'required|string|in:images,docs',
             'file' => 'required|file|max:20000',
         ]);
-        $filepath = str_replace('app/', '', env('TMP_FILES_PATH'));
-        $path = $request->file('file')->store($filepath);
+        $path = $request->file('file')->store($this->tmpFilepath);
         $pathToArray = explode('/', $path);
         $filename = $request->file->getClientOriginalName();
         $fields = [
@@ -46,8 +50,7 @@ class FileController extends Controller
             abort(422);
         }
         if (!$file->object_id) {
-            $filepath = str_replace('app/', '', env('TMP_FILES_PATH'));
-            Storage::delete($filepath.$filename);
+            Storage::delete($this->tmpFilepath.$filename);
         }
         $file->delete();
         return response(200);
@@ -63,14 +66,14 @@ class FileController extends Controller
         if (!$docs) {
             return redirect()->back();
         }
-        $zip_file = 'docs.zip';
+        $zip_file = storage_path(env('TMP_FILES_PATH')).Str::random(40).'.zip';
         $zip = new \ZipArchive();
         $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
         foreach ($docs as $doc) {
             $zip->addFile(storage_path('app/docs/'.$doc->filename), $doc->original_filename);
         }
         $zip->close();
-        return response()->download($zip_file);
+        return response()->download($zip_file, 'docs.zip')->deleteFileAfterSend();
     }
 
     public function checkIfObjectHasDocs(EstateObject $object)
