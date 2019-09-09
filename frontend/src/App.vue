@@ -20,7 +20,12 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~toastr/toastr.scss";
 
 html {
-  font-size: .8rem;
+  font-size: .7rem;
+}
+@media (min-width: 1281px){
+  html {
+    font-size: .8rem;
+  }
 }
 @media (min-width: 1400px){
   html {
