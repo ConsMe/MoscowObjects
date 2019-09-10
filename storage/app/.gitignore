@@ -3,3 +3,4 @@
 !docs/
 !tmp_upload_files/
 !.gitignore
+!pdf_fonts

@@ -70,7 +70,8 @@ class PdfController extends Controller
         $html = view('pdf.list', $params);
         $dompdf = new Dompdf();
         $dompdf->set_option('defaultMediaType', 'all');
-        $dompdf->setBasePath(\storage_path('app/'));
+        $dompdf->set_option('fontDir', \storage_path('app/pdf_fonts/'));
+        $dompdf->set_option('fontCache', \storage_path('app/pdf_fonts'));
         $dompdf->set_option('isFontSubsettingEnabled', true);
         $dompdf->loadHtml($html, 'UTF-8');
         $dompdf->setPaper('A4', 'landscape');
