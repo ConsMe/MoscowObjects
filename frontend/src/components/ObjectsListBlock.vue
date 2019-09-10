@@ -82,8 +82,9 @@
       <span class="download-list" v-show="show">
         <button
           class="btn btn-primary rounded-0 shadow border border-left-0"
+          :disabled="disabled.downloadPdf"
           type="button"
-          @click="downloadPdf">
+          @click="checkForPdf">
           Скачать список
         </button>
       </span>
@@ -189,6 +190,9 @@ export default {
   data() {
     return {
       show: false,
+      disabled: {
+        downloadPdf: false,
+      },
     };
   },
   computed: {
@@ -227,11 +231,25 @@ export default {
       this.$store.commit('main/changeCurrentObject', object);
       this.$store.commit('main/showObjectAtMap', object.coordinates);
     },
+    checkForPdf() {
+      this.disabled.downloadPdf = true;
+      Http.post('/pdf/list/check', {
+        objects: this.objects,
+        currentCategorySlug: this.currentCategorySlug,
+        check: true,
+      }).then(() => {
+        this.downloadPdf();
+      }).catch(() => {
+        toastr.warning('Что-то пошло не так, попробуйте перегрузить страницу');
+      }).finally(() => {
+        this.disabled.downloadPdf = false;
+      });
+    },
     downloadPdf() {
-    //   Http.post('pdf/list', { objects: this.objects })
+      toastr.info('Идет подготовка файла для скачивания');
       const form = document.createElement('form');
       form.method = 'POST';
-      form.action = 'pdf/list';
+      form.action = '/pdf/list';
       const input = document.createElement('input');
       input.name = 'objects';
       input.value = JSON.stringify(this.objects);

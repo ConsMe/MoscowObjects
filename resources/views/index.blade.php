@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="/img/favicon.ico">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=60a7dbf4-5bcd-4448-8bcc-65c2f095e874" type="text/javascript"></script>
-    <script>
-        window.ymapsState = {
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/img/favicon.ico><meta name=csrf-token content="{{ csrf_token() }}"><script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=60a7dbf4-5bcd-4448-8bcc-65c2f095e874"></script><script>window.ymapsState = {
           isReady: false,
         };
         ymaps.ready(() => window.ymapsState.isReady = true);
@@ -16,15 +6,4 @@
         window.isAccepted = {{ $isAccepted }};
         @if (Auth::check())
             window.user = @json(Auth::user()->user_info);
-        @endif
-    </script>
-    <title>yandex-map</title>
-  <link href="/0.js" rel="prefetch"><link href="/1.6abc369ba9495e189e08.hot-update.js" rel="prefetch"><link href="/1.js" rel="prefetch"><link href="/2.js" rel="prefetch"><link href="/3.js" rel="prefetch"><link href="/4.js" rel="prefetch"><link href="/5.js" rel="prefetch"><link href="/6.js" rel="prefetch"><link href="/7.js" rel="prefetch"><link href="/8.js" rel="prefetch"><link href="/about.js" rel="prefetch"><link href="/app.js" rel="preload" as="script"></head>
-  <body>
-    <noscript>
-      <strong>We're sorry but yandex-map doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  <script type="text/javascript" src="/app.js"></script></body>
-</html>
+        @endif</script><title>yandex-map</title><link href=/css/chunk-0fb7418a.03c5226c.css rel=prefetch><link href=/css/chunk-41c3a02b.e583347c.css rel=prefetch><link href=/css/chunk-5d479cda.a44ff2f6.css rel=prefetch><link href=/css/chunk-6b4fd35e.90007118.css rel=prefetch><link href=/css/chunk-7da43ca4.8af679a4.css rel=prefetch><link href=/css/chunk-ae008d94.bfe34a54.css rel=prefetch><link href=/css/chunk-c393d520.8af679a4.css rel=prefetch><link href=/css/chunk-c76aef02.efa7504c.css rel=prefetch><link href=/js/about.525c45bb.js rel=prefetch><link href=/js/chunk-0fb7418a.42903c73.js rel=prefetch><link href=/js/chunk-41c3a02b.6ddafe96.js rel=prefetch><link href=/js/chunk-457db554.b6463cef.js rel=prefetch><link href=/js/chunk-5d479cda.047f4890.js rel=prefetch><link href=/js/chunk-6b4fd35e.2b8c8fc1.js rel=prefetch><link href=/js/chunk-7da43ca4.5e449b61.js rel=prefetch><link href=/js/chunk-ae008d94.fb72f1e7.js rel=prefetch><link href=/js/chunk-c393d520.b2ea02a3.js rel=prefetch><link href=/js/chunk-c76aef02.e9b39ec3.js rel=prefetch><link href=/css/app.9bdcddba.css rel=preload as=style><link href=/js/app.7c648a8c.js rel=preload as=script><link href=/js/chunk-vendors.4cd44250.js rel=preload as=script><link href=/css/app.9bdcddba.css rel=stylesheet></head><body><noscript><strong>We're sorry but yandex-map doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app></div><script src=/js/chunk-vendors.4cd44250.js></script><script src=/js/app.7c648a8c.js></script></body></html>

@@ -7,6 +7,7 @@ use \Mpdf\Mpdf;
 use App\EstateObject;
 use Illuminate\Support\Facades\File;
 use Dompdf\Dompdf;
+use App\Http\Requests\ListPdfRequest;
 
 class PdfController extends Controller
 {
@@ -60,11 +61,15 @@ class PdfController extends Controller
         return $pdf;
     }
 
-    public function getList(Request $request)
+    public function checkGetList(ListPdfRequest $request)
     {
-        $objects = json_decode($request->objects, true);
+        return response(200);
+    }
+
+    public function getList(ListPdfRequest $request)
+    {
         $params = [
-            'objects' => $objects,
+            'objects' => $request->objects,
             'currentCategorySlug' => $request->currentCategorySlug,
         ];
         $html = view('pdf.list', $params);
@@ -82,6 +87,39 @@ class PdfController extends Controller
             array(
                 'Content-Type'          => 'application/pdf',
                 'Content-Disposition'   => 'attachment; filename="file.pdf"'
+            )
+        );
+    }
+
+    public function getObject(Request $request)
+    {
+        // $url = 'https://static-maps.yandex.ru/1.x/?ll=37.620070,55.753630&size=450,450&z=18&l=map&pt=37.620070,55.753630,pmwtm1~37.64,55.76363,pmwtm99';
+        // $img = \storage_path('app/tmp_upload_files/map.pnf');
+        // file_put_contents($img, file_get_contents($url));
+        $img_url = 'https://static-maps.yandex.ru/1.x/?ll=37.620070,55.753630&size=235,450&z=18&l=map&pt=37.620070,55.753630,pmwtm1~37.64,55.76363,pmwtm99';
+        $b64_url = 'php://filter/read=convert.base64-encode/resource='.$img_url;
+        $b64_img = file_get_contents($b64_url);
+        // return $b64_img;
+        $params = [
+            // 'objects' => $request->objects,
+            // 'currentCategorySlug' => $request->currentCategorySlug,
+            'b64_img' => $b64_img,
+        ];
+        $html = view('pdf.object_full_info', $params);
+        $dompdf = new Dompdf();
+        $dompdf->set_option('defaultMediaType', 'all');
+        $dompdf->set_option('fontDir', \storage_path('app/pdf_fonts/'));
+        $dompdf->set_option('fontCache', \storage_path('app/pdf_fonts'));
+        $dompdf->set_option('isFontSubsettingEnabled', true);
+        $dompdf->loadHtml($html, 'UTF-8');
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        return response(
+            $dompdf->stream('test.pdf', ['Attachment' => 0]),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                // 'Content-Disposition'   => 'attachment; filename="file.pdf"'
             )
         );
     }
