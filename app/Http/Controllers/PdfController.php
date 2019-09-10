@@ -6,19 +6,22 @@ use Illuminate\Http\Request;
 use \Mpdf\Mpdf;
 use App\EstateObject;
 use Illuminate\Support\Facades\File;
+use Dompdf\Dompdf;
 
 class PdfController extends Controller
 {
-    public function getList()
+    public function getList_mpdf(Request $request)
     {
-        $objects = EstateObject::where('characteristics->type', 'ZU')->with(['images' => function($query) {
-            $query->where('isMain', true);
-        }])->get(['id', 'characteristics']);
-        $objects = $objects->map(function($object) {
-            $modifiedObject = $object['characteristics'];
-            $modifiedObject['id'] = $object['id'];
-            return $modifiedObject;
-        });
+        // dd(json_decode($request->objects));
+        // $objects = EstateObject::where('characteristics->type', 'ZU')->with(['images' => function($query) {
+        //     $query->where('isMain', true);
+        // }])->get(['id', 'characteristics']);
+        // $objects = $objects->map(function($object) {
+        //     $modifiedObject = $object['characteristics'];
+        //     $modifiedObject['id'] = $object['id'];
+        //     return $modifiedObject;
+        // });
+        $objects = json_decode($request->objects, true);
         $mpdf = new Mpdf([
             'fontDir' => public_path('/pdf/fonts/'),
             'fontdata' => [
@@ -44,15 +47,40 @@ class PdfController extends Controller
         // $params['forFile'] = TRUE;
         $params = [
             'objects' => $objects,
-            'currentCategorySlug' => 'ZU'
+            'currentCategorySlug' => $request->currentCategorySlug
         ];
-        $html = view('pdf.list', $params);
+        $html = view('pdf.list_mpdf', $params);
         $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
         // $mpdf->SetHTMLFooterByName('myFooter');
         // $mpdf->AddPage();
         // $html = view('pdf_part2', $params);
         // $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+        // $mpdf->Output('test.pdf', \Mpdf\Output\Destination::DOWNLOAD);
         $pdf = $mpdf->Output('test.pdf', \Mpdf\Output\Destination::INLINE);
         return $pdf;
+    }
+
+    public function getList(Request $request)
+    {
+        $objects = json_decode($request->objects, true);
+        $params = [
+            'objects' => $objects,
+            'currentCategorySlug' => $request->currentCategorySlug,
+        ];
+        $html = view('pdf.list', $params);
+        $dompdf = new Dompdf();
+        $dompdf->set_option('defaultMediaType', 'all');
+        $dompdf->set_option('isFontSubsettingEnabled', true);
+        $dompdf->loadHtml($html, 'UTF-8');
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        return response(
+            $dompdf->stream('test.pdf', ['Attachment' => 1]),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'attachment; filename="file.pdf"'
+            )
+        );
     }
 }

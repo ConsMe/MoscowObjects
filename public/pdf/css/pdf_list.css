@@ -4,7 +4,7 @@ table {
 
 td, th {
     text-align: left;
-    font-size: 35px;
+    font-size: 14mm;
     padding: 40px;
     border-bottom: 2px solid black;
 }
@@ -16,4 +16,8 @@ td, th {
 th {
     background-color: #060606;
     color: white;
+}
+
+img {
+    width: 100%;
 }

@@ -24,7 +24,7 @@ Route::delete('favourites/{objectId}', 'FavouriteController@remove');
 Route::resource('users', 'UserController')->only([
     'index', 'update', 'destroy'
 ]);
-Route::get('pdf/list', 'PdfController@getList');
+Route::post('pdf/list', 'PdfController@getList');
 Route::post('changeSubscriptionStatus', 'SubscriptionController@changeSubscriptionStatus')->middleware('auth');
 
 Route::resource('objects', 'ObjectController');

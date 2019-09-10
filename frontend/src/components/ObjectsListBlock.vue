@@ -179,6 +179,7 @@
 <script>
 import FavouriteIcon from './elements/FavouriteIcon.vue';
 import toastr from './elements/toastr';
+import Http from '../modules/Http';
 
 export default {
   name: 'ObjectsListBlock',
@@ -227,7 +228,24 @@ export default {
       this.$store.commit('main/showObjectAtMap', object.coordinates);
     },
     downloadPdf() {
-    //   objectsListPdf(this.objects);
+    //   Http.post('pdf/list', { objects: this.objects })
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'pdf/list';
+      const input = document.createElement('input');
+      input.name = 'objects';
+      input.value = JSON.stringify(this.objects);
+      const input2 = document.createElement('input');
+      input2.name = '_token';
+      input2.value = document.head.querySelector('meta[name=csrf-token]').getAttribute('content');
+      const input3 = document.createElement('input');
+      input3.name = 'currentCategorySlug';
+      input3.value = this.currentCategorySlug;
+      form.appendChild(input);
+      form.appendChild(input2);
+      form.appendChild(input3);
+      document.body.appendChild(form);
+      form.submit();
     },
   },
 };
