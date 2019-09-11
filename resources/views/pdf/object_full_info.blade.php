@@ -24,6 +24,9 @@
         td {
             vertical-align: top;
         }
+        td, p, div {
+            font-family: Roboto;
+        }
         .info p {
             margin: 5px;
         }
@@ -83,9 +86,15 @@
         .leg {
             display: block;
             height: 18px;
-            border-left: 1px solid #210644;
             margin-left: 1px;
-            margin-top: -10px;
+            z-index: 1;
+            @if ($object['type'] === 'ZU')
+                margin-top: -10px;
+                border-left: 1px solid #210644;
+            @else
+                margin-top: -7px;
+                border-left: 1px solid #c00;
+            @endif
         }
     </style>
 </head>
@@ -168,7 +177,10 @@
                                 <div class="invest-icon" style="background-color: #c00;">
                                     <div>{{ $object['buildingName'] }}</div>
                                 </div>
-                                <div class="leg"></div>
+                                <div
+                                  class="leg">
+
+                                </div>
                             @endif
                     </div>
                 </td>
