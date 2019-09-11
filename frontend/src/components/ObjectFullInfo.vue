@@ -90,6 +90,8 @@
         <button
           class="btn btn-primary rounded-0 text-nowrap download-tizer w-100 mb-1 shadow border border-left-0"
           @click="downloadTizer"
+          type="button"
+          :disabled="disabled.downloadTizer"
         >Скачать тизер</button>
         <button
           class="btn btn-secondary rounded-0 text-nowrap download-docs w-100 shadow border border-left-0"
@@ -172,7 +174,6 @@
 
 <script>
 import FavouriteIcon from './elements/FavouriteIcon.vue';
-// import ObjectFullInfoPdf from '../pdf/ObjectFullInfoPdf';
 import Http from '../modules/Http';
 import toastr from './elements/toastr';
 
@@ -186,6 +187,9 @@ export default {
       descriptionError: false,
       unwatch: null,
       show: false,
+      disabled: {
+        downloadTizer: false,
+      },
     };
   },
   computed: {
@@ -225,8 +229,37 @@ export default {
     },
   },
   methods: {
+    checkForTizer() {
+      this.disabled.downloadTizer = true;
+      const object = JSON.parse(JSON.stringify(this.object));
+      object.description = this.description;
+      Http.post('/pdf/object/check', {
+        object,
+      }).then(() => {
+        this.downloadTizer();
+      }).catch(() => {
+        toastr.warning('Что-то пошло не так, попробуйте перегрузить страницу');
+      }).finally(() => {
+        this.disabled.downloadTizer = false;
+      });
+    },
     downloadTizer() {
-    //   ObjectFullInfoPdf();
+      toastr.info('Идет подготовка файла для скачивания');
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/pdf/object';
+      const input = document.createElement('input');
+      input.name = 'object';
+      const object = JSON.parse(JSON.stringify(this.object));
+      object.description = this.description;
+      input.value = JSON.stringify(object);
+      const input2 = document.createElement('input');
+      input2.name = '_token';
+      input2.value = document.head.querySelector('meta[name=csrf-token]').getAttribute('content');
+      form.appendChild(input);
+      form.appendChild(input2);
+      document.body.appendChild(form);
+      form.submit();
     },
     closeObjectFullInfo() {
       this.$store.commit('main/changeCurrentObject', {});
