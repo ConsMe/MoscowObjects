@@ -66,7 +66,7 @@
         <table style="width: 100%; position:relative;">
                 <thead>
                   <tr>
-                    <th scope="col">{{ $currentCategorySlug === 'ZU' ? '' : 'Название' }}</th>
+                    <th scope="col" style="padding-left: 5px;">{{ $currentCategorySlug === 'ZU' ? '' : 'Название' }}</th>
                     <th scope="col">Лот</th>
                     <th scope="col">Субъект</th>
                     <th scope="col">Адрес</th>

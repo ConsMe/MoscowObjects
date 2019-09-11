@@ -33,7 +33,7 @@ class PdfController extends Controller
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         return response(
-            $dompdf->stream('test.pdf', ['Attachment' => 1]),
+            $dompdf->stream('list.pdf', ['Attachment' => 1]),
             200,
             array(
                 'Content-Type'          => 'application/pdf',
@@ -51,7 +51,7 @@ class PdfController extends Controller
     {
         $object = $request->object;
         $object['description'] = explode("\n", $object['description']);
-        $img_url = 'https://static-maps.yandex.ru/1.x/?ll='.implode(',', array_reverse($object['coordinates'])).'&size=235,450&z=15&l=map';
+        $img_url = 'https://static-maps.yandex.ru/1.x/?ll='.implode(',', array_reverse($object['coordinates'])).'&size=250,450&z=15&l=map';
         $b64_url = 'php://filter/read=convert.base64-encode/resource='.$img_url;
         $b64_img = file_get_contents($b64_url);
         $params = [
@@ -68,7 +68,7 @@ class PdfController extends Controller
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         return response(
-            $dompdf->stream('test.pdf', ['Attachment' => 1]),
+            $dompdf->stream('lot_'.$object['id'].'.pdf', ['Attachment' => 1]),
             200,
             array(
                 'Content-Type'          => 'application/pdf',

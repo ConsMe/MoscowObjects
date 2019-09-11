@@ -4,6 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Document</title>
     <style>
+        @page {
+            margin: 20px;
+        }
         html {
             font-size: 12px;
         }
@@ -13,10 +16,18 @@
             font-style: normal;
             font-weight: normal;
         }
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ public_path('pdf/fonts/Roboto-Bold.ttf') }}") format("truetype");
+            font-style: normal;
+            font-weight: bold;
+        }
         body {
             font-family: Roboto;
             position: relative;
             color: #6d6c6c;
+            border: 1px solid #8ac3fb;
+            padding: 10px;
         }
         table {
             border-collapse: collapse;
@@ -96,10 +107,46 @@
                 border-left: 1px solid #c00;
             @endif
         }
+        footer {
+            position: fixed;
+            left: 20px;
+            bottom: 0px;
+            height: 70px;
+            right: 20px;
+            background-color: transparent;
+            padding-top: 10px;
+            border-top: 1px solid #2c3e50;
+        }
+        footer div {
+            position: relative;
+            top: 0;
+            display: inline-block;
+            width: 50%;
+        }
+        footer div img {
+            position: relative;
+            height: 60px;
+            top: 0;
+            margin-left: -5px;
+            margin-top: 15px;
+        }
+        footer div p {
+            text-align: right;
+            padding: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-right: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        footer a {
+            color: #bc2a37;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-    <table style="border: 1px solid #8ac3fb;width: 100%; height: 99%;">
+    <table style="width: 100%; height: 99%;">
         <tbody>
             <tr style="">
                 <td style="width: 65%;position: relative;white-space: pre-line; padding: 10px;">
@@ -148,7 +195,7 @@
                                         <p>ГАП {{ $object['GAP'] }} Р</p>
                                         <p>Caprate {{ $object['caprate'] }}%</p>
                                     @endif
-                                    <p style="font-size: 1.2rem;margin-top: 15px; ">{{ $object['cost'] }} Р</p>
+                                    <p style="font-size: 1.2rem;margin-top: 15px; font-weight: bold;">{{ $object['cost'] }} Р</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -166,7 +213,7 @@
                     <img
                       src="data:image/png;base64, {{ $b64_img }}"
                       style="width: 350px;">
-                    <div class="map-icon" style="margin-top: {{ $object['type'] === 'ZU' ? '-58px;' : '-43px;' }}">
+                    <div class="map-icon" style="margin-top: {{ $object['type'] === 'ZU' ? '-90px;' : '-75px;' }}">
                             @if ($object['type'] === 'ZU')
                                 <div class="zu-icon">
                                     <div style="text: center;">{{ $object['groundS'] }}</div>
@@ -187,5 +234,18 @@
             </tr>
         </tbody>
     </table>
+    <footer>
+        <div>
+            <img src="{{ storage_path('app/logos/Investtex_viz_final_small.jpg') }}">
+        </div>
+        <div style="padding-bottom: 5px;">
+            <p>Москва, Россия</p>
+            <p>129626, проспект Мира, 102к2</p>
+            <p>
+                <a href="http://investtex.ru" target="_blank">investtex.ru</a>
+                <a href="http://investtex.pro" target="_blank" style="margin-left: 10px;">investtex.pro</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
