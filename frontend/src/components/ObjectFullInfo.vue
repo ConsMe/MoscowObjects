@@ -3,8 +3,8 @@
     <div class="row p-3 m-0 bg-white">
       <div class="col">
         <div class="row">
-          <div class="col">
-            <img :src="imageFolders.big + object.images[0].filename" alt="Фото" class="img-fluid" />
+          <div class="col d-flex flex-column">
+            <carousel :images="object.images" :path="imageFolders.big" />
           </div>
           <div class="col">
             <div class="row h-100">
@@ -176,11 +176,13 @@
 import FavouriteIcon from './elements/FavouriteIcon.vue';
 import Http from '../modules/Http';
 import toastr from './elements/toastr';
+import Carousel from './elements/Carousel.vue';
 
 export default {
   name: 'ObjectFullInfo',
   components: {
     FavouriteIcon,
+    Carousel,
   },
   data() {
     return {

@@ -5,24 +5,24 @@
         <table class="table table-hover m-0 sticky-thead">
           <thead>
             <tr>
-              <th scope="col">{{ currentCategorySlug === 'ZU' ? '' : 'Название' }}</th>
-              <th scope="col">Лот</th>
-              <th scope="col">Субъект</th>
-              <th scope="col">Адрес</th>
+              <th scope="col" :class="[sort.buildingName ? `sort-${sort.buildingName}` : null]" @click="sortTo('buildingName')">{{ currentCategorySlug === 'ZU' ? '' : 'Название' }}</th>
+              <th scope="col" :class="[sort.id ? `sort-${sort.id}` : null]" @click="sortTo('id')">Лот</th>
+              <th scope="col" :class="[sort.district ? `sort-${sort.district}` : null]" @click="sortTo('district')">Субъект</th>
+              <th scope="col" :class="[sort.address ? `sort-${sort.address}` : null]" @click="sortTo('address')">Адрес</th>
               <template v-if="currentCategorySlug === 'ZU'">
-                <th scope="col">Тип</th>
-                <th scope="col">S ЗУ</th>
-                <th scope="col">S ОКС</th>
-                <th scope="col">Назначение</th>
-                <th scope="col">ГПЗУ</th>
+                <th scope="col" :class="[sort.ZUType ? `sort-${sort.ZUType}` : null]" @click="sortTo('ZUType')">Тип</th>
+                <th scope="col" :class="[sort.groundS ? `sort-${sort.groundS}` : null]" @click="sortTo('groundS')">S ЗУ</th>
+                <th scope="col" :class="[sort.areaS ? `sort-${sort.areaS}` : null]" @click="sortTo('areaS')">S ОКС</th>
+                <th scope="col" :class="[sort.purpose ? `sort-${sort.purpose}` : null]" @click="sortTo('purpose')">Назначение</th>
+                <th scope="col" :class="[sort.groundPlan ? `sort-${sort.groundPlan}` : null]" @click="sortTo('groundPlan')">ГПЗУ</th>
               </template>
               <template v-if="currentCategorySlug === 'Invest'">
-                <th scope="col">Тип</th>
-                <th scope="col">S</th>
-                <th scope="col">ГАП, Р.</th>
-                <th scope="col">Caprate</th>
+                <th scope="col" :class="[sort.type ? `sort-${sort.type}` : null]" @click="sortTo('type')">Тип</th>
+                <th scope="col" :class="[sort.areaS ? `sort-${sort.areaS}` : null]" @click="sortTo('areaS')">S</th>
+                <th scope="col" :class="[sort.GAP ? `sort-${sort.GAP}` : null]" @click="sortTo('GAP')">ГАП, Р.</th>
+                <th scope="col" :class="[sort.caprate ? `sort-${sort.caprate}` : null]" @click="sortTo('caprate')">Caprate</th>
               </template>
-              <th scope="col" class="text-right">Стоимость, Р.</th>
+              <th scope="col" class="text-right" :class="[sort.cost ? `sort-${sort.cost}` : null]" @click="sortTo('cost')">Стоимость, Р.</th>
             </tr>
           </thead>
           <tbody>
@@ -58,7 +58,7 @@
                 <td class="align-middle text-nowrap">{{ object.groundS }}</td>
                 <td class="align-middle text-nowrap" v-html="object.areaS"></td>
                 <td class="align-middle">
-                  {{ object.ZUType === 'ZU' ? object.purposeZU : object.purposeOKS }}
+                  {{ object.ZUType === 'ЗУ' ? object.purposeZU : object.purposeOKS }}
                 </td>
                 <td class="align-middle">{{ object.groundPlan ? 'Есть' : 'Нет' }}</td>
               </template>
@@ -135,6 +135,22 @@
   .list-enter, .list-leave-to /* .list-leave-active до версии 2.1.8 */ {
     opacity: 0;
   }
+  .sort-up::after {
+    content: "↑";
+    position: absolute;
+    height: 100%;
+    line-height: normal;
+  }
+  .sort-down::after {
+    content: "↓";
+    position: absolute;
+    height: 100%;
+    line-height: normal;
+  }
+  th {
+    cursor: pointer;
+    position: relative;
+  }
 }
 .showInMap {
   position: absolute;
@@ -193,11 +209,37 @@ export default {
       disabled: {
         downloadPdf: false,
       },
+      sort: { id: 'down' },
+      numericFields: [
+        'id', 'areaS', 'cost', 'groundS', 'GAP', 'caprate',
+      ],
     };
   },
   computed: {
     objects() {
-      return this.$store.getters['main/objects'];
+      const objects = [...this.$store.getters['main/objects']];
+      const fields = Object.keys(this.sort);
+      if (!fields.length) return objects;
+      const field = fields[0];
+      const direction = this.sort[field];
+      const isFieldNumeric = this.numericFields.includes(field);
+      return objects.sort((object1, object2) => {
+        let a;
+        let b;
+        if (field === 'purpose') {
+          a = object1.ZUType === 'ЗУ' ? object1.purposeZU : object1.purposeOKS;
+          b = object2.ZUType === 'ЗУ' ? object2.purposeZU : object2.purposeOKS;
+        } if (field === 'type' && this.currentCategorySlug === 'Invest') {
+          a = object1.buildingType.short;
+          b = object2.buildingType.short;
+        } else {
+          a = isFieldNumeric ? parseFloat(object1[field].toString().replace(/\s/g, '')) : object1[field];
+          b = isFieldNumeric ? parseFloat(object2[field].toString().replace(/\s/g, '')) : object2[field];
+        }
+        if (direction === 'down') [a, b] = [b, a];
+        if (a > b) return -1;
+        return a < b ? 1 : 0;
+      });
     },
     filterWidth() {
       return this.$store.state.filterWidth;
@@ -214,6 +256,11 @@ export default {
   },
   mounted() {
     this.show = true;
+  },
+  watch: {
+    currentCategorySlug() {
+      this.sort = {};
+    },
   },
   methods: {
     showObjectFullInfo(object) {
@@ -264,6 +311,11 @@ export default {
       form.appendChild(input3);
       document.body.appendChild(form);
       form.submit();
+    },
+    sortTo(column) {
+      if (column === 'buildingName' && this.currentCategorySlug === 'ZU') return;
+      const direction = column in this.sort && this.sort[column] === 'down' ? 'up' : 'down';
+      this.sort = { [column]: direction };
     },
   },
 };
