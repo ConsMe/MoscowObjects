@@ -229,7 +229,7 @@ export default {
         if (field === 'purpose') {
           a = object1.ZUType === 'ЗУ' ? object1.purposeZU : object1.purposeOKS;
           b = object2.ZUType === 'ЗУ' ? object2.purposeZU : object2.purposeOKS;
-        } if (field === 'type' && this.currentCategorySlug === 'Invest') {
+        } else if (field === 'type' && this.currentCategorySlug === 'Invest') {
           a = object1.buildingType.short;
           b = object2.buildingType.short;
         } else {
@@ -259,7 +259,7 @@ export default {
   },
   watch: {
     currentCategorySlug() {
-      this.sort = {};
+      this.sort = { id: 'down' };
     },
   },
   methods: {
