@@ -1,5 +1,5 @@
 <template>
-  <div class="object-full-info bg-white shadow" :style="{maxWidth: '60%'}">
+  <div class="object-full-info bg-white shadow" :style="{width: '60%'}">
     <div class="row p-3 m-0 bg-white">
       <div class="col">
         <div class="row">
