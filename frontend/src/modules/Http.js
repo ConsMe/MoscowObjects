@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const baseURL = window.location.origin;
+let lastTimestamp = new Date().getTime();
 
 const headers = {
   'X-CSRF-TOKEN': document.head.querySelector('meta[name=csrf-token]').getAttribute('content'),
@@ -35,10 +36,22 @@ function refreshAppTokens() {
     })
     .then((token) => {
       setToken(token);
+      lastTimestamp = new Date().getTime();
     });
 }
 
-setInterval(refreshAppTokens, 1000 * 60 * 50);
+function isTimeToRefresh() {
+  if ((new Date().getTime() - lastTimestamp) > 1000 * 60 * 60) {
+    refreshAppTokens();
+  }
+}
+
+setInterval(isTimeToRefresh, 1000 * 60 * 5);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    isTimeToRefresh();
+  }
+});
 
 class Http extends Parent { }
 

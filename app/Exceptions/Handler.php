@@ -46,6 +46,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($request->route()->getName() === 'verification.verify' && !$request->hasValidSignature()) {
+            return redirect('/lk/account')->with('exceptionInfo', ['verificationLinkExpired' => true]);
+        }
         return parent::render($request, $exception);
     }
 }

@@ -15,6 +15,7 @@
         "doctrine/dbal": "^2.9",
         "dompdf/dompdf": "^0.8.3",
         "fideloper/proxy": "^4.0",
+        "guzzlehttp/guzzle": "^6.3",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "intervention/image": "^2.5",
         "laravel/framework": "5.8.*",

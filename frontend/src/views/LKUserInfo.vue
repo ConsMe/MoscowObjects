@@ -32,7 +32,14 @@
         </div>
       </div>
     </div>
-    <div class="mt-4 font-italic text-secondary" v-if="!user.email_verified_at">
+    <div class="mt-4 font-italic text-secondary" v-if="infoMessages && infoMessages.verificationLinkExpired">
+        <p>Срок действия ссылки истек</p>
+        <p>
+        <a href="" @click.stop.prevent="sendEmail">Нажмите</a>,
+        чтобы отправить ссылку повторно
+        </p>
+    </div>
+    <div class="mt-4 font-italic text-secondary" v-else-if="!user.email_verified_at">
         <p>Вам необходимо подтвердить свой email</p>
         <p>
           Не получили письмо?
@@ -42,7 +49,7 @@
         </p>
     </div>
     <p class="mt-4 font-italic text-secondary" v-else-if="!user.accepted">
-        Ваш аккаунт ожидает подтверждения администратором
+        Вы подтвердили свой email, теперь ваш аккаунт должен подтвердить администратор
     </p>
     <div class="row mt-4" v-else>
       <div class="col col-auto">
@@ -94,6 +101,7 @@ export default {
   data() {
     return {
       disabled: false,
+      infoMessages: window.infoMessages,
     };
   },
   computed: {

@@ -17,6 +17,9 @@
         @if (Auth::check())
             window.user = @json(Auth::user()->user_info);
         @endif
+        @if (session('exceptionInfo'))
+            window.infoMessages = @json(session('exceptionInfo'));
+        @endif
     </script>
     <title>yandex-map</title>
   </head>
