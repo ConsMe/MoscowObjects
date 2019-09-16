@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('currencies:refresh')->everyMinute();
+        $schedule->command('currencies:refresh')->dailyAt('00:00');
     }
 
     /**
