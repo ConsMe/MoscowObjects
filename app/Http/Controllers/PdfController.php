@@ -30,7 +30,7 @@ class PdfController extends Controller
         $dompdf->set_option('fontCache', \storage_path('app/pdf_fonts'));
         $dompdf->set_option('isFontSubsettingEnabled', true);
         $dompdf->loadHtml($html, 'UTF-8');
-        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         return response(
             $dompdf->stream('list.pdf', ['Attachment' => 1]),

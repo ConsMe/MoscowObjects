@@ -85,7 +85,7 @@ export default {
       state.currentObject = object;
     },
     applyFilter(state, filters) {
-      state.filters = Object.assign({}, filters);
+      state.filters = filters;
       state.favouritesOn = false;
       state.filtersOn = true;
     },
@@ -107,6 +107,28 @@ export default {
         map: !state.blocksVisibility.ObjectsListBlock,
       };
     },
+    modifiedFilters(state, getters, rootState) {
+      if (!Object.keys(state.filters).length) return {};
+      const filters = JSON.parse(JSON.stringify(state.filters));
+      Object.keys(filters).forEach((name) => {
+        const filter = filters[name];
+        if (filter.type === 'interval') {
+          const from = parseFloat(filter.values.from.replace(',', '.').replace(/\s/g, ''));
+          const to = parseFloat(filter.values.to.replace(',', '.').replace(/\s/g, ''));
+          filters[name].values.from = Number.isNaN(from) ? null : from;
+          filters[name].values.to = Number.isNaN(to) ? null : to;
+        }
+      });
+      if (filters.cost.currency !== 'rouble') {
+        if (filters.cost.values.from) {
+          filters.cost.values.from *= rootState.currencies[filters.cost.currency];
+        }
+        if (filters.cost.values.to) {
+          filters.cost.values.to *= rootState.currencies[filters.cost.currency];
+        }
+      }
+      return filters;
+    },
     objects(state, getters, rootState, rootGetters) {
       if (state.favouritesOn) {
         return rootGetters.objectsForCurrentCategory.filter((object) => {
@@ -117,9 +139,11 @@ export default {
       if (state.filtersOn) {
         const matchIds = [];
         rootState.objectsPre.forEach((object) => {
+          if (object.type !== rootState.currentCategorySlug) return;
           const ZUType = object.ZUType === 'ЗУ' ? 'ZU' : 'OKS';
-          const fit = Object.keys(state.filters).every((name) => {
-            const filter = state.filters[name];
+          const fit = Object.keys(getters.modifiedFilters).every((name) => {
+            const filter = getters.modifiedFilters[name];
+            if (filter.hidden === rootState.currentCategorySlug) return true;
             if (filter.type === 'checkbox') {
               if (filter.value.length && filter.value.length !== filter.values.length) {
                 if (!filter.value.includes(object[name])) return false;
@@ -127,6 +151,8 @@ export default {
             } else if (filter.type === 'radio' && filter.value !== 'any') {
               if (name === 'purpose') {
                 if (filter.value !== object[name + ZUType]) return false;
+              } else if (name === 'buildingType') {
+                if (filter.value !== object[name].short) return false;
               } else if (filter.value !== object[name]) {
                 return false;
               }

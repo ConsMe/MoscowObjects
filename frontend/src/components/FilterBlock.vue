@@ -4,84 +4,94 @@
       <div class="col">
         <div class="form-group">
           <div v-for="(filter, name) in filters" :key="name">
-            <label class="control-label mt-3 mb-0">
-              <span class="text-uppercase">{{ filter.label }}</span>
-            </label>
-            <div v-if="filter.type == 'checkbox'">
-              <div
-                class="custom-control custom-checkbox"
-                v-for="value in filter.values"
-                :key="value.id"
-              >
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  :id="name + value.id"
-                  :value="value.slug"
-                  v-model="filter.value"
-                />
-                <label class="custom-control-label" :for="name + value.id">{{ value.title }}</label>
-              </div>
-            </div>
-            <div v-else-if="filter.type == 'interval'">
-              <form>
-                <div class="row no-gutters">
-                  <div class="col col-auto my-label-bottom">
-                    <label class="control-label mb-0">от</label>
-                  </div>
-                  <div class="col">
-                    <input
-                      type="text"
-                      class="form-control form-control-sm bg-transparent text-white p-0 text-right rounded-0 pr-1 pl-1"
-                      v-model="filter.values.from"
-                      size="5"
-                    />
-                  </div>
-                  <div class="col col-auto my-label-bottom">
-                    <label class="control-label mb-0">до</label>
-                  </div>
-                  <div class="col">
-                    <input
-                      type="text"
-                      class="form-control form-control-sm bg-transparent text-white p-0 text-right rounded-0 pl-1"
-                      v-model="filter.values.to"
-                    />
-                  </div>
-                  <div class="col col-auto my-label-bottom">
-                    <label
-                      class="control-label ml-1 mb-0"
-                      v-html="filter.unit"
-                      v-if="name !== 'cost'"
-                    ></label>
-                    <select
-                      class="custom-select d-inline-block text-secondary border-white ml-1 rounded-0"
-                      v-else
-                      v-model="currency"
-                    >
-                      <option value="rouble">&#8381;</option>
-                      <option value="dollar">$</option>
-                      <option value="euro">&#8364;</option>
-                    </select>
-                  </div>
+            <template v-if="filter.hidden !== currentCategorySlug">
+              <label class="control-label mt-3 mb-0" :class="{'mt-4': filter.label === 'Назначение'}">
+                <span class="text-uppercase">{{ filter.label }}</span>
+              </label>
+              <div v-if="filter.type == 'checkbox'">
+                <div
+                  class="custom-control custom-checkbox"
+                  v-for="value in filter.values"
+                  :key="value.id"
+                >
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    :id="name + value.id"
+                    :value="value.slug"
+                    v-model="filter.value"
+                  />
+                  <label class="custom-control-label" :for="name + value.id">{{ value.title }}</label>
                 </div>
-              </form>
-            </div>
-            <div v-else-if="filter.type == 'radio'">
-              <div
-                class="custom-control custom-radio"
-                v-for="value in filter.values"
-                :key="value.id"
-              >
-                <input
-                  type="radio"
-                  class="custom-control-input"
-                  :id="name + value.id"
-                  :value="value.slug"
-                  v-model="filter.value"
-                />
-                <label class="custom-control-label" :for="name + value.id">{{ value.title }}</label>
               </div>
-            </div>
+              <div v-else-if="filter.type == 'interval'">
+                <form>
+                  <div class="row no-gutters">
+                    <div class="col col-auto my-label-bottom">
+                      <label class="control-label mb-0">от</label>
+                    </div>
+                    <div class="col">
+                      <input
+                        type="text"
+                        class="form-control bg-transparent text-white p-0 text-right rounded-0 pr-1 pl-1"
+                        size="5"
+                        v-model="filter.values.from"
+                        @keydown="input(filter.values.from, name, $event)"
+                        @input="transform(name, 'from', $event)"
+                        @blur="cutZeros(name, 'from')"
+                        @focus="select"
+                      />
+                    </div>
+                    <div class="col col-auto my-label-bottom">
+                      <label class="control-label mb-0">до</label>
+                    </div>
+                    <div class="col">
+                      <input
+                        type="text"
+                        class="form-control bg-transparent text-white p-0 text-right rounded-0 pl-1"
+                        v-model="filter.values.to"
+                        @keydown="input(filter.values.to, name, $event)"
+                        @input="transform(name, 'to', $event)"
+                        @blur="cutZeros(name, 'to')"
+                        @focus="select"
+                      />
+                    </div>
+                    <div class="col col-auto my-label-bottom">
+                      <label
+                        class="control-label ml-1 mb-0"
+                        v-html="filter.unit"
+                        v-if="name !== 'cost'"
+                      ></label>
+                      <select
+                        class="custom-select d-inline-block text-secondary border-white ml-1 rounded-0"
+                        v-else
+                        v-model="filters.cost.currency"
+                      >
+                        <option value="rouble">&#8381;</option>
+                        <option value="USD">$</option>
+                        <option value="EUR">&#8364;</option>
+                      </select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div v-else-if="filter.type == 'radio'">
+                <div
+                  class="custom-control custom-radio"
+                  v-for="value in filter.values"
+                  :key="value.id"
+                >
+                  <input
+                    type="radio"
+                    class="custom-control-input"
+                    :id="name + value.id"
+                    :value="value.slug"
+                    v-model="filter.value"
+                  />
+                  <label class="custom-control-label" :for="name + value.id">{{ value.title }}</label>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -116,6 +126,11 @@
     color: $gray-500 !important;
     border-color: $gray-500 !important;
   }
+  input[type="text"] {
+    height: auto;
+    padding-top: .125rem !important;
+    padding-bottom: .125rem !important;
+  }
 }
 .filter-block > .row {
   overflow-y: auto;
@@ -143,6 +158,7 @@ input[type="text"] {
 </style>
 
 <script>
+import 'shim-keyboard-event-key';
 import toastr from './elements/toastr';
 import filtersTemplate from '../assets/data/filters';
 
@@ -150,9 +166,14 @@ export default {
   name: 'FilterBlock',
   data() {
     return {
-      filters: JSON.parse(JSON.stringify(filtersTemplate)),
-      currency: 'rouble',
       toastr,
+      filters: {},
+      codes: {
+        deleteBackspace: [8, 46],
+        arrows: [37, 38, 39, 40],
+        homeEnd: [35, 36],
+        copyPaste: [67, 86, 88],
+      },
     };
   },
   computed: {
@@ -168,11 +189,13 @@ export default {
     currentCategorySlug() {
       return this.$store.state.currentCategorySlug;
     },
+    singleCodes() {
+      return [...this.codes.deleteBackspace, ...this.codes.arrows, ...this.codes.homeEnd];
+    },
   },
   mounted() {
     this.$refs.filterblock.style.width = `${this.filterWidth}px`;
-    const { filters } = this.$store.state.main;
-    if (filters && Object.keys(filters).length) this.filters = JSON.parse(JSON.stringify(filters));
+    this.getFilters();
   },
   watch: {
     filterWidth(nv) {
@@ -188,26 +211,80 @@ export default {
         block: 'FilterBlock',
         visible: false,
       });
+      this.modifyLabels();
     },
   },
   methods: {
+    getFilters() {
+      const filters = Object.keys(this.$store.state.main.filters).length
+        ? JSON.parse(JSON.stringify(this.$store.state.main.filters))
+        : JSON.parse(JSON.stringify(filtersTemplate));
+      this.filters = filters;
+      this.modifyLabels();
+    },
+    modifyLabels() {
+      this.filters.areaS.label = this.currentCategorySlug === 'Invest' ? 'Площадь' : 'Площадь ОКС';
+    },
     applyFilter() {
-      const filters = JSON.parse(JSON.stringify(this.filters));
-      Object.keys(filters).forEach((name) => {
-        const filter = filters[name];
-        if (filter.type === 'interval') {
-          const from = parseFloat(filters[name].values.from.replace(',', '.'));
-          const to = parseFloat(filters[name].values.to.replace(',', '.'));
-          filters[name].values.from = from;
-          filters[name].values.to = to;
-        }
-      });
       this.$store.commit('main/switchFavoritesState');
-      this.$store.commit('main/applyFilter', filters);
+      this.$store.commit('main/applyFilter', JSON.parse(JSON.stringify(this.filters)));
       this.$store.commit('main/toggleBlocksVisibility', {
         block: 'FilterBlock',
         visible: false,
       });
+    },
+    input(value, filterName, e) {
+      if (e.keyCode === 9) return;
+      if (e.ctrlKey && this.codes.copyPaste.includes(e.keyCode)) return;
+      if (this.singleCodes.includes(e.keyCode)) {
+        const caretPosition = e.target.selectionStart;
+        if (e.keyCode === 8 && caretPosition > 0 && value.substr(caretPosition - 1, 1) === ' ') {
+          e.target.setSelectionRange(caretPosition - 1, caretPosition - 1);
+        }
+        if (e.keyCode === 46 && value.length > caretPosition && value.substr(caretPosition, 1) === ' ') {
+          e.target.setSelectionRange(caretPosition + 1, caretPosition + 1);
+        }
+        return;
+      }
+      if (/[\d]/.test(e.key)) {
+        if (!new RegExp(`[\\.\\,]\\d{${this.filters[filterName].maxFractional}}`).test(value)) {
+          return;
+        }
+        if (e.target.selectionStart < value.search(/[\\.\\,]/)) {
+          return;
+        }
+      }
+      if (/[\\.\\,]/.test(e.key) && !/[\\.\\,]/.test(value) && (value.length - e.target.selectionStart) < this.filters[filterName].maxFractional) return;
+      e.preventDefault();
+    },
+    transform(filterName, parameter, e) {
+      const value = this.filters[filterName].values[parameter].replace(/\s/g, '');
+      const oldCaretPosition = e.target.selectionStart;
+      const oldSpaces = (this.filters[filterName].values[parameter].match(/\s/g) || []).length;
+    //   this.filters[filterName].values[parameter] = value.replace(/((?<![\\.\\,])\d)(?=(\d{3})+(?!\d))/g, '$1 ');
+      const numberParts = value.split(/[\\.\\,]/);
+      let modifiedNumber = numberParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      if (numberParts.length > 1) {
+        modifiedNumber += value.substr(-numberParts[1].length - 1);
+      }
+      this.filters[filterName].values[parameter] = modifiedNumber;
+      setTimeout(() => {
+        const newSpaces = (this.filters[filterName].values[parameter].match(/\s/g) || []).length;
+        let newCaretPosition = oldCaretPosition;
+        if (oldSpaces < newSpaces) {
+          newCaretPosition += 1;
+        } else if (oldSpaces > newSpaces) {
+          newCaretPosition = (newCaretPosition - 1) < 0 ? 0 : newCaretPosition - 1;
+        }
+        e.target.setSelectionRange(newCaretPosition, newCaretPosition);
+      }, 0);
+    },
+    cutZeros(filterName, parameter) {
+      this.filters[filterName].values[parameter] = this.filters[filterName].values[parameter].replace(/([\\.\\,][1-9]*)0+$/, '$1');
+      this.filters[filterName].values[parameter] = this.filters[filterName].values[parameter].replace(/[\\.\\,]$/, '');
+    },
+    select(e) {
+      e.target.setSelectionRange(0, e.target.value.length);
     },
   },
 };

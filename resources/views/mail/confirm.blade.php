@@ -137,6 +137,7 @@
 <p style="font-size: 12px; line-height: 14px; margin: 0;"> </p>
 <p style="font-size: 12px; line-height: 14px; margin: 0;"> </p>
 <p style="font-size: 12px; line-height: 18px; margin: 0;"><span style="font-size: 15px;">Ваш email был указан при регистрации аккаунта на сайте <a href="https://investtex.pro/" rel="noopener" style="text-decoration: underline; color: #0068A5;" target="_blank">https://investtex.pro/</a>. Нажмите, чтобы подтвердить, что Вы являетесь владельцем этого email.</span></p>
+<p style="font-size: 12px; line-height: 18px; margin: 0;"><span style="font-size: 15px;">После подтверждения email с Вами свяжется наш специалист для подтверждения аккаунта.</span></p>
 </div>
 </div>
 <!--[if mso]></td></tr></table><![endif]-->

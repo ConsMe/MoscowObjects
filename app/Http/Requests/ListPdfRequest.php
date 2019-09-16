@@ -24,6 +24,7 @@ class ListPdfRequest extends FormRequest
      */
     public function rules()
     {
+        // dd(gettype($this->objects[0]['cost']));
         return [
             'currentCategorySlug' => 'required|string|in:ZU,Invest',
             'objects' => 'required|array',
@@ -43,7 +44,7 @@ class ListPdfRequest extends FormRequest
             'objects.*.areaS' => 'required|string',
             'objects.*.GAP' => 'required_if:currentCategorySlug,Invest|string',
             'objects.*.caprate' => 'required_if:currentCategorySlug,Invest|integer',
-            'objects.*.cost' => 'required|string',
+            'objects.*.cost' => 'present|string|nullable',
             'objects.*.images' => 'required|array',
             'objects.*.images.*.filename' => 'required|regex:/^[a-z0-9]+\.jpg$/i',
             'objects.*.images.*.caption' => 'required_if:currentCategorySlug,ZU|string|nullable',

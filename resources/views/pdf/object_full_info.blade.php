@@ -26,7 +26,7 @@
             font-family: Roboto;
             position: relative;
             color: #6d6c6c;
-            border: 1px solid #8ac3fb;
+            /* border: 1px solid #8ac3fb; */
             padding: 10px;
         }
         table {
@@ -56,56 +56,57 @@
             padding: 5px 10px;
         }
         .map-icon {
+            display: inline-block;
+            min-width: 5.6rem;
             position: absolute;
             top: 50%;
             left: 50%;
-            display: inline-block;
-            margin-left: 10px;
+            background-color: rgb(33, 6, 68);
+            margin-left: 0.8rem;
         }
-        .zu-icon {
-            background-color: #210644;
-            border: 1px solid white;
-            display: inline-block;
-            height: 40px;
-            padding-left: 20px;
-            padding-right: 20px;
-            padding-top: 0;
-            padding-bottom: 0;
+        .row {
             color: white;
-            width: auto;
-            position: relative;
-        }
-        .zu-icon div {
-            display: block;
-            position: relative;
-            width: 100%;
-        }
-        .invest-icon {
+            white-space: nowrap;
+            margin: 0;
+            box-sizing: border-box;
+            padding: 0 0.5rem;
             border: 1px solid white;
-            display: inline-block;
-            height: 25px;
-            padding-left: 10px;
-            padding-right: 10px;
-            padding-top: 0;
-            padding-bottom: 0;
-            color: white;
-            width: auto;
+            font-size: 92%;
             position: relative;
-            line-height: 15px;
-            text-transform: uppercase;
-        }
-        .leg {
             display: block;
-            height: 18px;
-            margin-left: 1px;
-            z-index: 1;
+        }
+        .row > div {
+            padding: .05rem 0.4rem;
+        }
+        .row:after, .row:before {
             @if ($object['type'] === 'ZU')
-                margin-top: -10px;
-                border-left: 1px solid #210644;
+                top: 3.2rem;
             @else
-                margin-top: -7px;
-                border-left: 1px solid #c00;
+                top: 1.845rem;
             @endif
+            left: 0;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            display: inline-block;
+        }
+
+        .row:after {
+            border-color: rgba(136, 183, 213, 0);
+            border-width: 1.7rem .4rem 0 0;
+            @if ($object['type'] === 'ZU')
+                border-top-color: rgb(33, 6, 68);
+            @else
+                border-top-color: #c00;
+            @endif
+        }
+        .row:before {
+            border-color: rgba(194, 225, 245, 0);
+            border-top-color: white;
+            border-width: 1.8rem .55rem 0 0;
+            margin-left: -.05rem;
         }
         footer {
             position: fixed;
@@ -195,7 +196,11 @@
                                         <p>ГАП {{ $object['GAP'] }} Р</p>
                                         <p>Caprate {{ $object['caprate'] }}%</p>
                                     @endif
-                                    <p style="font-size: 1.2rem;margin-top: 15px; font-weight: bold;">{{ $object['cost'] }} Р</p>
+                                    @if (strlen($object['cost']))
+                                        <p style="font-size: 1.2rem;margin-top: 15px; font-weight: bold;">{{ $object['cost'] }} Р</p>
+                                    @else
+                                        <p style="margin-top: 15px; color: gray;">Информация о цене объекта закрыта</p>
+                                    @endif
                                 </td>
                             </tr>
                         </tbody>
@@ -213,20 +218,15 @@
                     <img
                       src="data:image/png;base64, {{ $b64_img }}"
                       style="width: 350px;">
-                    <div class="map-icon" style="margin-top: {{ $object['type'] === 'ZU' ? '-90px;' : '-75px;' }}">
+                    <div class="map-icon" style="margin-top: {{ $object['type'] === 'ZU' ? '-8.4rem;' : '-7rem;' }}">
                             @if ($object['type'] === 'ZU')
-                                <div class="zu-icon">
-                                    <div style="text: center;">{{ $object['groundS'] }}</div>
-                                    <div style="text: center;font-size: 0.8rem;">{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></div>
+                                <div class="row">
+                                    <div style="text: center; border-bottom: 1px solid gray; font-size: 0.8rem;">{{ $object['groundS'] }}</div>
+                                    <div style="text: center;font-size: 0.7rem; padding-bottom: 0.15rem;">{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></div>
                                 </div>
-                                <div class="leg"></div>
                             @else
-                                <div class="invest-icon" style="background-color: #c00;">
-                                    <div>{{ $object['buildingName'] }}</div>
-                                </div>
-                                <div
-                                  class="leg">
-
+                                <div class="row" style="background-color: #c00;">
+                                    <div style="padding-bottom: 0.3rem; text-transform: uppercase;font-size: 0.8rem;">{{ $object['buildingName'] }}</div>
                                 </div>
                             @endif
                     </div>

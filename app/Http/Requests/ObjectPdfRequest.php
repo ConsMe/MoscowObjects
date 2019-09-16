@@ -44,7 +44,7 @@ class ObjectPdfRequest extends FormRequest
             'object.areaS' => 'required|string',
             'object.GAP' => 'required_if:object.type,Invest|string',
             'object.caprate' => 'required_if:object.type,Invest|integer',
-            'object.cost' => 'required|string',
+            'object.cost' => 'present|string|nullable',
             'object.images' => 'required|array',
             'object.images.*.filename' => 'required|regex:/^[a-z0-9]+\.jpg$/i',
             'object.images.*.caption' => 'required_if:object.type,ZU|string|nullable',

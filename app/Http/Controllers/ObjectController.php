@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Image;
 use Illuminate\Support\Facades\Gate;
+use App\Currency;
 
 class ObjectController extends Controller
 {
@@ -44,7 +45,8 @@ class ObjectController extends Controller
                 $object->characteristics = $characteristics;
             }
         }
-        return $objects;
+        $currencies = Currency::get(['currency', 'value'])->keyBy('currency');
+        return ['objects' => $objects, 'currencies' => $currencies];
     }
 
     /**

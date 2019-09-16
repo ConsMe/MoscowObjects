@@ -29,6 +29,11 @@ html {
 }
 @media (min-width: 1400px){
   html {
+    font-size: .85rem;
+  }
+}
+@media (min-width: 1700px){
+  html {
     font-size: 1rem;
   }
 }

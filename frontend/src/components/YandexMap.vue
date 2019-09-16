@@ -12,7 +12,6 @@ export default {
       map: null,
       collection: null,
       flagTemplate: null,
-      iconTemplate: null,
       currentZoom: 15,
       zoomChangeIconType: 11,
       remInPx: 0,
@@ -88,25 +87,17 @@ export default {
     init() {
       this.flagTemplate = ymaps.templateLayoutFactory.createClass(
         `<div class="map-icon">
-            <div>
-                {% if properties.object.type === 'ZU' %}
-                  <div class="row mb-0 text-center bg-flag$[properties.isActive]" style="height: 2.5rem;">
-                      <div class="col-12">$[properties.object.groundS]</div>
-                      <div class="col-12 small">$[properties.object.areaS]</div>
-                  </div>
-                  <div></div>
-                {% elseif properties.object.type === 'Invest' %}
-                  <div class="row mb-0 text-center bg-{{ properties.object.buildingType.bg }} p-35$[properties.isActive]">
-                      <div class="col-12 text-uppercase p-0">$[properties.object.buildingName]</div>
-                  </div>
-                  <div></div>
-                {% endif %}
-            </div>
+            {% if properties.object.type === 'ZU' %}
+                <div class="row mb-0 text-center bg-flag$[properties.isActive]">
+                    <div class="col-12 with-border">$[properties.object.groundS]</div>
+                    <div class="col-12 small">$[properties.object.areaS]</div>
+                </div>
+            {% elseif properties.object.type === 'Invest' %}
+                <div class="row mb-0 text-center bg-{{ properties.object.buildingType.bg }} p-35$[properties.isActive]">
+                    <div class="col-12 text-uppercase p-0">$[properties.object.buildingName]</div>
+                </div>
+            {% endif %}
         </div>`,
-      );
-      this.iconTemplate = ymaps.templateLayoutFactory.createClass(
-        `<i class="fa fa-map-marker text-{{ properties.color }}" style="font-size: 52px;">
-        </i>`,
       );
       this.map = new ymaps.Map('map', {
         center: [55.76141, 37.629708],
@@ -162,9 +153,7 @@ export default {
       this.objects.forEach((object) => {
         if (object.coordinates) {
           this.addPlacemark(object);
-          return;
         }
-        this.getCoordinates(object.address);
       });
     },
     addPlacemark(object) {
@@ -173,9 +162,9 @@ export default {
       placemark.events.add(['mouseenter', 'mouseleave', 'click'], e => this.hoverPlacemark(e));
     },
     getFlagPlacemark(object) {
-      const coordinates = object.type === 'ZU' ? [[0, 0], [87, Math.round(2.5 * this.remInPx)]]
+      const coordinates = object.type === 'ZU' ? [[0, 0], [Math.round(5.6 * this.remInPx), Math.round(2.375 * this.remInPx)]]
         : [[0, 0], [87, Math.round(1.5 * this.remInPx)]];
-      const iconOffset = object.type === 'ZU' ? [0, (Math.round(4 * this.remInPx) + 2) * -1]
+      const iconOffset = object.type === 'ZU' ? [0, (Math.round(3.875 * this.remInPx)) * -1]
         : [0, (Math.round(3 * this.remInPx) + 2) * -1];
       const placemark = new ymaps.Placemark(
         object.coordinates,
@@ -211,53 +200,99 @@ export default {
       );
       return placemark;
     },
-    getCoordinates(address) {},
   },
 };
 </script>
 
 <style lang="scss">
+@import "../assets/css/_variables.scss";
+
 #map {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 .map-icon {
-    display: inline-block;
-    .p-35 {
-      padding: .35rem .5rem !important;
-    }
-}
-.map-icon .bg-success:not(.hoverPlacemark, .activePlacemark) {
+  display: inline-block;
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.51);
+  min-width: 5.6rem;
+  .p-35 {
+    padding: .35rem .5rem !important;
+  }
+  .bg-success:not(.hoverPlacemark, .activePlacemark) {
     background-color: #1aad03 !important;
-}
-.map-icon > div {
-    display: inline-block;
-}
-.map-icon > div > div:nth-child(1) {
+  }
+  .row {
     color: white;
     white-space: nowrap;
     margin: 0;
     box-sizing: border-box;
     cursor: pointer;
-    padding: 0.2rem 0.4rem;
+    padding: 0 0.4rem;
     border: 1px solid white;
     font-size: 92%;
+    position: relative;
+  }
+  .row > div {
+    padding: .15rem 0.4rem;
+  }
+  .row::after, .row::before {
+    top: 100%;
+    left: 0;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .row::after {
+    border-color: rgba(136, 183, 213, 0);
+    border-top-color: rgb(33, 6, 68);
+    border-width: 1.4rem .4rem 0 0;
+  }
+  .row::before {
+    border-color: rgba(194, 225, 245, 0);
+    border-top-color: white;
+    border-width: 1.5rem .55rem 0 0;
+    margin-left: -.05rem;
+  }
+  .with-border::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 0;
+    border-top: 1px solid gray;
+    bottom: 0;
+  }
 }
 .bg-flag, .bg-icon {
     background-color: rgb(33, 6, 68) !important;
 }
-.map-icon > div > div:nth-child(2) {
-    display: inline-block;
-    height: 1.5rem;
-    border-left: 1px solid rgb(33, 6, 68);
-    margin-left: 1px;
-    margin-top: -1px;
-}
 .hoverPlacemark, .activePlacemark {
   background-color: #cc374f !important;
+}
+.bg-primary::after {
+  border-top-color: $primary !important;
+}
+.bg-info::after {
+  border-top-color: $info !important;
+}
+.bg-success::after {
+  border-top-color: $success !important;
+}
+.bg-danger::after {
+  border-top-color: $danger !important;
+}
+.bg-warning::after {
+  border-top-color: $warning !important;
+}
+.hoverPlacemark::after, .activePlacemark::after {
+  border-top-color: #cc374f !important;
 }
 </style>

@@ -11,6 +11,9 @@
             font-style: normal;
             font-weight: normal;
         }
+        @page {
+            margin: 20px;
+        }
         body {
             font-family: sans-serif;
             /* font-family: DejaVu Sans; */
@@ -25,7 +28,7 @@
 
         td, th {
             text-align: left;
-            font-size: 12px;
+            font-size: 9px;
             border-bottom: 1px solid black;
             border-top: none;
             font-family: Roboto;
@@ -39,16 +42,11 @@
             font-weight: normal;
         }
         img {
-            width: 230px;
+            width: 130px;
             position: relative;
         }
         .nowrap {
             white-space: nowrap;
-        }
-        .imwrap {
-            position: relative;
-            display: inline-block;
-            width: 230px;
         }
         .caption {
             position: absolute;
@@ -90,7 +88,7 @@
                   @foreach ($objects as $object)
                   <tr>
                     <td
-                      style="padding-left: 0; width: 250px;">
+                      style="padding-left: 0; width: 150px;">
                         <img src="{{ storage_path(env('SMALL_IMAGES_PATH')).$object['images'][0]['filename'] }}" >
                         <span class="caption" style="background-color: {{ $currentCategorySlug === 'ZU' ? '#2a9fd6' : '#c00' }};">
                           {{ $currentCategorySlug === 'ZU' ? $object['images'][0]['caption'] : $object['buildingName'] }}

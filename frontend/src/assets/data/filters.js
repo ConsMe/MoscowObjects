@@ -1,7 +1,10 @@
+import buildingTypes from './buildingTypes';
+
 export default {
   ZUType: {
     type: 'checkbox',
     label: 'Тип',
+    hidden: 'Invest',
     values: [
       {
         id: 0,
@@ -18,9 +21,29 @@ export default {
     ],
     value: [],
   },
+  buildingType: {
+    type: 'radio',
+    label: 'Тип',
+    hidden: 'ZU',
+    values: [
+      {
+        id: 0,
+        title: 'Не важно',
+        slug: 'any',
+      },
+      ...buildingTypes.map((type, i) => ({
+        id: i + 1,
+        title: `${type.full} (${type.short})`,
+        slug: type.short,
+        checked: false,
+      })),
+    ],
+    value: 'any',
+  },
   location: {
     type: 'checkbox',
     label: 'Расположение',
+    hidden: '',
     values: [
       {
         id: 0,
@@ -46,7 +69,9 @@ export default {
   groundS: {
     type: 'interval',
     label: 'Площадь ЗУ',
+    hidden: 'Invest',
     unit: 'Га',
+    maxFractional: 4,
     values: {
       from: '',
       to: '',
@@ -55,7 +80,9 @@ export default {
   areaS: {
     type: 'interval',
     label: 'Площадь ОКС',
+    hidden: '',
     unit: 'м<sup>2</sup>',
+    maxFractional: 2,
     values: {
       from: '',
       to: '',
@@ -64,7 +91,21 @@ export default {
   cost: {
     type: 'interval',
     label: 'Стоимость',
+    hidden: '',
     unit: '&#8381;',
+    maxFractional: 2,
+    currency: 'rouble',
+    values: {
+      from: '',
+      to: '',
+    },
+  },
+  caprate: {
+    type: 'interval',
+    label: 'Caprate',
+    hidden: 'ZU',
+    unit: '%',
+    maxFractional: 2,
     values: {
       from: '',
       to: '',
@@ -73,6 +114,7 @@ export default {
   purpose: {
     type: 'radio',
     label: 'Назначение',
+    hidden: 'Invest',
     values: [
       {
         id: 0,
@@ -100,6 +142,7 @@ export default {
   groundPlan: {
     type: 'radio',
     label: 'Наличие ГПЗУ',
+    hidden: 'Invest',
     values: [
       {
         id: 0,

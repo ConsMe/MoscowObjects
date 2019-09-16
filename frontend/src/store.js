@@ -18,6 +18,7 @@ export default new Vuex.Store({
     user: window.user ? window.user : {},
     favoritesOffsetLeft: '60%',
     imageFolders: { big: '/storage/images/big/', small: '/storage/images/small/' },
+    currencies: { USD: 1, EUR: 1 },
   },
   getters: {
     objects(state) {
@@ -28,7 +29,7 @@ export default new Vuex.Store({
           modifiedObject.GAP = object.GAP.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
         }
         if ('areaS' in object) {
-          modifiedObject.areaS = `${modifiedObject.areaS} м<sup>2</sup>`;
+          modifiedObject.areaS = `${modifiedObject.areaS.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} м<sup>2</sup>`;
         }
         if ('groundS' in object) {
           modifiedObject.groundS = `${modifiedObject.groundS} Га`;
@@ -44,10 +45,22 @@ export default new Vuex.Store({
     getAllInitData(state) {
       Http.get('/objects')
         .then((response) => {
-          const objects = Object.keys(response.data).map((index) => {
-            const object = response.data[index];
+          state.currencies.USD = parseFloat(response.data.currencies.USD.value);
+          state.currencies.EUR = parseFloat(response.data.currencies.EUR.value);
+          const objects = Object.keys(response.data.objects).map((index) => {
+            const object = response.data.objects[index];
             const modifiedObject = Object.assign({ ...object }, object.characteristics);
             delete modifiedObject.characteristics;
+            if (modifiedObject.costCurrency !== 'rouble') {
+              const costCurrency = modifiedObject.costCurrency === 'dollar' ? 'USD' : 'EUR';
+              modifiedObject.cost = Math.round(modifiedObject.cost * state.currencies[costCurrency]);
+              modifiedObject.costCurrency = 'rouble';
+            }
+            if ('GAP' in modifiedObject && modifiedObject.GAPCurrency !== 'rouble') {
+              const GAPCurrency = modifiedObject.GAPCurrency === 'dollar' ? 'USD' : 'EUR';
+              modifiedObject.GAP = Math.round(modifiedObject.GAP * state.currencies[GAPCurrency]);
+              modifiedObject.GAPCurrency = 'rouble';
+            }
             return modifiedObject;
           });
           state.objectsPre = objects;
