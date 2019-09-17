@@ -4,7 +4,7 @@
       <div class="col">
         <ul class="navbar-nav row text-center">
           <li class="nav-item col pl-0 pr-0" ref="brandWidth">
-            <router-link class="navbar-brand" :to="{name: 'main'}">ИНВЕСТТЕХ.Объекты</router-link>
+            <router-link class="navbar-brand" :to="{name: 'main'}">{{ appName }}</router-link>
           </li>
           <li class="nav-item col dropdown text-uppercase pl-0 pr-0">
             <a
@@ -142,6 +142,7 @@ export default {
           slug: 'Invest',
         },
       ],
+      appName: window.APP_NAME,
     };
   },
   computed: {
