@@ -30,12 +30,14 @@ class StoreObjectRequest extends FormRequest
             'images' => 'required|array',
             'images.*.id' => ['required', 'integer', 'exists:files,id'],
             'images.*.caption' => [
-                'required_if:type,ZU',
-                Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
-                    if ($parameters['type'] === 'Invest') return true;
-                    if (gettype($value) === 'string') return true;
-                    return false;
-                }),
+                'present',
+                'string',
+                'nullable'
+                // Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
+                //     if ($parameters['type'] === 'Invest') return true;
+                //     if (gettype($value) === 'string') return true;
+                //     return false;
+                // }),
             ],
             'images.*.filename' => 'required|string',
             'images.*.isMain' => 'required|boolean',

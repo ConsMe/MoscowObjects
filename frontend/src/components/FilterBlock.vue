@@ -1,5 +1,5 @@
 <template>
-  <div class="filter-block text-left" ref="filterblock">
+  <div class="filter-block text-left shadow" ref="filterblock">
     <div class="row ml-0 mr-0 pb-1">
       <div class="col">
         <div class="form-group">

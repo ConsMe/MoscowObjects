@@ -54,8 +54,7 @@
                 type="text"
                 :value="files[file.id].caption"
                 placeholder="Подпись"
-                @input="e => $emit('add-caption', file.id, e.target.value)"
-                required/>
+                @input="e => $emit('add-caption', file.id, e.target.value)"/>
             </div>
         </div>
       </div>

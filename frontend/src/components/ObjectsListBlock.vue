@@ -38,7 +38,7 @@
                   <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
                   <span
                     class="bg-primary text-white pr-2 pl-2 pt-1 pb-1 image-type"
-                    v-if="currentCategorySlug === 'ZU'"
+                    v-if="currentCategorySlug === 'ZU' && object.images[0].caption"
                   >
                     <small>{{ object.images[0].caption }}</small>
                   </span>
@@ -93,6 +93,8 @@
 </template>
 
 <style lang="scss">
+@import "../assets/css/_variables.scss";
+
 .objects-list-block {
   position: absolute;
   left: 0;
@@ -122,7 +124,7 @@
   .fa-heart {
     font-size: 1.5rem !important;
     position: absolute;
-    right: 0.5rem;
+    right: 0.75rem;
     top: 0.5rem !important;
     cursor: pointer;
   }
@@ -147,6 +149,9 @@
     height: 100%;
     line-height: normal;
   }
+  table, .table-hover tbody tr:hover {
+    color: $gray-600;
+  }
   th {
     cursor: pointer;
     position: relative;
@@ -154,7 +159,7 @@
 }
 .showInMap {
   position: absolute;
-  right: 0.5rem;
+  right: 0.75rem;
   bottom: 0.5rem;
 }
 .objects-list-block .bg-white {
@@ -265,7 +270,11 @@ export default {
   methods: {
     showObjectFullInfo(object) {
       if (!this.objectInfoVisibility[object.id].fullInfo) {
-        toastr.info(this.objectInfoVisibility[object.id].title);
+        toastr.info(this.objectInfoVisibility[object.id].title, null, {
+          onclick: () => {
+            this.$router.push({ name: 'lk-login' });
+          },
+        });
         return;
       }
       this.$store.commit('main/changeCurrentObject', object);

@@ -384,6 +384,25 @@
     top: 30%;
     white-space: nowrap;
   }
+  .custom-switch .custom-control-label::before {
+    left: -2.45rem;
+    width: 1.95rem;
+    border-radius: .6rem;
+  }
+  .custom-control-label::before {
+    width: 1.2rem;
+    height: 1.2rem;
+    top: .05rem;
+  }
+  .custom-switch .custom-control-label::after {
+    top: calc(0.05rem + 2px);
+    left: calc(-2.45rem + 2px);
+    width: calc(1.2rem - 4px);
+    height: calc(1.2rem - 4px);
+  }
+  .custom-control-label::after {
+    left: -1.7rem;
+  }
 }
 .lk-object > .row {
   overflow-y: auto;

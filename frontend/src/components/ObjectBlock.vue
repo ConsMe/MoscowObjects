@@ -1,5 +1,5 @@
 <template>
-    <div class="object-block" ref="objectblock">
+    <div class="object-block shadow" ref="objectblock">
         <div class="row ml-0 mr-0 pb-3">
             <div class="col">
                 <p class="pt-3 pb-3">
@@ -11,7 +11,7 @@
                     <img :src="imageFolders.big + object.images[0].filename" alt="Фото" class="img-fluid" />
                     <span
                         class="bg-primary text-white pr-3 pl-3 pt-1 pb-1 image-type"
-                        v-if="object.type === 'ZU'"
+                        v-if="object.type === 'ZU' && object.images[0].caption"
                     >
                         <big>{{ object.images[0].caption }}</big>
                     </span>
@@ -80,53 +80,57 @@
 
 <style lang="scss">
 .object-block {
-    position: absolute;
-    left: 0;
-    width: 0;
-    z-index: 2;
-    background: #060606;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    .fa-lock {
-      line-height: unset;
-      opacity: .8;
-    }
+  position: absolute;
+  left: 0;
+  width: 0;
+  z-index: 2;
+  background: #060606;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .fa-lock {
+    line-height: unset;
+    opacity: .8;
+  }
+  .close {
+    font-size: 1.7rem;
+    line-height: 1rem;
+  }
 }
 .object-block > .row {
-    flex: 1;
-    overflow-y: auto;
+  flex: 1;
+  overflow-y: auto;
 }
 .object-block > .row::-webkit-scrollbar {
-    background: transparent;
-    width: .3rem;
+  background: transparent;
+  width: .3rem;
 }
 .object-block > .row::-webkit-scrollbar-thumb {
-    background: #888;
+  background: #888;
 }
 .object-block > button {
-    align-self: end;
-    display: flex;
-    flex-direction: row;
+  align-self: end;
+  display: flex;
+  flex-direction: row;
 }
 input[type="text"] {
-    border-bottom: 1px solid #888;
+  border-bottom: 1px solid #888;
 }
 .object-block {
-    .fa-heart-o, .fa-heart {
-        font-size: 1.5rem !important;
-        cursor: pointer;
-    }
-    .fa-heart-o:hover {
-        text-shadow: 0px 0px 1px #cc0000;
-    }
+  .fa-heart-o, .fa-heart {
+      font-size: 1.5rem !important;
+      cursor: pointer;
+  }
+  .fa-heart-o:hover {
+      text-shadow: 0px 0px 1px #cc0000;
+  }
 }
 .image-type,
 .building-name-bottom {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    display: inline-block !important;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: inline-block !important;
 }
 </style>
 
@@ -180,7 +184,13 @@ export default {
     },
     showObjectFullInfo() {
       if (!this.objectInfoVisibility[this.object.id].fullInfo) {
-        toastr.info(this.objectInfoVisibility[this.object.id].title);
+        toastr.info(this.objectInfoVisibility[this.object.id].title, null, {
+          containerId: 'toast-container2',
+          positionClass: 'toast-bottom-left',
+          onclick: () => {
+            this.$router.push({ name: 'lk-login' });
+          },
+        });
         return;
       }
       this.$store.commit('main/toggleBlocksVisibility', {

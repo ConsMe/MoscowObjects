@@ -2,22 +2,51 @@
   <div :style="{paddingLeft: objectBlockWidth + 'px'}" class="mt-5 register-block">
     <div>
     <h5 class="text-primary mb-3">Регистрация</h5>
-    <form autocomplete="off" @submit.prevent="register">
+    <form autocomplete="off" @submit.prevent="register" class="mb-5">
       <div class="form-group">
-        <label>Ваше Имя</label>
+        <label>ФИО</label>
         <input
           type="text"
           class="form-control border"
           v-model="credentials.name"
           required
           :class="{'is-invalid': errors.name}"
+          placeholder="Фамилия Имя Отчество"
         />
         <span class="invalid-feedback" role="alert" v-if="errors.name">
           <strong>{{ errors.name[0] }}</strong>
         </span>
       </div>
       <div class="form-group">
-        <label>Ваш Email</label>
+        <label>Компания</label>
+        <input
+          type="text"
+          class="form-control border"
+          v-model="credentials.company"
+          required
+          :class="{'is-invalid': errors.company}"
+          placeholder="Наименование компании"
+        />
+        <span class="invalid-feedback" role="alert" v-if="errors.company">
+          <strong>{{ errors.company[0] }}</strong>
+        </span>
+      </div>
+      <div class="form-group">
+        <label>Телефон</label>
+        <input
+          type="text"
+          class="form-control border"
+          v-model="credentials.tel"
+          required
+          :class="{'is-invalid': errors.tel}"
+          placeholder="+7ХХХХХХХХХХ"
+        />
+        <span class="invalid-feedback" role="alert" v-if="errors.tel">
+          <strong>{{ errors.tel[0] }}</strong>
+        </span>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
         <input
           type="email"
           class="form-control border"
@@ -25,6 +54,7 @@
           autocomplete="off"
           required
           :class="{'is-invalid': errors.email}"
+          placeholder="name@domain.ru"
         />
         <span class="invalid-feedback" role="alert" v-if="errors.email">
           <strong>{{ errors.email[0] }}</strong>
@@ -39,6 +69,7 @@
           autocomplete="new-password"
           required
           :class="{'is-invalid': errors.password}"
+          placeholder="••••••••••"
         />
 
         <span class="invalid-feedback" role="alert" v-if="errors.password">
@@ -54,6 +85,7 @@
           autocomplete="new-password"
           required
           :class="{'is-invalid': errors.password_confirmation}"
+          placeholder="••••••••••"
         />
         <span class="invalid-feedback" role="alert" v-if="errors.password_confirmation">
           <strong>{{ errors.password_confirmation[0] }}</strong>
@@ -70,9 +102,14 @@
 </template>
 
 <style lang="scss">
+@import "../assets/css/_variables.scss";
+
 .register-block {
-  width: 18rem;
+  width: 20rem;
   box-sizing: content-box;
+  ::placeholder {
+    color: $gray-400;
+  }
 }
 </style>
 
@@ -86,6 +123,8 @@ export default {
     return {
       credentials: {
         name: '',
+        company: '',
+        tel: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -102,6 +141,7 @@ export default {
   methods: {
     register() {
       this.disabled = true;
+      this.errors = {};
       Http.post('/register', this.credentials)
         .then((response) => {
           this.$store.commit('changeAuthState', { isAuthorized: 1, user: response.data.user });

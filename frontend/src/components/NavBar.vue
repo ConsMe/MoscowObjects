@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand navbar-dark bg-dark pl-0 pr-0">
+  <nav class="navbar navbar-expand navbar-dark bg-dark pl-0 pr-0 shadow">
     <div class="row w-100 m-0">
       <div class="col">
         <ul class="navbar-nav row text-center">
@@ -88,6 +88,7 @@
 
 .navbar {
   z-index: 3;
+  border-left: none !important;
   button:focus {
     box-shadow: none !important;
   }

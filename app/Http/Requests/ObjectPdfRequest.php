@@ -47,7 +47,7 @@ class ObjectPdfRequest extends FormRequest
             'object.cost' => 'present|string|nullable',
             'object.images' => 'required|array',
             'object.images.*.filename' => 'required|regex:/^[a-z0-9]+\.jpg$/i',
-            'object.images.*.caption' => 'required_if:object.type,ZU|string|nullable',
+            'object.images.*.caption' => 'present|string|nullable',
         ];
     }
 

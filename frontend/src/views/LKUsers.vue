@@ -3,11 +3,13 @@
     <h5 class="text-primary mb-5">Пользователи</h5>
     <div class="row pb-5">
       <div class="col">
-        <table class="table table-hover m-0 sticky-thead">
+        <table class="table table-hover m-0 sticky-thead" v-if="users.length">
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Имя</th>
+              <th scope="col">ФИО</th>
+              <th scope="col">Компания</th>
+              <th scope="col">Телефон</th>
               <th scope="col">Email</th>
               <th scope="col" class="text-center">Доступ</th>
               <th scope="col"></th>
@@ -17,6 +19,8 @@
             <tr class="bg-white" v-for="(user, i) in users" :key="user.id">
               <td>{{ i + 1 }}</td>
               <td>{{ user.name }}</td>
+              <td>{{ user.company }}</td>
+              <td>{{ user.tel }}</td>
               <td>{{ user.email }}</td>
               <td class="text-center">
                 <select v-if="!user.deleted_at"
@@ -47,12 +51,10 @@
 @import "../assets/css/_variables.scss";
 
 .users-block {
-  font-size: 1rem;
   .custom-control-label {
     cursor: pointer;
   }
   select {
-    font-size: 1rem;
     color: $gray-500;
     height: initial;
   }

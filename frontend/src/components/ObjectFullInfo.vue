@@ -15,7 +15,7 @@
                   <span class="buttons">
                     <favourite-icon :object-id="object.id" class="mr-2" />
                     <button
-                      class="btn btn-outline-secondary"
+                      class="btn btn-outline-secondary close-btn"
                       type="button"
                       @click="closeObjectFullInfo"
                     >X</button>
@@ -108,12 +108,19 @@
 </template>
 
 <style lang="scss">
+@import "../assets/css/_variables.scss";
+
 .object-full-info {
   position: absolute;
   left: 0;
   width: auto;
   z-index: 2;
   height: 100%;
+  color: $gray-600;
+
+  .close-btn {
+    padding: .3rem 0.8rem;
+  }
 }
 .object-full-info > .row {
   position: relative;

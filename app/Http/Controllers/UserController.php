@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         return User::withTrashed()->where('id', '!=', $request->user()->id)
             ->whereNotNull('email_verified_at')
-            ->get(['id', 'name', 'email', 'role', 'deleted_at']);
+            ->get(['id', 'name', 'company', 'tel', 'email', 'role', 'deleted_at']);
     }
 
     /**

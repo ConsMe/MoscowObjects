@@ -47,7 +47,7 @@ class ListPdfRequest extends FormRequest
             'objects.*.cost' => 'present|string|nullable',
             'objects.*.images' => 'required|array',
             'objects.*.images.*.filename' => 'required|regex:/^[a-z0-9]+\.jpg$/i',
-            'objects.*.images.*.caption' => 'required_if:currentCategorySlug,ZU|string|nullable',
+            'objects.*.images.*.caption' => 'present|string|nullable',
         ];
     }
 

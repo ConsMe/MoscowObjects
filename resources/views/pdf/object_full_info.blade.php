@@ -63,6 +63,7 @@
             left: 50%;
             background-color: rgb(33, 6, 68);
             margin-left: 0.8rem;
+            border: 1px solid white;
         }
         .row {
             color: white;
@@ -70,17 +71,27 @@
             margin: 0;
             box-sizing: border-box;
             padding: 0 0.5rem;
-            border: 1px solid white;
             font-size: 92%;
             position: relative;
             display: block;
+        }
+        .row-table {
+            color: white;
+            border: none;
+            font-size: 1rem;
+            position: relative;
+            display: table;
+            padding: 0;
+        }
+        .row-table td {
+            padding: .05rem 0.7rem;
         }
         .row > div {
             padding: .05rem 0.4rem;
         }
         .row:after, .row:before {
             @if ($object['type'] === 'ZU')
-                top: 3.2rem;
+                top: 3.27rem;
             @else
                 top: 1.845rem;
             @endif
@@ -101,12 +112,17 @@
             @else
                 border-top-color: #c00;
             @endif
+            z-index: 2;
         }
         .row:before {
             border-color: rgba(194, 225, 245, 0);
             border-top-color: white;
             border-width: 1.8rem .55rem 0 0;
-            margin-left: -.05rem;
+            margin-left: -.08rem;
+            z-index: 1;
+            @if ($object['type'] === 'ZU')
+                top: 3.28rem;
+            @endif
         }
         footer {
             position: fixed;
@@ -158,11 +174,13 @@
                                     <img
                                       src="{{ storage_path(env('BIG_IMAGES_PATH')).$object['images'][0]['filename'] }}"
                                       style="width: 330px;">
-                                    <span
-                                      class="caption"
-                                      style="background-color: {{ $object['type'] === 'ZU' ? '#2a9fd6;' : '#c00; text-transform: uppercase;' }}">
-                                        {{ $object['type'] === 'ZU' ? $object['images'][0]['caption'] : $object['buildingName'] }}
-                                    </span>
+                                    @if ($object['type'] === 'Invest' || strlen($object['images'][0]['caption']))
+                                        <span
+                                        class="caption"
+                                        style="background-color: {{ $object['type'] === 'ZU' ? '#2a9fd6;' : '#c00; text-transform: uppercase;' }}">
+                                            {{ $object['type'] === 'ZU' ? $object['images'][0]['caption'] : $object['buildingName'] }}
+                                        </span>
+                                    @endif
                                 </td>
                                 <td style="padding-left: 10px;" class="info">
                                     <p style="padding-top: 0; margin-top: 0;">Лот {{ $object['id'] }}</p>
@@ -218,12 +236,22 @@
                     <img
                       src="data:image/png;base64, {{ $b64_img }}"
                       style="width: 350px;">
-                    <div class="map-icon" style="margin-top: {{ $object['type'] === 'ZU' ? '-8.4rem;' : '-7rem;' }}">
+                    <div class="map-icon" style="margin-top: {{ $object['type'] === 'ZU' ? '-8.48rem;' : '-7rem;' }}">
                             @if ($object['type'] === 'ZU')
-                                <div class="row">
-                                    <div style="text: center; border-bottom: 1px solid gray; font-size: 0.8rem;">{{ $object['groundS'] }}</div>
-                                    <div style="text: center;font-size: 0.7rem; padding-bottom: 0.15rem;">{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></div>
-                                </div>
+                                <table class="row row-table">
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <p style="border-bottom: 1px solid gray; margin: 0; padding: 0;">
+                                                {{ $object['groundS'] }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-size: 0.83rem; padding-bottom: 0.2rem;">
+                                            {{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup>
+                                        </td>
+                                    </tr>
+                                </table>
                             @else
                                 <div class="row" style="background-color: #c00;">
                                     <div style="padding-bottom: 0.3rem; text-transform: uppercase;font-size: 0.8rem;">{{ $object['buildingName'] }}</div>

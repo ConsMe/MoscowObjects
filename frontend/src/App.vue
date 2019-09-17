@@ -17,7 +17,7 @@
 @import "./assets/css/_bootswatch.scss";
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
-@import "~toastr/toastr.scss";
+@import "./assets/css/toastr.scss";
 
 html {
   font-size: .7rem;
@@ -59,8 +59,16 @@ html {
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
-body #toast-container > div {
-  opacity: 1;
+#toast-container, #toast-container2 {
+  & > div {
+    opacity: 1;
+  }
+  span.action {
+    text-decoration: underline;
+  }
+}
+#toast-container2 {
+  left: 22%;
 }
 .toast {
   line-height: 0.875rem !important;

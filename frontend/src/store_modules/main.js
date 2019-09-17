@@ -176,7 +176,7 @@ export default {
         let [title, lock, showPrice, fullInfo, priceMessage] = [null, false, true, true, null];
         if (!isAuthorized) {
           if (object.price_admins_only || object.only_auth) {
-            title = 'Авторизуйтесь, чтобы видеть больше информации';
+            title = '<span class="action">Авторизуйтесь</span>, чтобы видеть больше информации';
             showPrice = false;
           }
           if (object.only_auth) {
