@@ -312,6 +312,17 @@
                   Показывать объект только группе администратора
                 </label>
              </div>
+             <div class="custom-control custom-switch mb-1">
+                <input type="checkbox"
+                  class="custom-control-input"
+                  id="hideCompanyInfoInTizer"
+                  v-model="object.hide_company_info_in_tizer">
+                <label
+                  class="custom-control-label"
+                  for="hideCompanyInfoInTizer">
+                  Скрывать в тизере информацию о компании
+                </label>
+             </div>
           </div>
         </div>
         <div class="row justify-content-center mt-5" v-if="object.type !== ''">
@@ -483,6 +494,7 @@ export default {
             only_auth: data.only_auth,
             price_admins_only: data.price_admins_only,
             object_admins_only: data.object_admins_only,
+            hide_company_info_in_tizer: data.hide_company_info_in_tizer,
             images: {},
             docs: {},
           });
@@ -583,7 +595,7 @@ export default {
       const checkedObject = object;
       this.allObjectFields.forEach((field) => {
         if (!(field in object)) {
-          if (['only_auth', 'price_admins_only', 'object_admins_only'].includes(field)) {
+          if (['only_auth', 'price_admins_only', 'object_admins_only', 'hide_company_info_in_tizer'].includes(field)) {
             checkedObject[field] = false;
           } else if (['images', 'docs'].includes(field)) {
             checkedObject[field] = {};

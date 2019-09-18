@@ -26,6 +26,7 @@ class ObjectPdfRequest extends FormRequest
     {
         return [
             'object' => 'required|array',
+            'object.id' => 'required|integer',
             'object.type' => 'required|string|in:ZU,Invest',
             'object.district' => 'required|string',
             'object.description' => 'required|string',

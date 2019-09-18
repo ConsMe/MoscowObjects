@@ -15,6 +15,7 @@ const any = [
   'only_auth',
   'price_admins_only',
   'object_admins_only',
+  'hide_company_info_in_tizer',
 ];
 
 const ZU = [

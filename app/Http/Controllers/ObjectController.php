@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Image;
 use Illuminate\Support\Facades\Gate;
 use App\Currency;
+use Illuminate\Support\Facades\DB;
 
 class ObjectController extends Controller
 {
@@ -96,7 +97,8 @@ class ObjectController extends Controller
     {
         $object->load(['images', 'docs']);
         $fields = ['characteristics', 'description', 'responsible', 'images', 'docs', 'only_auth', 'price_admins_only', 'object_admins_only'];
-        return $object->only($fields);
+        $hide_company_info_in_tizer = DB::table('hide_company_info_in_tizer')->where('object_id', $object->id)->first();
+        return array_merge($object->only($fields), ['hide_company_info_in_tizer' => isset($hide_company_info_in_tizer)]);
     }
 
     /**
@@ -184,9 +186,14 @@ class ObjectController extends Controller
             'responsible', 'description', 'only_auth', 'price_admins_only', 'object_admins_only',
         ]));
         $object->characteristics = $request->except([
-            'responsible', 'description', 'images', 'docs', 'only_auth', 'price_admins_only', 'object_admins_only',
+            'responsible', 'description', 'images', 'docs', 'only_auth', 'price_admins_only', 'object_admins_only', 'hide_company_info_in_tizer',
         ]);
         $object->save();
+        if ($request->hide_company_info_in_tizer) {
+            DB::table('hide_company_info_in_tizer')->insertOrIgnore(['object_id' => $object->id]);
+        } else {
+            DB::table('hide_company_info_in_tizer')->where('object_id', $object->id)->delete();
+        }
         foreach ($newImagesData as &$type) {
             foreach ($type as &$data) {
                 $data['object_id'] = $object->id;

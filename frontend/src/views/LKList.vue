@@ -6,7 +6,7 @@
     >Управление каталогом</h5>
     <div class="row mb-5" :style="{maxWidth: maxWidth + 'px'}">
       <div class="col">
-        <table class="table table-hover m-0 sticky-thead">
+        <table class="table table-hover m-0 sticky-thead" v-if="objects.length">
           <thead class="thead-light">
             <tr>
               <th scope="col" class="pl-4">Дата</th>

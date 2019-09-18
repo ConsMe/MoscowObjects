@@ -64,6 +64,19 @@
             background-color: rgb(33, 6, 68);
             margin-left: 0.8rem;
             border: 1px solid white;
+            @if ($object['type'] === 'ZU')
+                @unless ($hide_company_info_in_tizer)
+                    margin-top: -8.48rem;
+                @else
+                    margin-top: -6.0rem;
+                @endif
+            @else
+                @unless ($hide_company_info_in_tizer)
+                    margin-top: -7rem;
+                @else
+                    margin-top: -4.5rem;
+                @endif
+            @endif
         }
         .row {
             color: white;
@@ -236,7 +249,7 @@
                     <img
                       src="data:image/png;base64, {{ $b64_img }}"
                       style="width: 350px;">
-                    <div class="map-icon" style="margin-top: {{ $object['type'] === 'ZU' ? '-8.48rem;' : '-7rem;' }}">
+                    <div class="map-icon">
                             @if ($object['type'] === 'ZU')
                                 <table class="row row-table">
                                     <tr>
@@ -262,18 +275,20 @@
             </tr>
         </tbody>
     </table>
-    <footer>
-        <div>
-            <img src="{{ storage_path('app/logos/Investtex_viz_final_small.jpg') }}">
-        </div>
-        <div style="padding-bottom: 5px;">
-            <p>Москва, Россия</p>
-            <p>129626, проспект Мира, 102к2</p>
-            <p>
-                <a href="http://investtex.ru" target="_blank">investtex.ru</a>
-                <a href="http://investtex.pro" target="_blank" style="margin-left: 10px;">investtex.pro</a>
-            </p>
-        </div>
-    </footer>
+    @unless ($hide_company_info_in_tizer)
+        <footer>
+            <div>
+                <img src="{{ storage_path('app/logos/Investtex_viz_final_small.jpg') }}">
+            </div>
+            <div style="padding-bottom: 5px;">
+                <p>Москва, Россия</p>
+                <p>129626, проспект Мира, 102к2</p>
+                <p>
+                    <a href="http://investtex.ru" target="_blank">investtex.ru</a>
+                    <a href="http://investtex.pro" target="_blank" style="margin-left: 10px;">investtex.pro</a>
+                </p>
+            </div>
+        </footer>
+    @endif
 </body>
 </html>

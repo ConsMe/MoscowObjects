@@ -87,6 +87,7 @@ class StoreObjectRequest extends FormRequest
             'only_auth' => 'required|boolean',
             'price_admins_only' => 'required|boolean',
             'object_admins_only' => 'required|boolean',
+            'hide_company_info_in_tizer' => 'required|boolean',
         ];
     }
 

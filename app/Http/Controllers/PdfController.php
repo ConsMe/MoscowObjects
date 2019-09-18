@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use \Mpdf\Mpdf;
-use App\EstateObject;
-use Illuminate\Support\Facades\File;
 use Dompdf\Dompdf;
 use App\Http\Requests\ListPdfRequest;
 use App\Http\Requests\ObjectPdfRequest;
+use Illuminate\Support\Facades\DB;
 
 class PdfController extends Controller
 {
@@ -51,12 +48,20 @@ class PdfController extends Controller
     {
         $object = $request->object;
         $object['description'] = explode("\n", $object['description']);
-        $img_url = 'https://static-maps.yandex.ru/1.x/?ll='.implode(',', array_reverse($object['coordinates'])).'&size=250,450&z=15&l=map';
+        $hide_company_info_in_tizer = DB::table('hide_company_info_in_tizer')->where('object_id', $object['id'])->first();
+        if ($hide_company_info_in_tizer) {
+            $size = '227,450';
+        } else {
+            $size = '250,450';
+        }
+        // dd($size);
+        $img_url = 'https://static-maps.yandex.ru/1.x/?ll='.implode(',', array_reverse($object['coordinates'])).'&size='.$size.'&z=15&l=map';
         $b64_url = 'php://filter/read=convert.base64-encode/resource='.$img_url;
         $b64_img = file_get_contents($b64_url);
         $params = [
             'object' => $object,
             'b64_img' => $b64_img,
+            'hide_company_info_in_tizer' => $hide_company_info_in_tizer,
         ];
         $html = view('pdf.object_full_info', $params);
         $dompdf = new Dompdf();
