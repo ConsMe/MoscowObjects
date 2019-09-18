@@ -11,7 +11,7 @@ export default new Vuex.Store({
     objectsPre: [],
     buildingTypes: [],
     currentCategorySlug: 'ZU',
-    filterWidth: 0,
+    filterWidth: null,
     objectBlockWidth: 0,
     isAuthorized: window.isAuthorized,
     isAccepted: window.isAccepted,
@@ -19,6 +19,7 @@ export default new Vuex.Store({
     favoritesOffsetLeft: '60%',
     imageFolders: { big: '/storage/images/big/', small: '/storage/images/small/' },
     currencies: { USD: 1, EUR: 1 },
+    mobileViewportWidth: 992,
   },
   getters: {
     objects(state) {

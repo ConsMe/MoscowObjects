@@ -1,7 +1,7 @@
 <template>
-  <div class="filter-block text-left shadow" ref="filterblock">
-    <div class="row ml-0 mr-0 pb-1">
-      <div class="col">
+  <div class="filter-block text-left shadow" ref="filterblock" :style="{width: filterWidth ? `${filterWidth}px` : '100%'}">
+    <div class="row ml-0 mr-0 pb-1 justify-content-center">
+      <div class="col col-auto">
         <div class="form-group">
           <div v-for="(filter, name) in filters" :key="name">
             <template v-if="filter.hidden !== currentCategorySlug">
@@ -109,7 +109,6 @@
 .filter-block {
   position: absolute;
   right: 0;
-  width: auto;
   z-index: 2;
   background: #060606;
   height: 100%;
@@ -194,13 +193,9 @@ export default {
     },
   },
   mounted() {
-    this.$refs.filterblock.style.width = `${this.filterWidth}px`;
     this.getFilters();
   },
   watch: {
-    filterWidth(nv) {
-      this.$refs.filterblock.style.width = `${nv}px`;
-    },
     objects(nv) {
       if (this.filtersOn && !nv.length) {
         this.toastr.info('Объекты по заданным условиям не найдены');
@@ -261,7 +256,6 @@ export default {
       const value = this.filters[filterName].values[parameter].replace(/\s/g, '');
       const oldCaretPosition = e.target.selectionStart;
       const oldSpaces = (this.filters[filterName].values[parameter].match(/\s/g) || []).length;
-    //   this.filters[filterName].values[parameter] = value.replace(/((?<![\\.\\,])\d)(?=(\d{3})+(?!\d))/g, '$1 ');
       const numberParts = value.split(/[\\.\\,]/);
       let modifiedNumber = numberParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
       if (numberParts.length > 1) {

@@ -8,7 +8,7 @@
                 <img src="/img/title.png" style="height: 1rem;" />
             </router-link>
           </li>
-          <li class="nav-item col dropdown text-uppercase pl-0 pr-0">
+          <li class="nav-item col dropdown text-uppercase pl-0 pr-0 order-3 order-lg-1 border-sm-bottom">
             <a
               class="nav-link dropdown-toggle"
               href="/"
@@ -31,8 +31,8 @@
               >{{ category.name }}</a>
             </div>
           </li>
-          <search-object :is-main-view="isMainView"/>
-          <li class="nav-item col col-auto">
+          <search-object :is-main-view="isMainView" class="order-5 order-lg-2" />
+          <li class="nav-item col col-auto order-4 order-lg-3 border-sm-top">
             <div class="btn-group" role="group">
               <button
                 type="button"
@@ -50,7 +50,7 @@
               >Список</button>
             </div>
           </li>
-          <li class="nav-item col col-auto" ref="favourites">
+          <li class="nav-item col col-auto order-1 order-lg-4" ref="favourites">
             <a
               class="nav-link"
               href="/"
@@ -61,8 +61,8 @@
               Избранное
             </a>
           </li>
-          <lk-menu-navbar />
-          <li class="nav-item col text-uppercase pl-0 pr-0" ref="filterWidth">
+          <lk-menu-navbar class="order-2 order-lg-5" />
+          <li class="nav-item col text-uppercase pl-0 pr-0 order-5 order-lg-6" ref="filterWidth">
             <a
               class="nav-link dropdown-toggle"
               :class="{active: activeItems.filter || filtersOn, disabled: !isMainView}"
@@ -108,6 +108,21 @@
     top: calc(50% - 0.875rem);
     left: -110%;
   }
+  @media (max-width: 991.98px){
+    .nav-item {
+      border: 1px solid transparent;
+      padding-top: 0.7rem;
+      margin-bottom: 0.4rem;
+    }
+    .border-sm-bottom {
+      border-bottom: 1px solid $gray-500;
+      border-right: 1px solid $gray-500;
+    }
+    .border-sm-top {
+      border-top: 1px solid $gray-500;
+      border-left: 0;
+    }
+  }
 }
 .my-dropdown-menu-center {
   left: 50% !important;
@@ -145,6 +160,7 @@ export default {
         },
       ],
       appName: window.APP_NAME,
+      resizeTimer: null,
     };
   },
   computed: {
@@ -191,13 +207,18 @@ export default {
     isMainView() {
       return this.$route.name === 'main';
     },
+    mobileViewportWidth() {
+      return this.$store.state.mobileViewportWidth;
+    },
   },
   mounted() {
-    const filterWidth = this.$refs.filterWidth.offsetWidth;
     const objectBlockWidth = this.$refs.brandWidth.offsetWidth;
-    this.$store.commit('setFilterWidth', filterWidth);
     this.$store.commit('setObjectBlockWidth', objectBlockWidth);
     this.$store.commit('setFavoritesOffsetLeft', this.$refs.favourites.offsetLeft);
+    this.setFilterWidth();
+    window.addEventListener('resize', () => {
+      this.setFilterWidth();
+    });
   },
   methods: {
     changeCategory(newSlug) {
@@ -222,6 +243,17 @@ export default {
     },
     filterReset() {
       this.$store.commit('main/filterReset');
+    },
+    setFilterWidth() {
+      if (!this.resizeTimer) {
+        this.resizeTimer = setTimeout(() => {
+          const filterWidth = window.innerWidth >= this.mobileViewportWidth
+            ? this.$refs.filterWidth.offsetWidth : null;
+          this.$store.commit('setFilterWidth', filterWidth);
+          console.log('changed', filterWidth, window.innerWidth, this.mobileViewportWidth);
+          this.resizeTimer = null;
+        }, 500);
+      }
     },
   },
 };

@@ -11,15 +11,22 @@
     </div>
 </template>
 
-<style>
+<style lang="scss">
 .building-types-marker {
-    position: absolute;
-    z-index: 1;
-    top: 0.2rem;
-    left: 60%;
-}
-.building-types-marker > div.row {
+  position: absolute;
+  z-index: 1;
+  top: 0.2rem;
+  left: 60%;
+
+  & > div.row {
     background-color: #060606;
+  }
+  @media (max-width: 991.98px) {
+    & {
+      left: initial;
+      right: 1rem;
+    }
+  }
 }
 </style>
 
