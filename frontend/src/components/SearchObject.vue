@@ -122,7 +122,7 @@ export default {
         const object = this.foundedObjects[index];
         this.chooseObject(object);
       }
-      $(this.$refs.searchDropdown).dropdown('hide');
+    //   $(this.$refs.searchDropdown).dropdown('hide');
     },
     focusInput() {
       if (this.foundedObjects.length || this.text.length >= this.minSearchStringLength) {
