@@ -116,6 +116,7 @@ export default {
       this.$store.commit('main/showObjectAtMap', object.coordinates);
     },
     closeDropdown(e) {
+      console.log(e);
       if (e.relatedTarget && e.relatedTarget.hasAttribute('data-object-index')) {
         const index = e.relatedTarget.getAttribute('data-object-index');
         const object = this.foundedObjects[index];
