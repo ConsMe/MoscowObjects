@@ -64,8 +64,16 @@ export default {
   name: 'Carousel',
   props: ['images', 'path'],
   mounted() {
-    $(this.$refs.image0).addClass('active');
-    $(this.$refs.indicator0).addClass('active');
+    this.activateFirstImage();
+  },
+  updated() {
+    this.activateFirstImage();
+  },
+  methods: {
+    activateFirstImage() {
+      $(this.$refs.image0).addClass('active');
+      $(this.$refs.indicator0).addClass('active');
+    },
   },
 };
 </script>

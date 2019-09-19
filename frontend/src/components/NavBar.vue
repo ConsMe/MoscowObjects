@@ -250,7 +250,6 @@ export default {
           const filterWidth = window.innerWidth >= this.mobileViewportWidth
             ? this.$refs.filterWidth.offsetWidth : null;
           this.$store.commit('setFilterWidth', filterWidth);
-          console.log('changed', filterWidth, window.innerWidth, this.mobileViewportWidth);
           this.resizeTimer = null;
         }, 500);
       }

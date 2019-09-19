@@ -15,14 +15,15 @@
     <div
       class="dropdown-menu dropdown-search"
       ref="searchDropdown"
+      :style="{ opacity }"
     >
       <template v-if="foundedObjects.length">
         <a
-          v-for="(object, i) in foundedObjects"
+          v-for="object in foundedObjects"
           :key="object.id"
           class="dropdown-item text-truncate"
           href="/"
-          :data-object-index="i"
+          @click="chooseObject(object)"
         >{{ 'Лот ' + object.id + ', ' + object.address }}</a>
       </template>
       <template v-else>
@@ -61,6 +62,7 @@ export default {
       text: '',
       disabled: false,
       minSearchStringLength: 1,
+      opacity: 1,
     };
   },
   computed: {
@@ -84,6 +86,9 @@ export default {
     },
     currentCategorySlug() {
       return this.$store.state.currentCategorySlug;
+    },
+    objectInfoVisibility() {
+      return this.$store.getters['main/objectInfoVisibility'];
     },
   },
   watch: {
@@ -110,24 +115,24 @@ export default {
       this.$store.commit('main/switchFavoritesState', false);
       this.$store.commit('main/changeCurrentObject', object);
       this.$store.commit('main/toggleBlocksVisibility', {
-        block: 'ObjectFullInfo',
+        block: this.objectInfoVisibility[object.id].fullInfo ? 'ObjectFullInfo' : 'ObjectBlock',
         visible: true,
       });
-      this.$store.commit('main/showObjectAtMap', object.coordinates);
-    },
-    closeDropdown(e) {
-      console.log(e);
-      if (e.relatedTarget && e.relatedTarget.hasAttribute('data-object-index')) {
-        const index = e.relatedTarget.getAttribute('data-object-index');
-        const object = this.foundedObjects[index];
-        this.chooseObject(object);
+      if (this.objectInfoVisibility[object.id].fullInfo) {
+        this.$store.commit('main/showObjectAtMap', object.coordinates);
       }
-      $(this.$refs.searchDropdown).dropdown('hide');
+    },
+    closeDropdown() {
+      this.opacity = 0;
+      setTimeout(() => {
+        $(this.$refs.searchDropdown).dropdown('hide');
+      }, 500);
     },
     focusInput() {
       if (this.foundedObjects.length || this.text.length >= this.minSearchStringLength) {
         $(this.$refs.searchDropdown).dropdown('show');
       }
+      this.opacity = 1;
     },
     clearForm() {
       this.text = '';
