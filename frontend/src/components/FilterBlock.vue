@@ -1,7 +1,7 @@
 <template>
   <div class="filter-block text-left shadow" ref="filterblock" :style="{width: filterWidth ? `${filterWidth}px` : '100%'}">
     <div class="row ml-0 mr-0 pb-1 justify-content-center">
-      <div class="col col-auto">
+      <div class="col col-auto col-lg-12">
         <div class="form-group">
           <div v-for="(filter, name) in filters" :key="name">
             <template v-if="filter.hidden !== currentCategorySlug">
