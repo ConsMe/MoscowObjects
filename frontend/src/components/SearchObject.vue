@@ -1,6 +1,6 @@
 <template>
   <li class="nav-item col col-auto dropdown">
-    <form>
+    <form @submit.prevent>
       <input
         class="form-control bg-transparent border-white text-white"
         type="text"

@@ -109,7 +109,7 @@
 .filter-block {
   position: absolute;
   right: 0;
-  z-index: 2;
+  z-index: 3;
   background: #060606;
   height: 100%;
   display: flex;

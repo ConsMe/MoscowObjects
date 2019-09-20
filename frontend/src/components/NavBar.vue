@@ -4,7 +4,7 @@
       <div class="col">
         <ul class="navbar-nav row text-center">
           <li class="nav-item col pl-0 pr-0" ref="brandWidth">
-            <router-link class="navbar-brand" :to="{name: 'main'}">
+            <router-link class="navbar-brand mr-0" :to="{name: 'main'}">
                 <img src="/img/title.png" style="height: 1rem;" />
             </router-link>
           </li>
@@ -32,7 +32,7 @@
             </div>
           </li>
           <search-object :is-main-view="isMainView" class="order-5 order-lg-2" />
-          <li class="nav-item col col-auto order-4 order-lg-3 border-sm-top">
+          <li class="nav-item col col-lg-auto order-4 order-lg-3 border-sm-top">
             <div class="btn-group" role="group">
               <button
                 type="button"
@@ -212,12 +212,10 @@ export default {
     },
   },
   mounted() {
-    const objectBlockWidth = this.$refs.brandWidth.offsetWidth;
-    this.$store.commit('setObjectBlockWidth', objectBlockWidth);
     this.$store.commit('setFavoritesOffsetLeft', this.$refs.favourites.offsetLeft);
-    this.setFilterWidth();
+    this.setBlocksWidth();
     window.addEventListener('resize', () => {
-      this.setFilterWidth();
+      this.setBlocksWidth();
     });
   },
   methods: {
@@ -244,12 +242,14 @@ export default {
     filterReset() {
       this.$store.commit('main/filterReset');
     },
-    setFilterWidth() {
+    setBlocksWidth() {
       if (!this.resizeTimer) {
         this.resizeTimer = setTimeout(() => {
           const filterWidth = window.innerWidth >= this.mobileViewportWidth
             ? this.$refs.filterWidth.offsetWidth : null;
-          this.$store.commit('setFilterWidth', filterWidth);
+          const objectBlockWidth = window.innerWidth >= this.mobileViewportWidth
+            ? this.$refs.brandWidth.offsetWidth : null;
+          this.$store.commit('setBlocksWidth', { objectBlockWidth, filterWidth });
           this.resizeTimer = null;
         }, 500);
       }

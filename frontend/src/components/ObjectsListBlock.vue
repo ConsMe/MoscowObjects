@@ -1,6 +1,6 @@
 <template>
-  <div class="objects-list-block shadow" ref="objectsListBlock" :style="{maxWidth: '60%'}">
-    <div class="row m-0 pb-0">
+  <div class="objects-list-block shadow" ref="objectsListBlock" :style="{width: isMobileDevice ? '100%' : '60%'}">
+    <div class="row m-0 pb-0" v-if="!isMobileDevice">
       <div class="col p-0 pb-1">
         <table class="table table-hover m-0 sticky-thead">
           <thead>
@@ -78,7 +78,83 @@
         </table>
       </div>
     </div>
-    <transition name="bounce">
+    <template v-else>
+      <div
+        class="row m-0 mt-4 pb-0"
+        v-for="object in objects"
+        :key="object.id"
+        @click="showObjectFullInfo(object)">
+        <div class="col pb-1">
+          <div class="row">
+            <div class="col pr-3">
+              <span class="position-relative d-inline-block">
+                <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
+                <span
+                  class="bg-primary text-white pr-3 pl-3 pt-1 pb-1 image-type"
+                  v-if="object.type === 'ZU' && object.images[0].caption"
+                >
+                  <big>{{ object.images[0].caption }}</big>
+                </span>
+                <span
+                  class="bg-danger text-white pr-3 pl-3 pt-1 pb-1 building-name-bottom text-uppercase"
+                  v-else-if="object.type === 'Invest'"
+                >
+                  <big>{{ object.buildingName }}</big>
+                </span>
+              </span>
+            </div>
+            <div class="col pl-3 d-flex flex-column">
+              <div class="row flex-grow-1">
+                <div class="col">
+                  <div class="row mb-2">
+                    <div class="col">
+                      Лот
+                      {{ object.id }}
+                    </div>
+                    <div class="col-auto pl-0 ">
+                      <favourite-icon :object-id="object.id" />
+                    </div>
+                  </div>
+                  <p class="mb-2" v-if="object.type === 'Invest'">{{ object.buildingType.full }}</p>
+                  <p class="mb-2">{{ object.district }}</p>
+                  <p class="mb-2">{{ object.address }}</p>
+                </div>
+              </div>
+              <p class="mt-4 mb-0 text-white">
+                <big v-if="objectInfoVisibility[object.id].showPrice">
+                  {{ object.cost }}
+                  <strong>Р</strong>
+                </big>
+                <span
+                  v-else-if="objectInfoVisibility[object.id].priceMessage"
+                  class="text-dark"
+                >{{ objectInfoVisibility[object.id].priceMessage }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="row mt-4 mb-3">
+            <template v-if="object.type === 'ZU'">
+              <div class="col-auto">{{ object.ZUType }}</div>
+              <div class="col text-nowrap text-center">{{ object.groundS }}</div>
+              <div class="col text-nowrap text-center" v-html="object.areaS"></div>
+              <div class="col text-center">{{ object.ZUType === 'ЗУ' ? object.purposeZU : object.purposeOKS }}</div>
+              <div class="col-auto text-right">{{ object.groundPlan ? 'ГПЗУ' : '' }}</div>
+            </template>
+            <template v-if="object.type === 'Invest'">
+              <div class="col text-nowrap" v-html="object.areaS"></div>
+              <div class="col text-nowrap text-center">{{ object.groundS }}</div>
+              <div class="col text-nowrap text-center">
+                {{ object.GAP }}
+                <strong>Р</strong>
+              </div>
+              <div class="col text-nowrap text-right">{{ object.caprate + '%' }}</div>
+            </template>
+          </div>
+          <div class="border-top-1"></div>
+        </div>
+      </div>
+    </template>
+    <transition name="bounce" v-if="!isMobileDevice">
       <span class="download-list" v-show="show">
         <button
           class="btn btn-primary rounded-0 shadow border border-left-0"
@@ -98,19 +174,42 @@
 .objects-list-block {
   position: absolute;
   left: 0;
-  width: auto;
   z-index: 2;
   background: #060606;
   max-height: 100%;
   display: flex;
   flex-direction: column;
-}
-.objects-list-block > .row {
-  position: relative;
-  height: 100%;
-  overflow-y: auto;
-  z-index: 2;
-  flex: 1;
+
+  @media (max-width: 991.98px){
+    & {
+      overflow-y: auto;
+    }
+    .fa-heart-o,
+    .fa-heart {
+      font-size: 1.5rem !important;
+      margin-top: -.5rem;
+    }
+    .border-top-1 {
+      border-bottom: 1px solid $gray-500;
+    }
+  }
+  @media (min-width: 992px){
+    & > .row {
+      position: relative;
+      height: 100%;
+      overflow-y: auto;
+      z-index: 2;
+      flex: 1;
+    }
+    .fa-heart-o,
+    .fa-heart {
+      font-size: 1.5rem !important;
+      position: absolute;
+      right: 0.75rem;
+      top: 0.5rem !important;
+      cursor: pointer;
+    }
+  }
 }
 .objects-list-block > .row::-webkit-scrollbar {
   background: transparent;
@@ -120,14 +219,6 @@
   background: #888;
 }
 .objects-list-block {
-  .fa-heart-o,
-  .fa-heart {
-    font-size: 1.5rem !important;
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem !important;
-    cursor: pointer;
-  }
   .fa-heart-o:hover {
     text-shadow: 0px 0px 1px #cc0000;
   }
@@ -199,6 +290,7 @@
 </style>
 
 <script>
+import { mapState } from 'vuex';
 import FavouriteIcon from './elements/FavouriteIcon.vue';
 import toastr from './elements/toastr';
 import Http from '../modules/Http';
@@ -246,17 +338,14 @@ export default {
         return a < b ? 1 : 0;
       });
     },
-    filterWidth() {
-      return this.$store.state.filterWidth;
-    },
-    currentCategorySlug() {
-      return this.$store.state.currentCategorySlug;
-    },
-    imageFolders() {
-      return this.$store.state.imageFolders;
-    },
+    ...mapState([
+      'filterWidth', 'currentCategorySlug', 'imageFolders',
+    ]),
     objectInfoVisibility() {
       return this.$store.getters['main/objectInfoVisibility'];
+    },
+    isMobileDevice() {
+      return this.$store.getters.isMobileDevice;
     },
   },
   mounted() {

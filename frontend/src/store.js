@@ -12,7 +12,7 @@ export default new Vuex.Store({
     buildingTypes: [],
     currentCategorySlug: 'ZU',
     filterWidth: null,
-    objectBlockWidth: 0,
+    objectBlockWidth: null,
     isAuthorized: window.isAuthorized,
     isAccepted: window.isAccepted,
     user: window.user ? window.user : {},
@@ -40,6 +40,9 @@ export default new Vuex.Store({
     },
     objectsForCurrentCategory(state, getters) {
       return getters.objects.filter(object => object.type === state.currentCategorySlug);
+    },
+    isMobileDevice(state) {
+      return !state.filterWidth;
     },
   },
   mutations: {
@@ -72,11 +75,9 @@ export default new Vuex.Store({
     changeCurrentCategorySlug(state, newSlug) {
       state.currentCategorySlug = newSlug;
     },
-    setFilterWidth(state, width) {
-      state.filterWidth = width;
-    },
-    setObjectBlockWidth(state, width) {
-      state.objectBlockWidth = width;
+    setBlocksWidth(state, { objectBlockWidth, filterWidth }) {
+      state.objectBlockWidth = objectBlockWidth;
+      state.filterWidth = filterWidth;
     },
     changeAuthState(state, { isAuthorized, user }) {
       state.isAuthorized = isAuthorized;
