@@ -71,7 +71,7 @@
               <td class="text-right align-middle position-relative text-nowrap">
                 <span v-if="objectInfoVisibility[object.id].showPrice">{{ object.cost }}</span>
                 <favourite-icon :object-id="object.id" />
-                <a href class="showInMap" @click.stop.prevent="showObjectAtMap(object)">на карте</a>
+                <a href class="showInMap d-inline-block" @click.stop.prevent="showObjectAtMap(object)">на карте</a>
               </td>
             </tr>
           </tbody>
