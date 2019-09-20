@@ -69,9 +69,11 @@
                 <td class="align-middle">{{ object.caprate + '%' }}</td>
               </template>
               <td class="text-right align-middle position-relative text-nowrap">
+                <div class="position-absolute d-inline-block w-100 h-100 link-wrap">
+                  <a href class="showInMap d-inline-block" @click.stop.prevent="showObjectAtMap(object)">на карте</a>
+                </div>
                 <span v-if="objectInfoVisibility[object.id].showPrice">{{ object.cost }}</span>
                 <favourite-icon :object-id="object.id" />
-                <a href class="showInMap d-inline-block" @click.stop.prevent="showObjectAtMap(object)">на карте</a>
               </td>
             </tr>
           </tbody>
@@ -200,6 +202,10 @@
       overflow-y: auto;
       z-index: 2;
       flex: 1;
+    }
+    .link-wrap {
+      left: 0;
+      top: 0;
     }
     .fa-heart-o,
     .fa-heart {
