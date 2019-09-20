@@ -12,7 +12,9 @@
         window.ymapsState = {
           isReady: false,
         };
-        ymaps.ready(() => window.ymapsState.isReady = true);
+        ymaps.ready(function() {
+            window.ymapsState.isReady = true;
+        });
         window.isAuthorized = {{ $isAuthorized }};
         window.isAccepted = {{ $isAccepted }};
         @if (Auth::check())
