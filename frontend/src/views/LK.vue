@@ -15,9 +15,6 @@
   h3 {
     color: $gray-500 !important;
   }
-  .form-control {
-    // background-color: rgb(232, 240, 254) !important;
-  }
   display: flex;
   flex-direction: row;
   position: relative;
@@ -34,7 +31,6 @@
 
 <script>
 import lk from '../store_modules/lk';
-
 
 export default {
   name: 'LK',
