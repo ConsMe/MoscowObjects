@@ -90,7 +90,7 @@
           <div class="row">
             <div class="col pr-3">
               <span class="position-relative d-inline-block">
-                <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="w-100" />
+                <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
                 <span
                   class="bg-primary text-white pr-3 pl-3 pt-1 pb-1 image-type"
                   v-if="object.type === 'ZU' && object.images[0].caption"
@@ -179,8 +179,6 @@
   z-index: 2;
   background: #060606;
   max-height: 100%;
-  display: flex;
-  flex-direction: column;
 
   @media (max-width: 991.98px){
     & {
@@ -196,6 +194,10 @@
     }
   }
   @media (min-width: 992px){
+    & {
+      display: flex;
+      flex-direction: column;
+    }
     & > .row {
       position: relative;
       height: 100%;
