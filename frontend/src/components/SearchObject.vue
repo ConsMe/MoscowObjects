@@ -1,8 +1,9 @@
 <template>
-  <li class="nav-item col col-auto dropdown">
+  <li class="nav-item col-6 col-lg-auto dropdown">
     <form @submit.prevent>
       <input
         class="form-control bg-transparent border-white text-white"
+        :class="{disabled: !isMainView}"
         type="text"
         placeholder="Лот или адрес"
         v-model="text"
@@ -40,6 +41,10 @@
 
 input[type="text"] {
   border-color: $gray-400 !important;
+}
+input[type="text"].disabled {
+  border-color: #ffffff80 !important;
+  color: #ffffff80 !important;
 }
 .dropdown-search {
   width: auto;
@@ -101,7 +106,7 @@ export default {
   methods: {
     checkIfObjectFromAnotherCategory(object) {
       if (this.currentCategorySlug !== object.type) {
-        this.$store.commit('changeCurrentCategorySlug', object.type);
+        this.$router.push({ name: object.type });
         setTimeout(() => {
           this.chooseObject(object);
         }, 0);

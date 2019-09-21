@@ -1,8 +1,11 @@
 <template>
-  <div :style="{paddingLeft: objectBlockWidth + 'px'}" class="mt-5">
+  <div
+    :style="{paddingLeft: objectBlockWidth ? objectBlockWidth + 'px' : '1rem'}"
+    class="mt-5 pr-3"
+    :class="{'d-none': !isMobileDevice && !objectBlockWidth}">
     <h5 class="text-primary mb-5">Личный кабинет пользователя</h5>
     <div class="row">
-      <div class="col col-auto">
+      <div class="col-auto">
         <p>Пользователь:</p>
         <p>E-mail:</p>
         <p>Доступ:</p>
@@ -10,9 +13,9 @@
         <p>Новых объектов:</p>
         <p>Подписка на новые объекты:</p>
       </div>
-      <div class="col col-auto">
-        <p>{{ user.name }}</p>
-        <p>{{ user.email }}</p>
+      <div class="col text-truncate">
+        <p class="text-truncate">{{ user.name }}</p>
+        <p class="text-truncate">{{ user.email }}</p>
         <p>{{ roles[user.role] ? roles[user.role] : '&minus;' }}</p>
         <p v-if="last_login">{{ last_login }}</p>
         <p v-else>&minus;</p>
@@ -107,6 +110,9 @@ export default {
   computed: {
     objectBlockWidth() {
       return this.$store.state.objectBlockWidth;
+    },
+    isMobileDevice() {
+      return this.$store.getters.isMobileDevice;
     },
     user() {
       return this.$store.state.user;

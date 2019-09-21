@@ -5,7 +5,7 @@
       <div>
         <filter-block v-show="blocksVisibility.FilterBlock" />
         <object-block
-          v-if="blocksVisibility.ObjectBlock"
+          v-if="blocksVisibility.ObjectBlock && currentObject.type"
         />
         <objects-list-block
           v-if="blocksVisibility.ObjectsListBlock && objects.length"
@@ -14,7 +14,7 @@
           v-show="currentCategorySlug === 'Invest'"
         />
         <object-full-info
-          v-if="blocksVisibility.ObjectFullInfo"
+          v-if="blocksVisibility.ObjectFullInfo && currentObject.type"
         />
       </div>
     </div>
@@ -85,6 +85,9 @@ export default {
     favouritesOn() {
       return this.$store.state.main.favouritesOn;
     },
+    currentObject() {
+      return this.$store.state.main.currentObject;
+    },
   },
   watch: {
     objects(nv) {
@@ -95,11 +98,20 @@ export default {
   },
   beforeCreate() {
     this.$store.dispatch('getAllInitData');
-    this.$store.registerModule('main', main);
     this.$store.dispatch('main/getAllInitData');
   },
-  beforeDestroy() {
-    this.$store.unregisterModule('main');
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.setCurrentCategory();
+    });
+  },
+  beforeRouteUpdate() {
+    this.setCurrentCategory();
+  },
+  methods: {
+    setCurrentCategory() {
+      this.$store.commit('changeCurrentCategorySlug', this.$route.name);
+    },
   },
 };
 </script>

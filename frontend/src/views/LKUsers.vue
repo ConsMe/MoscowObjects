@@ -1,5 +1,8 @@
 <template>
-  <div :style="{paddingLeft: objectBlockWidth + 'px'}" class="mt-5 users-block">
+  <div
+    :style="{paddingLeft: objectBlockWidth + 'px'}"
+    class="mt-5 users-block"
+    :class="{'d-none': !objectBlockWidth}">
     <h5 class="text-primary mb-5">Пользователи</h5>
     <div class="row pb-5">
       <div class="col">

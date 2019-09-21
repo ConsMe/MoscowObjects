@@ -1,5 +1,5 @@
 <template>
-  <li class="nav-item col col-auto dropdown">
+  <li class="nav-item col-3 col-lg-auto dropdown">
     <a
       class="nav-link dropdown-toggle"
       href="/"

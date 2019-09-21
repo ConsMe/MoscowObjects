@@ -3,6 +3,7 @@
     <h5
       :style="{paddingLeft: objectBlockWidth + 'px'}"
       class="text-primary mb-5"
+      :class="{'d-none': !objectBlockWidth}"
     >Управление каталогом</h5>
     <div class="row mb-5" :style="{maxWidth: maxWidth + 'px'}">
       <div class="col">

@@ -3,12 +3,12 @@
     <div class="row w-100 m-0">
       <div class="col">
         <ul class="navbar-nav row text-center">
-          <li class="nav-item col pl-0 pr-0" ref="brandWidth">
-            <router-link class="navbar-brand mr-0" :to="{name: 'main'}">
-                <img src="/img/title.png" style="height: 1rem;" />
-            </router-link>
+          <li class="nav-item col-5 col-lg pl-0 pr-0" ref="brandWidth">
+            <a class="navbar-brand mr-0" href="/">
+              <img src="/img/title.png" style="height: 1rem;" />
+            </a>
           </li>
-          <li class="nav-item col dropdown text-uppercase pl-0 pr-0 order-3 order-lg-1 border-sm-bottom">
+          <li class="nav-item col-6 col-lg dropdown text-uppercase pl-0 pr-0 order-3 order-lg-1 border-sm-bottom">
             <a
               class="nav-link dropdown-toggle"
               href="/"
@@ -32,40 +32,38 @@
             </div>
           </li>
           <search-object :is-main-view="isMainView" class="order-5 order-lg-2" />
-          <li class="nav-item col col-lg-auto order-4 order-lg-3 border-sm-top">
+          <li class="nav-item col-6 col-lg-auto order-4 order-lg-3 border-sm-top">
             <div class="btn-group" role="group">
               <button
                 type="button"
                 class="btn btn-outline-dark rounded-0"
-                :class="{active: activeItems.map}"
+                :class="{active: activeItems.map && isMainView}"
                 @click.prevent="toggleBlocks('ObjectsListBlock', false)"
-                :disabled="!isMainView"
               >Карта</button>
               <button
                 type="button"
                 class="btn btn-outline-dark rounded-0"
-                :class="{active: activeItems.objectsList}"
+                :class="{active: activeItems.objectsList && isMainView}"
                 @click.prevent="toggleBlocks('ObjectsListBlock', true)"
-                :disabled="!isMainView"
               >Список</button>
             </div>
           </li>
-          <li class="nav-item col col-auto order-1 order-lg-4" ref="favourites">
+          <li class="nav-item col-4 col-lg-auto order-1 order-lg-4" ref="favourites">
             <a
               class="nav-link"
               href="/"
               @click.prevent="switchFavoritesState"
-              :class="{active: favouritesOn, disabled: !isMainView}"
+              :class="{active: favouritesOn}"
             >
               <i class="fa fa-heart mr-2" :class="{'text-danger': favouritesOn}"></i>
               Избранное
             </a>
           </li>
           <lk-menu-navbar class="order-2 order-lg-5" />
-          <li class="nav-item col text-uppercase pl-0 pr-0 order-5 order-lg-6" ref="filterWidth">
+          <li class="nav-item col-6 col-lg text-uppercase pl-0 pr-0 order-5 order-lg-6" ref="filterWidth">
             <a
               class="nav-link dropdown-toggle"
-              :class="{active: activeItems.filter || filtersOn, disabled: !isMainView}"
+              :class="{active: (activeItems.filter || filtersOn) && isMainView, disabled: !isMainView}"
               href="/"
               @click.prevent="toggleBlocks('FilterBlock', 'reverse')"
             >
@@ -73,7 +71,7 @@
                 Фильтр
                 <button
                   class="btn btn-outline-danger btn-sm btn-reset"
-                  v-if="filtersOn"
+                  v-if="filtersOn && isMainView"
                   @click.stop.prevent="filterReset"
                 >Сброс</button>
               </span>
@@ -107,6 +105,9 @@
     position: absolute;
     top: calc(50% - 0.875rem);
     left: -110%;
+  }
+  .navbar-brand {
+    padding-top: 0.15rem !important;
   }
   @media (max-width: 991.98px){
     .nav-item {
@@ -205,7 +206,7 @@ export default {
       return false;
     },
     isMainView() {
-      return this.$route.name === 'main';
+      return ['ZU', 'Invest'].includes(this.$route.name);
     },
     mobileViewportWidth() {
       return this.$store.state.mobileViewportWidth;
@@ -220,23 +221,27 @@ export default {
   },
   methods: {
     changeCategory(newSlug) {
-      if (this.storeHasMainModule) {
+      if (this.isMainView || ['lk-login', 'lk-register', 'lk-account'].includes(this.$route.name)) {
         this.filterReset();
         this.$store.commit('main/changeCurrentObject', {});
+        this.$router.push({ name: newSlug });
+      } else {
+        this.$store.commit('changeCurrentCategorySlug', newSlug);
       }
-      this.$store.commit('changeCurrentCategorySlug', newSlug);
     },
     toggleBlocks(block, visible) {
-      if (this.storeHasMainModule) {
-        if (block === 'ObjectsListBlock' && this.activeItems.map === visible) {
-          this.$store.commit('main/changeCurrentObject', {});
-        }
-        this.$store.commit('main/toggleBlocksVisibility', { block, visible });
+      if (block === 'ObjectsListBlock' && this.activeItems.map === visible) {
+        this.$store.commit('main/changeCurrentObject', {});
+      }
+      this.$store.commit('main/toggleBlocksVisibility', { block, visible });
+      if (block === 'ObjectsListBlock' && !this.isMainView) {
+        this.$router.push({ name: this.currentCategorySlug });
       }
     },
     switchFavoritesState() {
-      if (this.storeHasMainModule) {
-        this.$store.commit('main/switchFavoritesState');
+      this.$store.commit('main/switchFavoritesState');
+      if (!this.isMainView) {
+        this.$router.push({ name: this.currentCategorySlug });
       }
     },
     filterReset() {

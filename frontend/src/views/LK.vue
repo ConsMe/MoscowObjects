@@ -34,11 +34,23 @@ import lk from '../store_modules/lk';
 
 export default {
   name: 'LK',
+  computed: {
+    currentCategorySlug() {
+      return this.$store.state.currentCategorySlug;
+    },
+  },
   beforeCreate() {
     this.$store.registerModule('lk', lk);
   },
   beforeDestroy() {
     this.$store.unregisterModule('lk');
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      if (!vm.currentCategorySlug.length) {
+        vm.$store.commit('changeCurrentCategorySlug', 'ZU');
+      }
+    });
   },
 };
 </script>

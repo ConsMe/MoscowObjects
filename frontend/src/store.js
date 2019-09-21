@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import { buildingTypes } from './assets/fakeData/objects';
 import Http from './modules/Http';
 import toastr from './components/elements/toastr';
+import mainModule from './store_modules/main';
 
 Vue.use(Vuex);
 
@@ -10,7 +11,7 @@ export default new Vuex.Store({
   state: {
     objectsPre: [],
     buildingTypes: [],
-    currentCategorySlug: 'ZU',
+    currentCategorySlug: '',
     filterWidth: null,
     objectBlockWidth: null,
     isAuthorized: window.isAuthorized,
@@ -20,6 +21,10 @@ export default new Vuex.Store({
     imageFolders: { big: '/storage/images/big/', small: '/storage/images/small/' },
     currencies: { USD: 1, EUR: 1 },
     mobileViewportWidth: 992,
+    windowInnerWidth: window.innerWidth,
+  },
+  modules: {
+    main: mainModule,
   },
   getters: {
     objects(state) {
@@ -42,7 +47,7 @@ export default new Vuex.Store({
       return getters.objects.filter(object => object.type === state.currentCategorySlug);
     },
     isMobileDevice(state) {
-      return !state.filterWidth;
+      return state.windowInnerWidth < state.mobileViewportWidth;
     },
   },
   mutations: {
@@ -78,6 +83,7 @@ export default new Vuex.Store({
     setBlocksWidth(state, { objectBlockWidth, filterWidth }) {
       state.objectBlockWidth = objectBlockWidth;
       state.filterWidth = filterWidth;
+      state.windowInnerWidth = window.innerWidth;
     },
     changeAuthState(state, { isAuthorized, user }) {
       state.isAuthorized = isAuthorized;
