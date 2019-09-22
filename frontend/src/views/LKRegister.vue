@@ -96,6 +96,10 @@
           </span>
         </div>
         <button type="submit" class="btn btn-primary mt-3" :disabled="disabled">Регистрация</button>
+        <p class="mb-0 mt-2">
+          Нажимая кнопку "Регистрация" вы соглашаетесь с
+          <a href="/policy" target="_blank">Политикой конфиденциальности</a>
+        </p>
         <p class="mb-0 mt-3">
           Есть аккаунт?
           <router-link :to="{name: 'lk-login'}">Войти</router-link>

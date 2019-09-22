@@ -13,7 +13,7 @@ class MainPageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function showMainPage(Request $request)
     {
         $objects = EstateObject::where('object_admins_only', false);
         $zu = EstateObject::where(['object_admins_only' => false, 'characteristics->type' => 'ZU']);
@@ -26,5 +26,10 @@ class MainPageController extends Controller
             'investCount' => $invest->count(),
             'investAreaS' => preg_replace('/\B(?=(\d{3})+(?!\d))/', ' ', round($invest->sum('characteristics->areaS'))),
         ]);
+    }
+
+    public function showPrivacyPolicy()
+    {
+        return view('privacy_policy');
     }
 }

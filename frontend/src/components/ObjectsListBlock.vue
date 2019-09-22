@@ -180,7 +180,7 @@
   background: #060606;
   max-height: 100%;
 
-  @media (max-width: 991.98px){
+  @media (max-width: 1099.98px){
     & {
       overflow-y: auto;
     }
@@ -193,7 +193,7 @@
       border-bottom: 1px solid $gray-500;
     }
   }
-  @media (min-width: 992px){
+  @media (min-width: 1100px){
     & {
       display: flex;
       flex-direction: column;
@@ -353,7 +353,10 @@ export default {
       return this.$store.getters['main/objectInfoVisibility'];
     },
     isMobileDevice() {
-      return this.$store.getters.isMobileDevice;
+      if (this.$store.getters.isMobileDevice > 0) {
+        return window.innerWidth < 1100;
+      }
+      return window.innerWidth < 1100;
     },
   },
   mounted() {

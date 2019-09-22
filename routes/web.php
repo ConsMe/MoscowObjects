@@ -35,7 +35,8 @@ Route::resource('objects', 'ObjectController');
 
 Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
 Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
-Route::get('/', 'MainPageController');
+Route::get('/', 'MainPageController@showMainPage');
+Route::get('/policy', 'MainPageController@showPrivacyPolicy');
 
 Route::get('/{any}', 'SpaController')->where('any', '.*');
 
