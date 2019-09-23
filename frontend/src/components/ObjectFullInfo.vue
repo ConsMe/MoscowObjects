@@ -198,13 +198,13 @@
     <transition name="bounce" v-if="!isMobileDevice">
       <div class="download" v-show="show">
         <button
-          class="btn btn-primary rounded-0 text-nowrap download-tizer w-100 mb-1 shadow border border-left-0"
+          class="btn btn-primary rounded-0 text-nowrap download-tizer w-100 mb-1 border border-left-0"
           @click="downloadTizer"
           type="button"
           :disabled="disabled.downloadTizer"
         >Скачать тизер</button>
         <button
-          class="btn btn-secondary rounded-0 text-nowrap download-docs w-100 shadow border border-left-0"
+          class="btn btn-secondary rounded-0 text-nowrap download-docs w-100 border border-left-0"
           v-if="object.docs && object.docs.length"
           type="button"
           @click.prevent="getdoc"
@@ -246,6 +246,11 @@
       top: 2.7rem;
       display: inline-block;
       z-index: 1;
+
+      & > button {
+        border-color: white !important;
+        box-shadow: 5px 5px 5px 0px rgba(0,0,0,.51);
+      }
     }
     & > .row {
       position: relative;

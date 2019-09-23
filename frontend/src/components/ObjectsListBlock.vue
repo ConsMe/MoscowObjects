@@ -159,7 +159,7 @@
     <transition name="bounce" v-if="!isMobileDevice">
       <span class="download-list" v-show="show">
         <button
-          class="btn btn-primary rounded-0 shadow border border-left-0"
+          class="btn btn-primary rounded-0 border border-left-0"
           :disabled="disabled.downloadPdf"
           type="button"
           @click="checkForPdf">
@@ -282,6 +282,11 @@
   top: 2.7rem;
   display: table;
   z-index: 1;
+
+  & > button {
+    border-color: white !important;
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,.51);
+  }
 }
 .image-type {
   position: absolute;

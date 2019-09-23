@@ -107,7 +107,7 @@
     left: -110%;
   }
   .navbar-brand {
-    padding-top: 0.15rem !important;
+    padding-top: 0.25rem !important;
   }
   @media (max-width: 991.98px){
     .nav-item {
