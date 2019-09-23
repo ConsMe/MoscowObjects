@@ -57,9 +57,6 @@
       font-size: 0.8rem;
     }
     @media (max-width: 1699.98px){
-      .icon {
-        width: 2rem;
-      }
       html {
         font-size: 14px;
       }
@@ -76,6 +73,9 @@
       }
       .z-minus-1 {
         z-index: -1;
+      }
+      .icon {
+        width: 3rem;
       }
     }
     @media (max-width: 575.98px){
@@ -96,12 +96,22 @@
       .block-shadow-down {
         box-shadow: 0px 10px 15px -1px rgba(0, 0, 0, 0.28);
       }
+      .col-lg-4 {
+        -ms-flex: 0 0 40%;
+        flex: 0 0 40%;
+        max-width: 40%;
+      }
     }
     @media (min-width: 1160px) {
       .col-lg-3 {
         -ms-flex: 0 0 18%;
         flex: 0 0 18%;
         max-width: 18%;
+      }
+    }
+    @media (max-width: 1160px) {
+      .icon {
+        width: 2rem;
       }
     }
     nav {
@@ -136,9 +146,8 @@
     .clickable {
       cursor: pointer;
     }
-    .clickable:hover::after {
-      z-index: 1;
-      background-color: rgba(0, 0, 0, .12);
+    .clickable:hover {
+      background-color: rgba(0, 0, 0, .5) !important;
     }
   </style>
 </head>
@@ -154,7 +163,7 @@
             <img src="/img/title.png" style="height: 1rem;" />
           </a>
         </div>
-        <div class="col-6 col-sm-auto offset-sm-6 offset-xl-7 text-right">
+        <div class="col text-right" style="margin-right: 18%;">
           <div class="dropdown nav-item">
             <a data-toggle="dropdown" aria-expanded="false" href="#" class="dropdown-toggle nav-link">
               Кабинет <i class="fa fa-user ml-2" style="{{ auth()->check() ? 'color: #2A9FD6;' : '' }}"></i>
@@ -176,7 +185,7 @@
       </nav>
       <div class="row no-gutters text-white ml-0 mr-0" style="flex: 1;">
         <div
-          class="col-12 d-flex flex-column justify-content-center align-items-center col-lg block1 pt-4 pb-3 pl-2 pr-2 block-shadow block-shadow-right clickable"
+          class="col-12 d-flex flex-column justify-content-center align-items-center col-lg-4 block1 pt-4 pb-3 pl-2 pr-2 block-shadow block-shadow-right clickable"
           style="background-color: rgba(0,0,0,0.67);" onclick="location.href='/zu'">
           <h5 class="text-center text-white" style="position: relative;"><span
               class="d-block">ЗЕМЕЛЬНЫЕ УЧАСТКИ</span><span class="d-block">ДЛЯ НОВОГО
@@ -187,7 +196,7 @@
             {{ $zuCount }} Предложений</p>
           <p class="position-relative text-white h2 mt-4 font-weight-bold">{{ $zuGroundS }} Га</p>
         </div>
-        <div class="col-12 col-lg pl-0 pr-0">
+        <div class="col-12 col-lg-4 pl-0 pr-0">
           <div class="row h-100 ml-0 mr-0">
             <div
               class="col-12 d-flex flex-column justify-content-center align-items-center block2 pt-4 pb-3 pl-2 pr-2 block-shadow block-shadow-down clickable"
@@ -216,7 +225,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-lg-3 d-flex flex-column p-4 pl-0 pr-0 block4 z-minus-1 block-shadow-left"
+        <div class="col-12 col-lg d-flex flex-column p-4 pl-0 pr-0 block4 z-minus-1 block-shadow-left"
           style="background-color: #30415a;justify-content: space-between;">
           <div class="row justify-content-center">
             <div class="col">
