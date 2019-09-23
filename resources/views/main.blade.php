@@ -149,6 +149,9 @@
     .clickable:hover {
       background-color: rgba(0, 0, 0, .5) !important;
     }
+    .custom-padding {
+      padding-left: .25rem;
+    }
   </style>
 </head>
 
@@ -225,38 +228,38 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-lg d-flex flex-column p-4 pl-0 pr-0 block4 z-minus-1 block-shadow-left"
+        <div class="col-12 col-lg d-flex flex-column p-4 pl-0 pr-0 block4 z-minus-1 block-shadow-left text-justify"
           style="background-color: #30415a;justify-content: space-between;">
           <div class="row justify-content-center">
             <div class="col">
               <p>Проект ИНВЕСТТЕХ.PRO является профессиональным инструментом поиска объектов недвижимости для целей девелопмента и крупных инвестиций.<br /></p>
             </div>
-            <div class="col-auto"><img src="/img/002-wrench.png" class="icon" /></div>
+            <div class="col-auto custom-padding"><img src="/img/002-wrench.png" class="icon" /></div>
           </div>
           <div class="row">
             <div class="col">
               <p>Представленный каталог объектов предназначен, в первую очередь, для пользования представителями компаний-застройщиков, частных и институциональных инвесторов, а также брокеров по недвижимости.<br /></p>
             </div>
-            <div class="col-auto"><img src="/img/003-builder.png" class="icon" /></div>
+            <div class="col-auto custom-padding"><img src="/img/003-builder.png" class="icon" /></div>
           </div>
           <div class="row">
             <div class="col">
               <p>Доступ к полному функционалу и каталогу проекта возможен только после идентификации нового пользователя и авторизации.<br /></p>
             </div>
-            <div class="col-auto"><img src="/img/001-lock.png" class="icon" /></div>
+            <div class="col-auto custom-padding"><img src="/img/001-lock.png" class="icon" /></div>
           </div>
           <div class="row">
             <div class="col">
               <p>Настоящий сайт и любые размещенные на нем сведения носят информационный характер и не являются публичной офертой.<br /></p>
             </div>
-            <div class="col-auto"><img src="/img/005-information-button.png" class="icon" />
+            <div class="col-auto custom-padding"><img src="/img/005-information-button.png" class="icon" />
             </div>
           </div>
           <div class="row">
             <div class="col">
               <p>Проект разработан в ГК «Инвестиционные технологии». Использование материалов сайта разрешается только с согласия правообладателя.<br /></p>
             </div>
-            <div class="col-auto"><img src="/img/004-document.png" class="icon" /></div>
+            <div class="col-auto custom-padding"><img src="/img/004-document.png" class="icon" /></div>
           </div>
         </div>
       </div>
