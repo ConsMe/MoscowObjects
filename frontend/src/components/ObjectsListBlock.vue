@@ -382,11 +382,7 @@ export default {
         });
         return;
       }
-      this.$store.commit('main/changeCurrentObject', object);
-      this.$store.commit('main/toggleBlocksVisibility', {
-        block: 'ObjectFullInfo',
-        visible: true,
-      });
+      this.$router.push({ name: this.currentCategorySlug, params: { objectId: object.id.toString() } });
     },
     showObjectAtMap(object) {
       this.$store.commit('main/changeCurrentObject', object);

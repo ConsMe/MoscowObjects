@@ -54,7 +54,6 @@ class PdfController extends Controller
         } else {
             $size = '250,450';
         }
-        // dd($size);
         $img_url = 'https://static-maps.yandex.ru/1.x/?ll='.implode(',', array_reverse($object['coordinates'])).'&size='.$size.'&z=15&l=map';
         $b64_url = 'php://filter/read=convert.base64-encode/resource='.$img_url;
         $b64_img = file_get_contents($b64_url);

@@ -14,7 +14,7 @@
           v-show="currentCategorySlug === 'Invest'"
         />
         <object-full-info
-          v-if="blocksVisibility.ObjectFullInfo && currentObject.type"
+          v-if="isObjectFullInfoVisible"
         />
       </div>
     </div>
@@ -56,7 +56,6 @@ import ObjectBlock from '../components/ObjectBlock.vue';
 import ObjectsListBlock from '../components/ObjectsListBlock.vue';
 import BuildingTypesMarkers from '../components/BuildingTypesMarkers.vue';
 import ObjectFullInfo from '../components/ObjectFullInfo.vue';
-import main from '../store_modules/main';
 
 export default {
   components: {
@@ -88,11 +87,25 @@ export default {
     currentObject() {
       return this.$store.state.main.currentObject;
     },
+    isObjectFullInfoVisible() {
+      return this.blocksVisibility.ObjectFullInfo && 'type' in this.currentObject;
+    },
+  },
+  mounted() {
+    if (this.objects.length) this.openFullObjectInfo();
   },
   watch: {
-    objects(nv) {
+    objects(nv, ov) {
       if (this.favouritesOn && !nv.length) {
         this.toastr.info('У вас нет избранных объектов');
+      }
+      if (nv.length && !ov.length) {
+        this.openFullObjectInfo();
+      }
+    },
+    isObjectFullInfoVisible(nv) {
+      if (!nv && this.$route.params.objectId) {
+        this.$router.push({ name: this.currentCategorySlug });
       }
     },
   },
@@ -105,12 +118,35 @@ export default {
       vm.setCurrentCategory();
     });
   },
-  beforeRouteUpdate() {
-    this.setCurrentCategory();
+  beforeRouteUpdate(to, from, next) {
+    if (to.params && to.params.objectId) {
+      next();
+      this.openFullObjectInfo();
+    } else {
+      this.setCurrentCategory();
+      next();
+    }
   },
   methods: {
     setCurrentCategory() {
       this.$store.commit('changeCurrentCategorySlug', this.$route.name);
+    },
+    openFullObjectInfo() {
+      const { objectId } = this.$route.params;
+      if (!objectId) return;
+      const currentObject = this.objects.find(object => object.type === this.currentCategorySlug && object.id.toString() === objectId);
+      if (!currentObject) {
+        this.$router.push({ name: this.currentCategorySlug });
+        toastr.warning('Объект не найден, возможно он был уже удален');
+        return;
+      }
+      if (!Object.keys(this.currentObject).length || (this.currentObject.id !== currentObject.id)) {
+        this.$store.commit('main/changeCurrentObject', currentObject);
+      }
+      this.$store.commit('main/toggleBlocksVisibility', {
+        block: 'ObjectFullInfo',
+        visible: true,
+      });
     },
   },
 };

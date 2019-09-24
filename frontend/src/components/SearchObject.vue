@@ -119,10 +119,14 @@ export default {
       this.$store.commit('main/filterReset');
       this.$store.commit('main/switchFavoritesState', false);
       this.$store.commit('main/changeCurrentObject', object);
-      this.$store.commit('main/toggleBlocksVisibility', {
-        block: this.objectInfoVisibility[object.id].fullInfo ? 'ObjectFullInfo' : 'ObjectBlock',
-        visible: true,
-      });
+      if (this.objectInfoVisibility[object.id].fullInfo) {
+        this.$router.push({ name: this.currentCategorySlug, params: { objectId: object.id.toString() } });
+      } else {
+        this.$store.commit('main/toggleBlocksVisibility', {
+          block: 'ObjectBlock',
+          visible: true,
+        });
+      }
       if (this.objectInfoVisibility[object.id].fullInfo) {
         this.$store.commit('main/showObjectAtMap', object.coordinates);
       }

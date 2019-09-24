@@ -306,10 +306,7 @@ export default {
         });
         return;
       }
-      this.$store.commit('main/toggleBlocksVisibility', {
-        block: 'ObjectFullInfo',
-        visible: true,
-      });
+      this.$router.push({ name: this.currentCategorySlug, params: { objectId: this.object.id.toString() } });
     },
   },
 };

@@ -77,6 +77,13 @@
       .icon {
         width: 3rem;
       }
+      .col-dropdown {
+        padding-right: .2rem !important;
+      }
+      .dropdown-toggle {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+      }
     }
     @media (max-width: 575.98px){
       html {
@@ -100,6 +107,9 @@
         -ms-flex: 0 0 40%;
         flex: 0 0 40%;
         max-width: 40%;
+      }
+      .col-dropdown {
+        margin-right: 23%;
       }
     }
     @media (min-width: 1160px) {
@@ -161,13 +171,13 @@
     style="min-height: 100%;position: absolute;left: 0;top: 0;width: 100%;overflow-x: hidden;font-family: Roboto, sans-serif;">
     <section class="d-flex flex-column" style="min-height: 100vh;overflow: hidden;">
       <nav class="navbar navbar-dark navbar-expand-md" style="background-color: #060606;">
-        <div class="col-6 col-sm-1 offset-sm-1">
+        <div class="col-6 col-sm-1 offset-lg-1">
           <a href="#" class="navbar-brand">
             <img src="/img/title.png" style="height: 1rem;" />
           </a>
         </div>
-        <div class="col text-right" style="margin-right: 18%;">
-          <div class="dropdown nav-item">
+        <div class="col text-right">
+          <div class="dropdown nav-item col-dropdown d-inline-block">
             <a data-toggle="dropdown" aria-expanded="false" href="#" class="dropdown-toggle nav-link">
               Кабинет <i class="fa fa-user ml-2" style="{{ auth()->check() ? 'color: #2A9FD6;' : '' }}"></i>
             </a>

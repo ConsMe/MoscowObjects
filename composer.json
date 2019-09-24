@@ -16,12 +16,17 @@
         "dompdf/dompdf": "^0.8.3",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/psr7": "^1.6",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "intervention/image": "^2.5",
         "laravel/framework": "5.8.*",
         "laravel/telescope": "^2.1",
         "laravel/tinker": "^1.0",
-        "mpdf/mpdf": "^8.0"
+        "mailgun/mailgun-php": "^3.0",
+        "mpdf/mpdf": "^8.0",
+        "nyholm/psr7": "^1.2",
+        "php-http/guzzle6-adapter": "^2.0",
+        "php-http/message": "^1.8"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

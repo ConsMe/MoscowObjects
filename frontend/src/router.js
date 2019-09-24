@@ -13,12 +13,12 @@ const router = new Router({
       redirect: { name: 'ZU' },
     },
     {
-      path: '/zu',
+      path: '/zu/:objectId(\\d+)?',
       name: 'ZU',
       component: () => import('./views/Main.vue'),
     },
     {
-      path: '/invest',
+      path: '/invest/:objectId(\\d+)?',
       name: 'Invest',
       component: () => import('./views/Main.vue'),
     },

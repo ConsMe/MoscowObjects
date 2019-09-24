@@ -35,6 +35,7 @@ function refreshAppTokens() {
       return wrapper.querySelector('meta[name=csrf-token]').getAttribute('content');
     })
     .then((token) => {
+      if (!token || !token.length) return;
       setToken(token);
       lastTimestamp = new Date().getTime();
     });

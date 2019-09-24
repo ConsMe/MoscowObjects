@@ -70,7 +70,7 @@ export default {
           }
         });
       }
-      if (Object.keys(nv).length) {
+      if (Object.keys(nv).length && this.collection) {
         this.collection.each((placemark) => {
           const object = placemark.properties.get('object');
           if (object.id === nv.id) {
