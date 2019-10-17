@@ -90,9 +90,11 @@
                     <td
                       style="padding-left: 0; width: 150px;">
                         <img src="{{ storage_path(env('SMALL_IMAGES_PATH')).$object['images'][0]['filename'] }}" >
-                        <span class="caption" style="background-color: {{ $currentCategorySlug === 'ZU' ? '#2a9fd6' : '#c00' }};">
-                          {{ $currentCategorySlug === 'ZU' ? $object['images'][0]['caption'] : $object['buildingName'] }}
-                        </span>
+                        @if ($object['images'][0]['caption'] || $currentCategorySlug === 'Invest')
+                          <span class="caption" style="background-color: {{ $currentCategorySlug === 'ZU' ? '#2a9fd6' : '#c00' }};">
+                            {{ $currentCategorySlug === 'ZU' ? $object['images'][0]['caption'] : $object['buildingName'] }}
+                          </span>
+                        @endif
                     </td>
                     <td style="text-align: left;">{{ $object['id'] }}</td>
                     <td >{{ $object['district'] }}</td>
@@ -101,11 +103,15 @@
                       <td >{{ $object['ZUType'] }}</td>
                       <td class="nowrap">{{ $object['groundS'] }}</td>
                       <td class="nowrap">
-                        {{ str_replace('м<sup>2</sup>', '', $object['areaS']) }}
-                        м<sup>2</sup>
+                        @isset ($object['areaS'])
+                          {{ str_replace('м<sup>2</sup>', '', $object['areaS']) }}
+                          м<sup>2</sup>
+                        @endisset
                       </td>
                       <td >
-                        {{ $object['ZUType'] === 'ZU' ? $object['purposeZU'] : $object['purposeOKS'] }}
+                        @isset ($object['purposeOKS'])
+                          {{ $object['ZUType'] === 'ZU' ? $object['purposeZU'] : $object['purposeOKS'] }}
+                        @endisset
                       </td>
                       <td >{{ $object['groundPlan'] ? 'Есть' : 'Нет' }}</td>
                     @endif
