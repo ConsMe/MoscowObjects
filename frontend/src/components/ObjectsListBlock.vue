@@ -31,7 +31,7 @@
               v-for="object in objects"
               :key="object.id"
               @click="showObjectFullInfo(object)"
-              :title="objectInfoVisibility[object.id].title"
+              :title="objectInfoVisibility[object.id].titleText"
             >
               <td width="25%">
                 <span class="position-relative d-inline-block">

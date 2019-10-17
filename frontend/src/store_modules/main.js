@@ -173,10 +173,11 @@ export default {
       const { role, accepted } = rootState.user;
       const visibility = {};
       rootGetters.objects.forEach((object) => {
-        let [title, lock, showPrice, fullInfo, priceMessage] = [null, false, true, true, null];
+        let [title, titleText, lock, showPrice, fullInfo, priceMessage] = [null, null, false, true, true, null];
         if (!isAuthorized) {
           if (object.price_admins_only || object.only_auth) {
             title = '<span class="action">Авторизуйтесь</span>, чтобы видеть больше информации';
+            titleText = 'Авторизуйтесь, чтобы видеть больше информации';
             showPrice = false;
           }
           if (object.only_auth) {
@@ -196,7 +197,7 @@ export default {
           priceMessage = 'Информация о цене объекта закрыта';
         }
         visibility[object.id] = {
-          title, lock, showPrice, fullInfo, priceMessage,
+          title, titleText, lock, showPrice, fullInfo, priceMessage,
         };
       });
       return visibility;

@@ -42,7 +42,7 @@ class ObjectPdfRequest extends FormRequest
             'object.buildingType' => 'required_if:object.type,Invest|array',
             'object.buildingType.full' => 'required_if:object.type,Invest|string',
             'object.buildingName' => 'required_if:object.type,Invest|string',
-            'object.areaS' => 'required|string',
+            'object.areaS' => 'required_if:object.type,Invest|string',
             'object.GAP' => 'required_if:object.type,Invest|string',
             'object.caprate' => 'required_if:object.type,Invest|integer',
             'object.cost' => 'present|string|nullable',
