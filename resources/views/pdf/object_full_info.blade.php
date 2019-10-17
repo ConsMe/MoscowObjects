@@ -265,11 +265,13 @@
                                             </p>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-size: 0.83rem; padding-bottom: 0.2rem;">
-                                            {{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup>
-                                        </td>
-                                    </tr>
+                                    @if (isset($object['areaS']))
+                                      <tr>
+                                          <td style="text-align: center; font-size: 0.83rem; padding-bottom: 0.2rem;">
+                                              {{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup>
+                                          </td>
+                                      </tr>
+                                    @endif
                                 </table>
                             @else
                                 <div class="row" style="background-color: #c00;">
