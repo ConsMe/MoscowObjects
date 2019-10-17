@@ -43,7 +43,7 @@ class ListPdfRequest extends FormRequest
             'objects.*.buildingName' => 'required_if:currentCategorySlug,Invest|string',
             'objects.*.areaS' => 'required_if:object.type,Invest|string',
             'objects.*.GAP' => 'required_if:currentCategorySlug,Invest|string',
-            'objects.*.caprate' => 'required_if:currentCategorySlug,Invest|integer',
+            'objects.*.caprate' => 'required_if:currentCategorySlug,Invest|numeric',
             'objects.*.cost' => 'present|string|nullable',
             'objects.*.images' => 'required|array',
             'objects.*.images.*.filename' => 'required|regex:/^[a-z0-9]+\.jpg$/i',
