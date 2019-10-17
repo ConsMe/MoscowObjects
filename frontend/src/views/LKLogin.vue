@@ -2,7 +2,7 @@
   <div class="wrap-register-block">
     <div
       :style="{paddingLeft: objectBlockWidth ? objectBlockWidth + 'px' : '1rem'}"
-      class="mt-5 register-block"
+      class="mt-5 login-block"
       :class="{'d-none': !isMobileDevice && !objectBlockWidth}">
       <div>
       <h5 class="text-primary mb-3">
@@ -17,6 +17,9 @@
             v-model="credentials.email"
             required
             :class="{'is-invalid': errors.email}"
+            placeholder="name@domain.ru"
+            autofocus
+            autocomplete="email"
           />
           <span class="invalid-feedback" role="alert" v-if="errors.email">
             <strong>{{ errors.email[0] }}</strong>
@@ -30,6 +33,7 @@
             v-model="credentials.password"
             required
             :class="{'is-invalid': errors.password}"
+            placeholder="••••••••••"
           />
           <span class="invalid-feedback" role="alert" v-if="errors.password">
             <strong>{{ errors.password[0] }}</strong>
@@ -40,6 +44,10 @@
           Нет аккаунта?
           <router-link :to="{name: 'lk-register'}">Зарегистрироваться</router-link>
         </p>
+        <p>
+          Забыли пароль?
+          <router-link :to="{name: 'lk-password-reset'}">Сбросить</router-link>
+        </p>
       </form>
       </div>
     </div>
@@ -47,6 +55,8 @@
 </template>
 
 <style lang="scss">
+@import "../assets/css/_variables.scss";
+
 @media (max-width: 991.98px){
   .wrap-register-block {
     justify-content: center;
@@ -54,9 +64,12 @@
     width: 100%;
   }
 }
-.register-block {
+.login-block {
   width: 18rem;
   box-sizing: content-box;
+  ::placeholder {
+    color: $gray-400;
+  }
 }
 </style>
 
@@ -87,6 +100,7 @@ export default {
   methods: {
     login() {
       this.disabled = true;
+      this.errors = {};
       Http.post('/login', this.credentials)
         .then((response) => {
           this.$store.commit('changeAuthState', { isAuthorized: 1, user: response.data.user });

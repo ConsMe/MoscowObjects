@@ -38,6 +38,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'boolean',
     ];
 
+    public function sendPasswordResetNotification($token)
+    {
+        \Mail::queue(new \App\Mail\PasswordResetEmail($token, $this->email));
+    }
+
     public function getUserInfoAttribute()
     {
         return $this->only(['name', 'email', 'last_login', 'role', 'subscribed', 'accepted', 'email_verified_at']);
@@ -45,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isConfirmed()
     {
-        return $this->email_verified_at !== NULL;
+        return $this->email_verified_at !== null;
     }
 
     public function isAccepted()

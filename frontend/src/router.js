@@ -44,6 +44,11 @@ const router = new Router({
           component: () => import('./views/LKLogin.vue'),
         },
         {
+          path: 'password/reset/:token?',
+          name: 'lk-password-reset',
+          component: () => import('./views/LKPasswordReset.vue'),
+        },
+        {
           path: 'account',
           name: 'lk-account',
           component: () => import('./views/LKUserInfo.vue'),
@@ -64,7 +69,7 @@ const router = new Router({
 });
 
 router.beforeResolve((to, from, next) => {
-  if (['lk-login', 'lk-register'].includes(to.name)) {
+  if (['lk-login', 'lk-register', 'lk-password-reset'].includes(to.name)) {
     if (store.state.isAuthorized) {
       next({ name: 'lk-account' });
       return;
