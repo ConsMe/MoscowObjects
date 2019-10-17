@@ -64,7 +64,7 @@
             background-color: rgb(33, 6, 68);
             margin-left: 0.8rem;
             border: 1px solid white;
-            @if ($object['type'] === 'ZU')
+            @if ($object['type'] === 'ZU' && isset($object['areaS']))
                 @unless ($hide_company_info_in_tizer)
                     margin-top: -8.48rem;
                 @else
@@ -103,7 +103,7 @@
             padding: .05rem 0.4rem;
         }
         .row:after, .row:before {
-            @if ($object['type'] === 'ZU')
+            @if ($object['type'] === 'ZU' && isset($object['areaS']))
                 top: 3.27rem;
             @else
                 top: 1.845rem;
@@ -133,7 +133,7 @@
             border-width: 1.8rem .55rem 0 0;
             margin-left: -.08rem;
             z-index: 1;
-            @if ($object['type'] === 'ZU')
+            @if ($object['type'] === 'ZU' && isset($object['areaS']))
                 top: 3.28rem;
             @endif
         }
@@ -257,10 +257,11 @@
                       style="width: 350px;">
                     <div class="map-icon">
                             @if ($object['type'] === 'ZU')
+                              @if (isset($object['areaS']))
                                 <table class="row row-table">
                                     <tr>
                                         <td style="text-align: center;">
-                                            <p style="border-bottom: 1px solid gray; margin: 0; padding: 0;">
+                                            <p style="{{ isset($object['areaS']) ? 'border-bottom: 1px solid gray;' : '' }}margin: 0; padding: 0;">
                                                 {{ $object['groundS'] }}
                                             </p>
                                         </td>
@@ -273,6 +274,13 @@
                                       </tr>
                                     @endif
                                 </table>
+                              @else
+                                <div class="row">
+                                  <div style="padding-bottom: 0.3rem; font-size: 0.8rem;">
+                                    {{ $object['groundS'] }}
+                                  </div>
+                                </div>
+                              @endif
                             @else
                                 <div class="row" style="background-color: #c00;">
                                     <div style="padding-bottom: 0.3rem; text-transform: uppercase;font-size: 0.8rem;">{{ $object['buildingName'] }}</div>
