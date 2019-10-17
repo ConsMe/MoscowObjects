@@ -214,9 +214,15 @@
                                                     </td>
                                                     <td style="padding-left: 10px;">
                                                         <p style="margin-top: 0;">ОКС</p>
-                                                        <p>{{ $object['kadastrNumberOKS'] }}</p>
-                                                        <p>{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></p>
-                                                        <p>{{ $object['purposeOKS'] }}</p>
+                                                        @if (isset($object['kadastrNumberOKS']))
+                                                          <p>{{ $object['kadastrNumberOKS'] }}</p>
+                                                        @endif
+                                                        @if (isset($object['areaS']))
+                                                          <p>{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></p>
+                                                        @endif
+                                                        @if (isset($object['purposeOKS']))
+                                                          <p>{{ $object['purposeOKS'] }}</p>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             </tbody>
