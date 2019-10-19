@@ -5,7 +5,17 @@
       :object="object"
       @set-coordinates="setCoordinate"
       @reset-search-address="yandexSearchAddress = ''" />
-    <div class="pt-5 pb-5 row shadow" :style="{width: favoritesOffsetLeft, zIndex: 1}">
+    <div class="pt-4 pb-5 row shadow" :style="{width: favoritesOffsetLeft, zIndex: 1}">
+      <div class="col-12">
+        <div class="row">
+          <div class="col offset-1">
+            <router-link class="btn btn-outline-dark border-0" :to="{name: 'lk-objects'}">
+              <i class="fa fa-reply" aria-hidden="true"></i>
+              Вернуться в каталог
+            </router-link>
+          </div>
+        </div>
+      </div>
       <form class="col" @submit.prevent="saveObject">
         <div class="row">
           <div class="col col-8 offset-2">
@@ -442,7 +452,7 @@ export default {
       objectFields,
       buildingTypes,
       disabled: false,
-      districts: ['Москва, ЦАО', 'Москва, САО', 'Москва, СВАО', 'Москва, ВАО', 'Москва, ЮВАО', 'Москва, ЮАО', 'Москва, ЮЗАО', 'Москва, СЗАО', 'Новая Москва и Зеленоград', 'Московская область'],
+      districts: ['Москва, ЦАО', 'Москва, САО', 'Москва, СВАО', 'Москва, ВАО', 'Москва, ЮВАО', 'Москва, ЮАО', 'Москва, ЮЗАО', 'Москва, ЗАО', 'Москва, СЗАО', 'Новая Москва и Зеленоград', 'Московская область'],
       yandexSearchAddress: '',
     };
   },

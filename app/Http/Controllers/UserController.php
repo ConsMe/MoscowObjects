@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('role:admin');
+        $this->middleware('role:admin')->except(['unsubscribe']);
     }
 
     /**
@@ -105,5 +106,21 @@ class UserController extends Controller
             ->where('id', $userId)
             ->restore();
         return response(200);
+    }
+
+    public function unsubscribe(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'key' => 'required|string'
+        ]);
+        if (!$validator->fails()) {
+            $user = User::where('email', $request->email)->first();
+            if ($user->unsubscribe_token === $request->key) {
+                $user->update(['subscribed' => false]);
+                return redirect('unsubscribed')->with('unsubscribed_email', $request->email);
+            }
+        }
+        return redirect()->route('main_page');
     }
 }

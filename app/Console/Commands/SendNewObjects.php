@@ -9,6 +9,7 @@ use Mailgun\Mailgun;
 use Illuminate\Support\Facades\DB;
 use Dompdf\Dompdf;
 use App\Currency;
+use Illuminate\Support\Str;
 
 class SendNewObjects extends Command
 {
@@ -43,11 +44,11 @@ class SendNewObjects extends Command
      */
     public function handle()
     {
-        $emails = User::whereNotNull('role')->where([
+        $users = User::whereNotNull('role')->where([
             'accepted' => true,
             'subscribed' => true
-        ])->get()->pluck('email')->toArray();
-        if (!count($emails)) return;
+        ])->get();
+        if (!$users->count()) return;
         $objects = EstateObject::where('created_at', '>', now()
             ->addHours(-24))
             ->where('object_admins_only', false)
@@ -116,8 +117,12 @@ class SendNewObjects extends Command
         }
         $variables = [];
         $id = 1;
-        foreach ($emails as $email) {
-            $variables[$email] = ['id' => $id];
+        foreach ($users as $user) {
+            if (!$user->unsubscribe_token) {
+                $user->unsubscribe_token = Str::random(60);
+                $user->save();
+            }
+            $variables[$user->email] = ['id' => $user->id, 'unsubscribe_token' => $user->unsubscribe_token];
             $id++;
         }
         $img_url = public_path('img/mail_logo.png');
@@ -127,7 +132,7 @@ class SendNewObjects extends Command
         $domain = env('MAILGUN_DOMAIN');
         $result = $mgClient->messages()->send($domain, array(
             'from'    => env('MAIL_FROM_NAME').' '.env('MAIL_FROM_ADDRESS'),
-            'to'      => implode(',', $emails),
+            'to'      => implode(',', $users->pluck('email')->toArray()),
             'subject' => 'Новые объекты на сайте ИНВЕСТТЕХ.PRO',
             'html'    => view('mail.new_objects', ['logo' => $b64_img, 'links' => $links])->render(),
             'recipient-variables' => json_encode($variables),

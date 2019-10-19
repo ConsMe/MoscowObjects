@@ -25,7 +25,10 @@
           class="dropdown-item text-truncate"
           href="/"
           @click="chooseObject(object)"
-        >{{ 'Лот ' + object.id + ', ' + object.address }}</a>
+        >
+          <span v-if="object.type === 'Invest'">{{ `Лот ${object.id}, ${object.buildingName}, ${object.address}` }}</span>
+          <span v-else>{{ `Лот ${object.id}, ${object.address}` }}</span>
+        </a>
       </template>
       <template v-else>
         <span class="dropdown-item notfound" >
@@ -81,7 +84,10 @@ export default {
       if (this.modifiedText.length >= this.minSearchStringLength) {
         const textRegexp = new RegExp(this.modifiedText, 'i');
         const foundedObjects = this.objects.filter((object) => {
-          const concatObjectInfo = object.id + object.address;
+          let concatObjectInfo = object.id + object.address;
+          if (object.type === 'Invest') {
+            concatObjectInfo += object.buildingName;
+          }
           return concatObjectInfo.match(textRegexp);
         });
         if (foundedObjects.length > 10) foundedObjects.length = 10;

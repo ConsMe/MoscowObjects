@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('currencies:refresh')->dailyAt('00:00');
-        $schedule->command('mail:objects')->dailyAt('22:00');
+        $schedule->command('mail:objects')->dailyAt('10:00');
     }
 
     /**

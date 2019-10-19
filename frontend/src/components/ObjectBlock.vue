@@ -54,14 +54,14 @@
           <p class="mb-2">{{ object.groundS }}</p>
           <p class="mb-2">
             {{ object.GAP }}
-            <strong>Р</strong>
+            <strong>₽</strong>
           </p>
           <p class="mb-2">{{ object.caprate + '%' }}</p>
         </template>
         <p class="mt-4 mb-3 text-white">
           <big v-if="objectInfoVisibility[object.id].showPrice">
             {{ object.cost }}
-            <strong>Р</strong>
+            <strong>₽</strong>
           </big>
           <span
             v-else-if="objectInfoVisibility[object.id].priceMessage"
@@ -115,7 +115,7 @@
             <p class="mt-4 mb-0 text-white">
               <big v-if="objectInfoVisibility[object.id].showPrice">
                 {{ object.cost }}
-                <strong>Р</strong>
+                <strong>₽</strong>
               </big>
               <span
                 v-else-if="objectInfoVisibility[object.id].priceMessage"
@@ -150,7 +150,7 @@
             <div class="col text-nowrap text-center">{{ object.groundS }}</div>
             <div class="col text-nowrap text-center">
               {{ object.GAP }}
-              <strong>Р</strong>
+              <strong>₽</strong>
             </div>
             <div class="col text-nowrap text-right">{{ object.caprate + '%' }}</div>
           </div>

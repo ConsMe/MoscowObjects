@@ -284,7 +284,7 @@
               </div>
             </div>
           </div>
-          {{-- <div style="background-color:transparent;">
+          <div style="background-color:transparent;">
             <div class="block-grid"
               style="Margin: 0 auto; min-width: 320px; max-width: 500px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: transparent;">
               <div
@@ -305,11 +305,11 @@
                           style="font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; line-height: 1.2; font-size: 12px; color: #555555; mso-line-height-alt: 14px;">
                           <p
                             style="line-height: 1.2; font-size: 13px; mso-line-height-alt: 16px; mso-ansi-font-size: 14px; margin: 0;">
-                            <span style="font-size: 13px; mso-ansi-font-size: 14px;">Чтобы
-                              отписаться от рассылки пройдите по ссылке <a
-                                href="http://homestead.test/invest/1" rel="noopener"
+                            <span style="font-size: 15px; mso-ansi-font-size: 14px;">
+                                <a
+                                href="{{ env('APP_URL') }}unsubscribe?email=%recipient_email%&key=%recipient.unsubscribe_token%" rel="noopener"
                                 style="text-decoration: underline; color: #0068A5;"
-                                target="_blank">http://homestead.test/invest/1</a></span></p>
+                                target="_blank">Отписаться от рассылки</a></span></p>
                         </div>
                       </div>
                       <!--[if mso]></td></tr></table><![endif]-->
@@ -322,7 +322,7 @@
                 <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
               </div>
             </div>
-          </div> --}}
+          </div>
           <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
         </td>
       </tr>

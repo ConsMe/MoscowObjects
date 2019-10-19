@@ -223,8 +223,10 @@ export default {
     changeCategory(newSlug) {
       if (this.isMainView || ['lk-login', 'lk-register', 'lk-account'].includes(this.$route.name)) {
         this.filterReset();
-        this.$router.push({ name: newSlug });
         this.$store.commit('main/changeCurrentObject', {});
+        this.$router.push({ name: newSlug }).catch(() => {
+          this.$router.push({ name: newSlug });
+        });
       } else {
         this.$store.commit('changeCurrentCategorySlug', newSlug);
       }

@@ -32,4 +32,14 @@ class MainPageController extends Controller
     {
         return view('privacy_policy');
     }
+
+    public function unsubscribed()
+    {
+        $email = request()->session()->get('unsubscribed_email');
+        if ($email) {
+            request()->session()->forget('unsubscribed_email');
+            return view('unsubscribed', ['email' => $email]);
+        }
+        return redirect()->route('main_page');
+    }
 }

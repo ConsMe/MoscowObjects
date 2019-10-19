@@ -24,10 +24,10 @@
               <template v-if="currentCategorySlug === 'Invest'">
                 <th scope="col">Тип</th>
                 <th scope="col">S</th>
-                <th scope="col">ГАП, Р.</th>
+                <th scope="col">ГАП, ₽</th>
                 <th scope="col">Caprate</th>
               </template>
-              <th scope="col">Стоимость, Р.</th>
+              <th scope="col">Стоимость, ₽</th>
               <th scope="col">Ответственный</th>
               <th scope="col">Действия</th>
             </tr>

@@ -78,10 +78,10 @@
                     @if ($currentCategorySlug === 'Invest')
                       <th scope="col">Тип</th>
                       <th scope="col">S</th>
-                      <th scope="col" class="nowrap">ГАП, Р.</th>
+                      <th scope="col" class="nowrap">ГАП, ₽</th>
                       <th scope="col">Caprate</th>
                     @endif
-                    <th scope="col" class="nowrap">Стоимость, Р.</th>
+                    <th scope="col" class="nowrap">Стоимость, ₽</th>
                   </tr>
                 </thead>
                 <tbody>

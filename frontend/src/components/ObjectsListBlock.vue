@@ -19,10 +19,10 @@
               <template v-if="currentCategorySlug === 'Invest'">
                 <th scope="col" :class="[sort.type ? `sort-${sort.type}` : null]" @click="sortTo('type')">Тип</th>
                 <th scope="col" :class="[sort.areaS ? `sort-${sort.areaS}` : null]" @click="sortTo('areaS')">S</th>
-                <th scope="col" :class="[sort.GAP ? `sort-${sort.GAP}` : null]" @click="sortTo('GAP')">ГАП, Р.</th>
+                <th scope="col" :class="[sort.GAP ? `sort-${sort.GAP}` : null]" @click="sortTo('GAP')">ГАП, ₽</th>
                 <th scope="col" :class="[sort.caprate ? `sort-${sort.caprate}` : null]" @click="sortTo('caprate')">Caprate</th>
               </template>
-              <th scope="col" class="text-right" :class="[sort.cost ? `sort-${sort.cost}` : null]" @click="sortTo('cost')">Стоимость, Р.</th>
+              <th scope="col" class="text-right" :class="[sort.cost ? `sort-${sort.cost}` : null]" @click="sortTo('cost')">Стоимость, ₽</th>
             </tr>
           </thead>
           <tbody>
@@ -125,7 +125,7 @@
               <p class="mt-4 mb-0 text-white">
                 <big v-if="objectInfoVisibility[object.id].showPrice">
                   {{ object.cost }}
-                  <strong>Р</strong>
+                  <strong>₽</strong>
                 </big>
                 <span
                   v-else-if="objectInfoVisibility[object.id].priceMessage"
@@ -147,7 +147,7 @@
               <div class="col text-nowrap text-center">{{ object.groundS }}</div>
               <div class="col text-nowrap text-center">
                 {{ object.GAP }}
-                <strong>Р</strong>
+                <strong>₽</strong>
               </div>
               <div class="col text-nowrap text-right">{{ object.caprate + '%' }}</div>
             </template>
@@ -156,7 +156,7 @@
         </div>
       </div>
     </template>
-    <transition name="bounce" v-if="!isMobileDevice">
+    <transition name="bounce" v-if="!isMobileDevice && isAuthorized">
       <span class="download-list" v-show="show">
         <button
           class="btn btn-primary rounded-0 border border-left-0"
@@ -362,6 +362,9 @@ export default {
         return window.innerWidth < 1100;
       }
       return window.innerWidth < 1100;
+    },
+    isAuthorized() {
+      return this.$store.state.isAuthorized;
     },
   },
   mounted() {

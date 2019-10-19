@@ -30,14 +30,22 @@
                 <div class="row mt-4 mb-4" v-if="object.type === 'ZU'">
                   <div class="col border-right">
                     <p class="mb-2">Земельный участок</p>
-                    <p class="mb-2">{{ object.kadastrNumberZU }}</p>
+                    <p class="mb-2">
+                      <span class="d-block" v-for="(kadastr, i) in object.kadastrNumberZU.split(',')" :key="i">
+                        {{ kadastr.trim() }}
+                      </span>
+                    </p>
                     <p class="mb-2">{{ object.groundS }}</p>
                     <p class="mb-2">{{ object.purposeZU }}</p>
                     <p class="mb-2" v-if="object.groundPlanOKS">ГПЗУ</p>
                   </div>
                   <div class="col ml-3">
                     <p class="mb-2">ОКС</p>
-                    <p class="mb-2">{{ object.kadastrNumberOKS }}</p>
+                    <p class="mb-2" v-if="object.kadastrNumberOKS && object.kadastrNumberOKS.length">
+                      <span class="d-block" v-for="(kadastr, i) in object.kadastrNumberOKS.split(',')" :key="i">
+                        {{ kadastr.trim() }}
+                      </span>
+                    </p>
                     <p class="mb-2" v-html="object.areaS"></p>
                     <p class="mb-2">{{ object.purposeOKS }}</p>
                   </div>
@@ -48,7 +56,7 @@
                   <p class="mb-2">
                     ГАП
                     {{ object.GAP }}
-                    <strong>Р</strong>
+                    <strong>₽</strong>
                   </p>
                   <p class="mb-2 mb-4">Caprate {{ object.caprate + '%' }}</p>
                 </template>
@@ -59,7 +67,7 @@
                     <p class="mb-0">
                       <big v-if="objectInfoVisibility[object.id].showPrice">
                         {{ object.cost }}
-                        <strong>Р</strong>
+                        <strong>₽</strong>
                       </big>
                       <span v-else-if="objectInfoVisibility[object.id].priceMessage" class="text-dark">
                         {{ objectInfoVisibility[object.id].priceMessage }}
@@ -133,7 +141,7 @@
             <p class="mt-4 mb-0 text-white">
               <big v-if="objectInfoVisibility[object.id].showPrice">
                 {{ object.cost }}
-                <strong>Р</strong>
+                <strong>₽</strong>
               </big>
               <span
                 v-else-if="objectInfoVisibility[object.id].priceMessage"
@@ -168,7 +176,7 @@
             <div class="col text-nowrap text-center">{{ object.groundS }}</div>
             <div class="col text-nowrap text-center">
               {{ object.GAP }}
-              <strong>Р</strong>
+              <strong>₽</strong>
             </div>
             <div class="col text-nowrap text-right">{{ object.caprate + '%' }}</div>
           </div>
