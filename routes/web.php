@@ -43,3 +43,4 @@ Route::get('/unsubscribed', 'MainPageController@unsubscribed');
 Route::get('/{any}', 'SpaController')->where('any', '.*');
 
 Auth::routes();
+Route::get('/lk/login', 'SpaController')->name('login');

@@ -158,6 +158,7 @@ class ObjectController extends Controller
                 });
                 $newFilename = Str::random(40).'.jpg';
                 $big->save(storage_path(env('BIG_IMAGES_PATH').$newFilename));
+                $update['big_image_size'] = $big->width() . ',' . $big->height();
                 $small = $originalImage->resize(null, 300, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();

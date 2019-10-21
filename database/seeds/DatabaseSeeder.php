@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             // UsersTableSeeder::class,
-            ObjectsTableSeeder::class,
+            // ObjectsTableSeeder::class,
+            BigImagesSize::class
         ]);
     }
 }

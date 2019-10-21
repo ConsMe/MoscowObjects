@@ -101,8 +101,15 @@ export default {
     login() {
       this.disabled = true;
       this.errors = {};
+      console.log(4444);
       Http.post('/login', this.credentials)
         .then((response) => {
+          console.log(555);
+          console.log(this.$route);
+          if (this.$route.query.url) {
+            window.location.href = this.$route.query.url;
+            return;
+          }
           this.$store.commit('changeAuthState', { isAuthorized: 1, user: response.data.user });
           this.$router.push({ name: 'lk-account' });
         })

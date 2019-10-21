@@ -55,7 +55,9 @@
               @click.prevent="switchFavoritesState"
               :class="{active: favouritesOn}"
             >
-              <i class="fa fa-heart mr-2" :class="{'text-danger': favouritesOn}"></i>
+              <i class="fa fa-heart mr-1 position-relative" :class="{'text-danger': favouritesOn}">
+                <span class="favouritesCount" v-if="favouritesCount">{{ favouritesCount }}</span>
+              </i>
               Избранное
             </a>
           </li>
@@ -124,6 +126,11 @@
       border-left: 0;
     }
   }
+  .favouritesCount {
+    position: absolute;
+    top: 0;
+    right: 150%;
+  }
 }
 .my-dropdown-menu-center {
   left: 50% !important;
@@ -186,6 +193,9 @@ export default {
         return this.$store.state.main.favouritesOn;
       }
       return false;
+    },
+    favouritesCount() {
+      return this.$store.state.main.favourites.length;
     },
     currentCategorySlug() {
       return this.$store.state.currentCategorySlug;

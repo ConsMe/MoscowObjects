@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fancyapps/fancybox": "^3.5.7",
     "axios": "^0.19.0",
     "babel-plugin-transform-regexp-constructors": "^0.4.3",
     "bootstrap": "^4.3.1",
