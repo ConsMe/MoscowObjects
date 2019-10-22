@@ -19,6 +19,8 @@ export default {
     objectCoordinatesForShow: [],
     objectsDescriptions: {},
     isYmapReady: window.ymapsState,
+    blocksVisibilityLogs: [],
+    objectsListBlockScroll: 0,
   },
   mutations: {
     getAllInitData(state, isAuthorized) {
@@ -44,6 +46,10 @@ export default {
         if (visibility === 'FilterBlock') return;
         if (visibility === block) {
           state.blocksVisibility[visibility] = visible;
+          state.blocksVisibilityLogs.push(visibility);
+          if (state.blocksVisibilityLogs.length > 5) {
+            state.blocksVisibilityLogs.splice(0, 1);
+          }
           return;
         }
         state.blocksVisibility[visibility] = false;
@@ -97,6 +103,9 @@ export default {
     },
     addObjectsDescriptions(state, { id, description }) {
       Vue.set(state.objectsDescriptions, id, description);
+    },
+    setObjectsListBlockScroll(state, scroll) {
+      state.objectsListBlockScroll = scroll;
     },
   },
   getters: {

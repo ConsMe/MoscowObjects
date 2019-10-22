@@ -7,7 +7,7 @@
       <div class="col">
         <div class="row">
           <div class="col d-flex flex-column">
-            <carousel :images="object.images" :path="imageFolders.big" />
+            <carousel :object="object" :path="imageFolders.big" />
           </div>
           <div class="col">
             <div class="row h-100">
@@ -100,22 +100,7 @@
       <div class="col mt-4">
         <div class="row">
           <div class="col pr-3">
-            <span class="position-relative d-inline-block">
-              <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
-              <!-- <carousel :images="[object.images[0]]" :path="imageFolders.small" class="img-fluid"/> -->
-              <span
-                class="bg-primary text-white pr-3 pl-3 pt-1 pb-1 image-type"
-                v-if="object.type === 'ZU' && object.images[0].caption"
-              >
-                <big>{{ object.images[0].caption }}</big>
-              </span>
-              <span
-                class="bg-danger text-white pr-3 pl-3 pt-1 pb-1 building-name-bottom text-uppercase"
-                v-else-if="object.type === 'Invest'"
-              >
-                <big>{{ object.buildingName }}</big>
-              </span>
-            </span>
+            <carousel :object="object" :path="imageFolders.big" />
           </div>
           <div class="col pl-3 d-flex flex-column">
             <div class="row flex-grow-1">
@@ -416,10 +401,16 @@ export default {
     },
     closeObjectFullInfo() {
       this.$store.commit('main/changeCurrentObject', {});
-      this.$store.commit('main/toggleBlocksVisibility', {
-        block: 'ObjectFullInfo',
-        visible: false,
-      });
+      const blocksLogs = this.$store.state.main.blocksVisibilityLogs;
+      const prevBlock = blocksLogs.length > 1 ? blocksLogs[blocksLogs.length - 2] : null;
+      const visibility = {
+        block: prevBlock === 'ObjectsListBlock' ? 'ObjectsListBlock' : 'ObjectFullInfo',
+        visible: prevBlock === 'ObjectsListBlock',
+      };
+      if (!prevBlock === 'ObjectsListBlock') {
+        this.$store.commit('main/setObjectsListBlockScroll', 0);
+      }
+      this.$store.commit('main/toggleBlocksVisibility', visibility);
     },
     showObjectAtMap() {
       this.$store.commit('main/showObjectAtMap', this.object.coordinates);

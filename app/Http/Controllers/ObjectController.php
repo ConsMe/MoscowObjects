@@ -35,7 +35,15 @@ class ObjectController extends Controller
             $objects->where('object_admins_only', false);
         }
         $objects = $objects->with(['images' => function ($query) {
-            $query->select(['id', 'filename', 'isMain', 'type', 'object_id', 'caption'])->orderBy('isMain', 'DESC');
+            $query->select([
+                'id',
+                'filename',
+                'isMain',
+                'type',
+                'object_id',
+                'caption',
+                'big_image_size'
+            ])->orderBy('isMain', 'DESC');
         }, 'docs' => function ($query) {
             $query->select(['id', 'object_id']);
         }])->get();

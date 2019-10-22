@@ -1,6 +1,6 @@
 <template>
   <div class="objects-list-block shadow" ref="objectsListBlock" :style="{width: isMobileDevice ? '100%' : '60%'}">
-    <div class="row m-0 pb-0" v-if="!isMobileDevice">
+    <div class="row m-0 pb-0" v-if="!isMobileDevice" ref="scrollableDesktop">
       <div class="col p-0 pb-1">
         <table class="table table-hover m-0 sticky-thead">
           <thead>
@@ -369,6 +369,15 @@ export default {
   },
   mounted() {
     this.show = true;
+    const blocksLogs = this.$store.state.main.blocksVisibilityLogs;
+    const prevBlock = blocksLogs.length > 1 ? blocksLogs[blocksLogs.length - 2] : null;
+    if (prevBlock === 'ObjectFullInfo') {
+      const scroll = this.$store.state.main.objectsListBlockScroll;
+      setTimeout(() => {
+        const block = this.isMobileDevice ? this.$refs.objectsListBlock : this.$refs.scrollableDesktop;
+        block.scrollTop = scroll;
+      }, 0);
+    }
   },
   watch: {
     currentCategorySlug() {
@@ -385,6 +394,8 @@ export default {
         });
         return;
       }
+      const scroll = this.isMobileDevice ? this.$refs.objectsListBlock.scrollTop : this.$refs.scrollableDesktop.scrollTop;
+      this.$store.commit('main/setObjectsListBlockScroll', scroll);
       this.$router.push({ name: this.currentCategorySlug, params: { objectId: object.id.toString() } });
     },
     showObjectAtMap(object) {
