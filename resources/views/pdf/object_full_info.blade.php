@@ -257,13 +257,18 @@
                                     <tr>
                                         <td style="width: 45%;border-right: 1px solid #6d6c6c;">
                                             <p style="margin-top: 0;">Земельный участок</p>
-                                            <p>
-                                              @foreach (explode(",", $object['kadastrNumberZU']) as $kadastr)
-                                                  <span style="display: block;">{{ trim($kadastr) }}</span>
-                                              @endforeach
-                                            </p>
+                                            @if (isset($object['kadastrNumberZU']))
+                                              <p>
+                                                @foreach (explode(",", $object['kadastrNumberZU']) as $kadastr)
+                                                    <span style="display: block;">{{ trim($kadastr) }}</span>
+                                                @endforeach
+                                              </p>
+                                            @endif
                                             <p>{{ $object['groundS'] }}</p>
                                             <p>{{ $object['purposeZU'] }}</p>
+                                            @if ($object['groundPlan']['is'])
+                                              <p>{{ $object['groundPlan']['full'] }}</p>
+                                            @endif
                                         </td>
                                         <td style="padding-left: 10px;">
                                             <p style="margin-top: 0;">ОКС</p>
@@ -287,8 +292,12 @@
                         @else
                             <p>{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></p>
                             <p>{{ $object['groundS'] }}</p>
-                            <p>ГАП {{ $object['GAP'] }} ₽</p>
-                            <p>Caprate {{ $object['caprate'] }}%</p>
+                            @if (isset($object['GAP']))
+                              <p>ГАП {{ $object['GAP'] }} ₽</p>
+                            @endif
+                            @if (isset($object['caprate']))
+                              <p>Caprate {{ $object['caprate'] }}%</p>
+                            @endif
                         @endif
                         @if (strlen($object['cost']))
                             <p style="font-size: 1.2rem;margin-top: 15px; font-weight: bold;">{{ $object['cost'] }} ₽</p>

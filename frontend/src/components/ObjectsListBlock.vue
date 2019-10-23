@@ -60,13 +60,13 @@
                 <td class="align-middle">
                   {{ object.ZUType === 'ЗУ' ? object.purposeZU : object.purposeOKS }}
                 </td>
-                <td class="align-middle">{{ object.groundPlan ? 'Есть' : 'Нет' }}</td>
+                <td class="align-middle">{{ object.groundPlan.short }}</td>
               </template>
               <template v-if="currentCategorySlug === 'Invest'">
                 <td class="align-middle">{{ object.buildingType.short }}</td>
                 <td class="align-middle text-nowrap" v-html="object.areaS"></td>
                 <td class="align-middle text-nowrap">{{ object.GAP }}</td>
-                <td class="align-middle">{{ object.caprate + '%' }}</td>
+                <td class="align-middle">{{ object.caprate ? `${object.caprate}%` : '' }}</td>
               </template>
               <td class="text-right align-middle position-relative text-nowrap">
                 <div class="position-absolute d-inline-block w-100 h-100 link-wrap">
@@ -140,16 +140,19 @@
               <div class="col text-nowrap text-center">{{ object.groundS }}</div>
               <div class="col text-nowrap text-center" v-html="object.areaS"></div>
               <div class="col text-center">{{ object.ZUType === 'ЗУ' ? object.purposeZU : object.purposeOKS }}</div>
-              <div class="col-auto text-right">{{ object.groundPlan ? 'ГПЗУ' : '' }}</div>
+              <div class="col text-right">
+                {{ object.groundPlan.is ? object.groundPlan.mobile : '' }}
+              </div>
             </template>
             <template v-if="object.type === 'Invest'">
               <div class="col text-nowrap" v-html="object.areaS"></div>
               <div class="col text-nowrap text-center">{{ object.groundS }}</div>
-              <div class="col text-nowrap text-center">
+              <div class="col text-nowrap text-center" v-if="object.GAP">
                 {{ object.GAP }}
                 <strong>₽</strong>
               </div>
-              <div class="col text-nowrap text-right">{{ object.caprate + '%' }}</div>
+              <div class="col" v-else></div>
+              <div class="col text-nowrap text-right">{{ object.caprate ? `${object.caprate}%` : '' }}</div>
             </template>
           </div>
           <div class="border-top-1"></div>
@@ -339,6 +342,9 @@ export default {
         if (field === 'purpose') {
           a = object1.ZUType === 'ЗУ' ? object1.purposeZU : object1.purposeOKS;
           b = object2.ZUType === 'ЗУ' ? object2.purposeZU : object2.purposeOKS;
+        } else if (field === 'groundPlan') {
+          a = object1.groundPlan.short;
+          b = object2.groundPlan.short;
         } else if (field === 'type' && this.currentCategorySlug === 'Invest') {
           a = object1.buildingType.short;
           b = object2.buildingType.short;

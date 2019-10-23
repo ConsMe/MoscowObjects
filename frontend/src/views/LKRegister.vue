@@ -2,109 +2,110 @@
   <div class="wrap-register-block">
     <div
       :style="{paddingLeft: objectBlockWidth ? objectBlockWidth + 'px' : '1rem'}"
-      class="mt-5 register-block"
-      :class="{'d-none': !isMobileDevice && !objectBlockWidth}">
+      class="mt-4 register-block"
+      :class="{'d-none': !isMobileDevice && !objectBlockWidth, 'mt-5' : !isMobileDevice}">
+      <back-button />
       <div>
-      <h5 class="text-primary mb-3">Регистрация</h5>
-      <form autocomplete="off" @submit.prevent="register" class="mb-5">
-        <div class="form-group">
-          <label>ФИО</label>
-          <input
-            type="text"
-            class="form-control border"
-            v-model="credentials.name"
-            required
-            :class="{'is-invalid': errors.name}"
-            placeholder="Фамилия Имя Отчество"
-          />
-          <span class="invalid-feedback" role="alert" v-if="errors.name">
-            <strong>{{ errors.name[0] }}</strong>
-          </span>
-        </div>
-        <div class="form-group">
-          <label>Компания</label>
-          <input
-            type="text"
-            class="form-control border"
-            v-model="credentials.company"
-            required
-            :class="{'is-invalid': errors.company}"
-            placeholder="Наименование компании"
-          />
-          <span class="invalid-feedback" role="alert" v-if="errors.company">
-            <strong>{{ errors.company[0] }}</strong>
-          </span>
-        </div>
-        <div class="form-group">
-          <label>Телефон</label>
-          <input
-            type="text"
-            class="form-control border"
-            v-model="credentials.tel"
-            required
-            :class="{'is-invalid': errors.tel}"
-            placeholder="+7ХХХХХХХХХХ"
-          />
-          <span class="invalid-feedback" role="alert" v-if="errors.tel">
-            <strong>{{ errors.tel[0] }}</strong>
-          </span>
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            class="form-control border"
-            v-model="credentials.email"
-            autocomplete="off"
-            required
-            :class="{'is-invalid': errors.email}"
-            placeholder="name@domain.ru"
-          />
-          <span class="invalid-feedback" role="alert" v-if="errors.email">
-            <strong>{{ errors.email[0] }}</strong>
-          </span>
-        </div>
-        <div class="form-group">
-          <label>Пароль</label>
-          <input
-            type="password"
-            class="form-control border"
-            v-model="credentials.password"
-            autocomplete="new-password"
-            required
-            :class="{'is-invalid': errors.password}"
-            placeholder="••••••••••"
-          />
+        <h5 class="text-primary mb-3">Регистрация</h5>
+        <form autocomplete="off" @submit.prevent="register" class="mb-5">
+          <div class="form-group">
+            <label>ФИО</label>
+            <input
+              type="text"
+              class="form-control border"
+              v-model="credentials.name"
+              required
+              :class="{'is-invalid': errors.name}"
+              placeholder="Фамилия Имя Отчество"
+            />
+            <span class="invalid-feedback" role="alert" v-if="errors.name">
+              <strong>{{ errors.name[0] }}</strong>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Компания</label>
+            <input
+              type="text"
+              class="form-control border"
+              v-model="credentials.company"
+              required
+              :class="{'is-invalid': errors.company}"
+              placeholder="Наименование компании"
+            />
+            <span class="invalid-feedback" role="alert" v-if="errors.company">
+              <strong>{{ errors.company[0] }}</strong>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Телефон</label>
+            <input
+              type="text"
+              class="form-control border"
+              v-model="credentials.tel"
+              required
+              :class="{'is-invalid': errors.tel}"
+              placeholder="+7ХХХХХХХХХХ"
+            />
+            <span class="invalid-feedback" role="alert" v-if="errors.tel">
+              <strong>{{ errors.tel[0] }}</strong>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              class="form-control border"
+              v-model="credentials.email"
+              autocomplete="off"
+              required
+              :class="{'is-invalid': errors.email}"
+              placeholder="name@domain.ru"
+            />
+            <span class="invalid-feedback" role="alert" v-if="errors.email">
+              <strong>{{ errors.email[0] }}</strong>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Пароль</label>
+            <input
+              type="password"
+              class="form-control border"
+              v-model="credentials.password"
+              autocomplete="new-password"
+              required
+              :class="{'is-invalid': errors.password}"
+              placeholder="••••••••••"
+            />
 
-          <span class="invalid-feedback" role="alert" v-if="errors.password">
-            <strong>{{ errors.password[0] }}</strong>
-          </span>
-        </div>
-        <div class="form-group">
-          <label>Подтверждение пароля</label>
-          <input
-            type="password"
-            class="form-control border"
-            v-model="credentials.password_confirmation"
-            autocomplete="new-password"
-            required
-            :class="{'is-invalid': errors.password_confirmation}"
-            placeholder="••••••••••"
-          />
-          <span class="invalid-feedback" role="alert" v-if="errors.password_confirmation">
-            <strong>{{ errors.password_confirmation[0] }}</strong>
-          </span>
-        </div>
-        <button type="submit" class="btn btn-primary mt-3" :disabled="disabled">Регистрация</button>
-        <p class="mb-0 mt-2">
-          Нажимая кнопку "Регистрация" вы соглашаетесь с
-          <a href="/policy" target="_blank">Политикой конфиденциальности</a>
-        </p>
-        <p class="mb-0 mt-3">
-          Есть аккаунт?
-          <router-link :to="{name: 'lk-login'}">Войти</router-link>
-        </p>
-      </form>
+            <span class="invalid-feedback" role="alert" v-if="errors.password">
+              <strong>{{ errors.password[0] }}</strong>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Подтверждение пароля</label>
+            <input
+              type="password"
+              class="form-control border"
+              v-model="credentials.password_confirmation"
+              autocomplete="new-password"
+              required
+              :class="{'is-invalid': errors.password_confirmation}"
+              placeholder="••••••••••"
+            />
+            <span class="invalid-feedback" role="alert" v-if="errors.password_confirmation">
+              <strong>{{ errors.password_confirmation[0] }}</strong>
+            </span>
+          </div>
+          <button type="submit" class="btn btn-primary mt-3" :disabled="disabled">Регистрация</button>
+          <p class="mb-0 mt-2">
+            Нажимая кнопку "Регистрация" вы соглашаетесь с
+            <a href="/policy" target="_blank">Политикой конфиденциальности</a>
+          </p>
+          <p class="mb-0 mt-3">
+            Есть аккаунт?
+            <router-link :to="{name: 'lk-login'}">Войти</router-link>
+          </p>
+        </form>
       </div>
     </div>
   </div>
@@ -132,9 +133,11 @@
 <script>
 import toastr from 'toastr';
 import Http from '../modules/Http';
+import BackButton from '../components/elements/BackButton.vue';
 
 export default {
   name: 'LKRegister',
+  components: { BackButton },
   data() {
     return {
       credentials: {

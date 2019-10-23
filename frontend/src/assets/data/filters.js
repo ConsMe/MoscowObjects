@@ -22,23 +22,16 @@ export default {
     value: [],
   },
   buildingType: {
-    type: 'radio',
+    type: 'checkbox',
     label: 'Тип',
     hidden: 'ZU',
-    values: [
-      {
-        id: 0,
-        title: 'Не важно',
-        slug: 'any',
-      },
-      ...buildingTypes.map((type, i) => ({
-        id: i + 1,
-        title: `${type.full} (${type.short})`,
-        slug: type.short,
-        checked: false,
-      })),
-    ],
-    value: 'any',
+    values: buildingTypes.map((type, i) => ({
+      id: i + 1,
+      title: `${type.full} (${type.short})`,
+      slug: type.short,
+      checked: false,
+    })),
+    value: [],
   },
   location: {
     type: 'checkbox',
@@ -112,54 +105,49 @@ export default {
     },
   },
   purpose: {
-    type: 'radio',
+    type: 'checkbox',
     label: 'Назначение',
     hidden: 'Invest',
     values: [
       {
         id: 0,
-        title: 'Не важно',
-        slug: 'any',
-      },
-      {
-        id: 1,
         title: 'Жилое',
         slug: 'Жилое',
       },
       {
-        id: 2,
+        id: 1,
         title: 'Апартаменты',
         slug: 'Апартаменты',
       },
       {
-        id: 3,
+        id: 2,
         title: 'Нежилое',
         slug: 'Нежилое',
       },
     ],
-    value: 'any',
+    value: [],
   },
   groundPlan: {
-    type: 'radio',
+    type: 'checkbox',
     label: 'Наличие ГПЗУ',
     hidden: 'Invest',
     values: [
       {
         id: 0,
-        title: 'Не важно',
-        slug: 'any',
-      },
-      {
-        id: 1,
         title: 'Есть',
         slug: true,
       },
       {
-        id: 2,
+        id: 1,
         title: 'Нет',
         slug: false,
       },
+      {
+        id: 2,
+        title: 'В процессе',
+        slug: 'in_process',
+      },
     ],
-    value: 'any',
+    value: [],
   },
 };

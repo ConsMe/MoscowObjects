@@ -155,16 +155,16 @@ export default {
             if (filter.hidden === rootState.currentCategorySlug) return true;
             if (filter.type === 'checkbox') {
               if (filter.value.length && filter.value.length !== filter.values.length) {
-                if (!filter.value.includes(object[name])) return false;
+                if (name === 'buildingType') {
+                  if (!filter.value.includes(object[name].short)) return false;
+                } else if (name === 'purpose') {
+                  if (!filter.value.includes(object[name + ZUType])) return false;
+                } else if (!filter.value.includes(object[name])) {
+                  return false;
+                }
               }
             } else if (filter.type === 'radio' && filter.value !== 'any') {
-              if (name === 'purpose') {
-                if (filter.value !== object[name + ZUType]) return false;
-              } else if (name === 'buildingType') {
-                if (filter.value !== object[name].short) return false;
-              } else if (filter.value !== object[name]) {
-                return false;
-              }
+              if (filter.value !== object[name]) return false;
             } else if (filter.type === 'interval') {
               if (filter.values.from && object[name] < filter.values.from) return false;
               if (filter.values.to && object[name] > filter.values.to) return false;

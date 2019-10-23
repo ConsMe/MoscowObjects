@@ -33,11 +33,6 @@ class StoreObjectRequest extends FormRequest
                 'present',
                 'string',
                 'nullable'
-                // Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
-                //     if ($parameters['type'] === 'Invest') return true;
-                //     if (gettype($value) === 'string') return true;
-                //     return false;
-                // }),
             ],
             'images.*.filename' => 'required|string',
             'images.*.isMain' => 'required|boolean',
@@ -58,8 +53,11 @@ class StoreObjectRequest extends FormRequest
                 Rule::in($districts),
             ],
             'location' => 'required|string|in:Moscow,MO,New_Moscow',
-            'purposeZU' => 'required_if:type,ZU|string|in:Жилое,Нежилое',
-            'groundPlan' => 'required_if:type,ZU|boolean',
+            'purposeZU' => 'required_if:type,ZU|string|in:Жилое,Нежилое,Апартаменты',
+            'groundPlan' => [
+                'required_if:type,ZU',
+                Rule::in([true, false, 'in_process']),
+            ],
             'purposeOKS' => [
                 Rule::requiredIf($this->type === 'ZU' && $this->ZUType === 'ОКС'),
                 'string',
@@ -68,16 +66,13 @@ class StoreObjectRequest extends FormRequest
             'coordinates' => 'required|array',
             'coordinates.*' => 'required|numeric',
             'costCurrency' => 'required|string|in:rouble,dollar,euro',
-            'kadastrNumberZU' => 'required_if:type,ZU|string',
-            'kadastrNumberOKS' => [
-                Rule::requiredIf($this->type === 'ZU' && $this->ZUType === 'ОКС'),
-                'string'
-            ],
+            'kadastrNumberZU' => 'string',
+            'kadastrNumberOKS' => 'string',
             'responsible' => 'string',
             'description' => 'required|string',
-            'GAP' => 'required_if:type,Invest|numeric',
-            'GAPCurrency' => 'required_if:type,Invest|string|in:rouble,dollar,euro',
-            'caprate' => 'required_if:type,Invest|numeric',
+            'GAP' => 'numeric',
+            'GAPCurrency' => 'required_with:GAP|string|in:rouble,dollar,euro',
+            'caprate' => 'numeric',
             'buildingName' => 'required_if:type,Invest|string',
             'buildingType' => 'required_if:type,Invest|array',
             'buildingType.short' => 'required_if:type,Invest|string',

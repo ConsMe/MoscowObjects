@@ -1,8 +1,9 @@
 <template>
   <div
     :style="{paddingLeft: objectBlockWidth ? objectBlockWidth + 'px' : '1rem'}"
-    class="mt-5 pr-3"
-    :class="{'d-none': !isMobileDevice && !objectBlockWidth}">
+    class="mt-4 pr-3"
+    :class="{'d-none': !isMobileDevice && !objectBlockWidth, 'mt-5' : !isMobileDevice}">
+    <back-button />
     <h5 class="text-primary mb-5">Личный кабинет пользователя</h5>
     <div class="row">
       <div class="col-auto">
@@ -98,9 +99,11 @@
 import moment from 'moment';
 import toastr from '../components/elements/toastr';
 import Http from '../modules/Http';
+import BackButton from '../components/elements/BackButton.vue';
 
 export default {
   name: 'LKUserInfo',
+  components: { BackButton },
   data() {
     return {
       disabled: false,

@@ -5,17 +5,8 @@
       :object="object"
       @set-coordinates="setCoordinate"
       @reset-search-address="yandexSearchAddress = ''" />
-    <div class="pt-4 pb-5 row shadow" :style="{width: favoritesOffsetLeft, zIndex: 1}">
-      <div class="col-12">
-        <div class="row">
-          <div class="col offset-1">
-            <router-link class="btn btn-outline-dark border-0" :to="{name: 'lk-objects'}">
-              <i class="fa fa-reply" aria-hidden="true"></i>
-              Вернуться в каталог
-            </router-link>
-          </div>
-        </div>
-      </div>
+    <div class="pt-5 pb-5 row shadow" :style="{width: favoritesOffsetLeft, zIndex: 1}">
+      <back-button />
       <form class="col" @submit.prevent="saveObject">
         <div class="row">
           <div class="col col-8 offset-2">
@@ -87,7 +78,6 @@
                         type="text"
                         class="form-control border"
                         placeholder="Кадастровый номер ЗУ"
-                        required
                         title="Кадастровый номер ЗУ"
                         v-model="object.kadastrNumberZU"
                         v-if="object.type === 'ZU'"
@@ -107,7 +97,6 @@
                         type="text"
                         class="form-control border"
                         placeholder="Кадастровый номер ОКС"
-                        :required="object.ZUType === 'ОКС'"
                         title="Кадастровый номер ОКС"
                         v-model="object.kadastrNumberOKS"
                         v-if="object.type === 'ZU'"
@@ -143,6 +132,7 @@
                         <option value="">Назначение ЗУ</option>
                         <option value="Жилое">Жилое</option>
                         <option value="Нежилое">Нежилое</option>
+                        <option value="Апартаменты">Апартаменты</option>
                       </select>
                       <input
                         type="text"
@@ -172,12 +162,12 @@
                         <option value="">Наличие ГПЗУ</option>
                         <option :value="true">Есть</option>
                         <option :value="false">Нет</option>
+                        <option value="in_process">В процессе</option>
                       </select>
                       <input
                         type="text"
                         class="form-control border"
                         placeholder="ГАП"
-                        required
                         title="ГАП"
                         v-model="object.GAP"
                         v-if="object.type === 'Invest'"
@@ -187,7 +177,7 @@
                       <select class="custom-select border"
                         style="width: 7rem;"
                         v-model="object.GAPCurrency"
-                        required
+                        :required="object.GAP.length > 0"
                         v-if="object.type === 'Invest'">
                           <option value="">Валюта</option>
                           <option value="rouble">руб.</option>
@@ -202,7 +192,6 @@
                         type="text"
                         class="form-control border"
                         placeholder="Caprate, %"
-                        required
                         title="Caprate, %"
                         v-model="object.caprate"
                       />
@@ -428,6 +417,7 @@
 .lk-object > .row {
   overflow-y: auto;
   overflow-x: hidden;
+  position: relative;
 }
 </style>
 
@@ -439,11 +429,12 @@ import FileUpload from '../components/FileUpload.vue';
 import objectFields from '../assets/data/objectsFields';
 import buildingTypes from '../assets/data/buildingTypes';
 import LKYandexMap from '../components/LKYandexMap.vue';
+import BackButton from '../components/elements/BackButton.vue';
 
 export default {
   name: 'LKObject',
   components: {
-    FileUpload, LKYandexMap,
+    FileUpload, LKYandexMap, BackButton,
   },
   data() {
     return {
@@ -568,6 +559,15 @@ export default {
         if (!object.areaS.toString().length) delete object.areaS;
         if (!object.kadastrNumberOKS.toString().length) delete object.kadastrNumberOKS;
         if (!object.purposeOKS.toString().length) delete object.purposeOKS;
+      }
+      if (object.type === 'ZU') {
+        if (!object.kadastrNumberZU.toString().length) delete object.kadastrNumberZU;
+      } else if (object.type === 'Invest') {
+        if (!object.caprate.toString().length) delete object.caprate;
+        if (!object.GAP.toString().length) {
+          delete object.GAP;
+          delete object.GAPCurrency;
+        }
       }
       const params = { data: object, method: 'post' };
       params.url = this.isNew ? '/objects' : `/objects/${this.$route.params.id}?_method=PUT`;

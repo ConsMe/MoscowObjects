@@ -38,6 +38,9 @@
 .bounce-leave-active {
   animation: bounce-in 0.5s reverse;
 }
+.bg-ipn {
+  background-color: #0d4678;
+}
 @keyframes bounce-in {
   0% {
     transform: translate(-100%);

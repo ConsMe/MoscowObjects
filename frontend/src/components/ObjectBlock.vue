@@ -40,7 +40,7 @@
             <p class="mb-2">{{ object.kadastrNumberZU }}</p>
             <p class="mb-2">{{ object.groundS }}</p>
             <p class="mb-2">{{ object.purposeZU }}</p>
-            <p class="mb-0" v-if="object.groundPlan">ГПЗУ</p>
+            <p class="mb-0" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</p>
           </div>
           <div class="col">
             <p class="mb-2">ОКС</p>
@@ -52,11 +52,13 @@
         <template v-if="object.type === 'Invest'">
           <p class="mb-2" v-html="object.areaS"></p>
           <p class="mb-2">{{ object.groundS }}</p>
-          <p class="mb-2">
+          <p class="mb-2" v-if="object.GAP">
             {{ object.GAP }}
             <strong>₽</strong>
           </p>
-          <p class="mb-2">{{ object.caprate + '%' }}</p>
+          <p class="mb-2" v-if="object.caprate">
+            {{ object.caprate + '%' }}
+          </p>
         </template>
         <p class="mt-4 mb-3 text-white">
           <big v-if="objectInfoVisibility[object.id].showPrice">
@@ -132,7 +134,7 @@
           </div>
           <div class="row mb-3">
             <div class="col-5">{{ object.purposeZU }}</div>
-            <div class="col" v-if="object.groundPlan">ГПЗУ</div>
+            <div class="col" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</div>
           </div>
           <div class="border-top-1 mb-3"></div>
           <div class="row mt-2 mb-2">
@@ -148,11 +150,13 @@
           <div class="row mt-4 mb-2">
             <div class="col text-nowrap" v-html="object.areaS"></div>
             <div class="col text-nowrap text-center">{{ object.groundS }}</div>
-            <div class="col text-nowrap text-center">
+            <div class="col text-nowrap text-center" v-if="object.GAP">
               {{ object.GAP }}
               <strong>₽</strong>
             </div>
-            <div class="col text-nowrap text-right">{{ object.caprate + '%' }}</div>
+            <div class="col text-nowrap text-right" v-if="object.caprate">
+              {{ object.caprate + '%' }}
+            </div>
           </div>
         </template>
       </div>

@@ -9,7 +9,7 @@
           <div class="col d-flex flex-column">
             <carousel :object="object" :path="imageFolders.big" />
           </div>
-          <div class="col">
+          <div class="col" style="min-height: 21rem;">
             <div class="row h-100">
               <div class="col col-12">
                 <p class="mt-1 mb-2">
@@ -30,14 +30,14 @@
                 <div class="row mt-4 mb-4" v-if="object.type === 'ZU'">
                   <div class="col border-right">
                     <p class="mb-2">Земельный участок</p>
-                    <p class="mb-2">
+                    <p class="mb-2" v-if="object.kadastrNumberZU && object.kadastrNumberZU.length">
                       <span class="d-block" v-for="(kadastr, i) in object.kadastrNumberZU.split(',')" :key="i">
                         {{ kadastr.trim() }}
                       </span>
                     </p>
                     <p class="mb-2">{{ object.groundS }}</p>
                     <p class="mb-2">{{ object.purposeZU }}</p>
-                    <p class="mb-2" v-if="object.groundPlanOKS">ГПЗУ</p>
+                    <p class="mb-2" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</p>
                   </div>
                   <div class="col ml-3">
                     <p class="mb-2">ОКС</p>
@@ -53,12 +53,14 @@
                 <template v-if="object.type === 'Invest'">
                   <p class="mb-2" v-html="object.areaS"></p>
                   <p class="mb-2" v-html="object.groundS"></p>
-                  <p class="mb-2">
+                  <p class="mb-2" v-if="object.GAP">
                     ГАП
                     {{ object.GAP }}
                     <strong>₽</strong>
                   </p>
-                  <p class="mb-2 mb-4">Caprate {{ object.caprate + '%' }}</p>
+                  <p class="mb-2 mb-4" v-if="object.caprate">
+                    Caprate {{ object.caprate + '%' }}
+                  </p>
                 </template>
               </div>
               <div class="col">
@@ -144,7 +146,7 @@
           </div>
           <div class="row mb-3">
             <div class="col-5">{{ object.purposeZU }}</div>
-            <div class="col" v-if="object.groundPlan">ГПЗУ</div>
+            <div class="col" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</div>
           </div>
           <div class="border-top-1 mb-3"></div>
           <div class="row mt-2 mb-2">
@@ -160,11 +162,13 @@
           <div class="row mt-4 mb-3">
             <div class="col text-nowrap" v-html="object.areaS"></div>
             <div class="col text-nowrap text-center">{{ object.groundS }}</div>
-            <div class="col text-nowrap text-center">
+            <div class="col text-nowrap text-center" v-if="object.GAP">
               {{ object.GAP }}
               <strong>₽</strong>
             </div>
-            <div class="col text-nowrap text-right">{{ object.caprate + '%' }}</div>
+            <div class="col text-nowrap text-right" v-if="object.caprate">
+              {{ object.caprate + '%' }}
+            </div>
           </div>
         </template>
         <div class="border-top-1 mb-3"></div>

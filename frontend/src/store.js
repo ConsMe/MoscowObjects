@@ -38,7 +38,33 @@ export default new Vuex.Store({
           modifiedObject.areaS = `${modifiedObject.areaS.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} м<sup>2</sup>`;
         }
         if ('groundS' in object) {
-          modifiedObject.groundS = `${modifiedObject.groundS} Га`;
+          const float = parseFloat(modifiedObject.groundS);
+          const round = Math.round(float * 10000) / 10000;
+          modifiedObject.groundS = `${round} Га`;
+        }
+        if ('groundPlan' in object) {
+          if (object.groundPlan === true) {
+            modifiedObject.groundPlan = {
+              short: 'Есть',
+              full: 'ГПЗУ',
+              mobile: 'ГПЗУ',
+              is: true,
+            };
+          } else if (object.groundPlan === false) {
+            modifiedObject.groundPlan = {
+              short: 'Нет',
+              full: '',
+              mobile: '',
+              is: false,
+            };
+          } else if (object.groundPlan === 'in_process') {
+            modifiedObject.groundPlan = {
+              short: 'Проц',
+              full: 'ГПЗУ в процессе',
+              mobile: 'ГПЗУ проц',
+              is: true,
+            };
+          }
         }
         return modifiedObject;
       });

@@ -46,7 +46,7 @@
             </span>
             </div>
         </div>
-        <div class="row justify-content-center mt-1" v-if="objectType === 'ZU'">
+        <div class="row justify-content-center mt-1">
             <div class="col col-auto">
             <input
                 v-if="file.id in files"

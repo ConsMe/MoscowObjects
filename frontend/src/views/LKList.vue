@@ -1,5 +1,6 @@
 <template>
   <div class="mt-5 lk-list">
+    <back-button :class="{'d-none': !objectBlockWidth}" />
     <h5
       :style="{paddingLeft: objectBlockWidth + 'px'}"
       class="text-primary mb-5"
@@ -45,7 +46,7 @@
                 <td class="align-middle">
                   {{ object.ZUType === 'ZU' ? object.purposeZU : object.purposeOKS }}
                 </td>
-                <td class="align-middle">{{ object.groundPlan ? 'Есть' : 'Нет' }}</td>
+                <td class="align-middle">{{ object.groundPlan.short }}</td>
               </template>
               <template v-if="currentCategorySlug === 'Invest'">
                 <td class="align-middle">{{ object.buildingType.short }}</td>
@@ -101,9 +102,11 @@
 import moment from 'moment';
 import toastr from '../components/elements/toastr';
 import Http from '../modules/Http';
+import BackButton from '../components/elements/BackButton.vue';
 
 export default {
   name: 'LKList',
+  components: { BackButton },
   data() {
     return {
       moment,

@@ -113,7 +113,7 @@
                           {{ $object['ZUType'] === 'ZU' ? $object['purposeZU'] : $object['purposeOKS'] }}
                         @endisset
                       </td>
-                      <td >{{ $object['groundPlan'] ? 'Есть' : 'Нет' }}</td>
+                      <td >{{ $object['groundPlan']['short'] }}</td>
                     @endif
                     @if ($currentCategorySlug === 'Invest')
                       <td >{{ $object['buildingType']['short'] }}</td>
@@ -121,8 +121,8 @@
                         {{ str_replace('м<sup>2</sup>', '', $object['areaS']) }}
                         м<sup>2</sup>
                       </td>
-                      <td class="nowrap">{{ $object['GAP'] }}</td>
-                      <td >{{ $object['caprate'].'%' }}</td>
+                      <td class="nowrap">{{ isset($object['GAP']) ? $object['GAP'] : '' }}</td>
+                      <td >{{ isset($object['caprate']) ? $object['caprate'].'%' : '' }}</td>
                     @endif
                     <td class="nowrap">
                       {{ $object['cost'] }}

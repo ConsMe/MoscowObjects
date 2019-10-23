@@ -79,7 +79,7 @@ const buildingTypes = [
     short: 'БЦ', full: 'Бизнес-центр', bg: 'success', icon: 'darkGreenDotIcon',
   },
   {
-    short: 'ИПН', full: 'Инвестиционный портфель недвижимости', bg: 'danger', icon: 'redDotIcon',
+    short: 'ИПН', full: 'Инвестиционный портфель недвижимости', bg: 'ipn', icon: 'darkBlueDotIcon',
   },
   {
     short: 'ГО', full: 'Гостиница', bg: 'warning', icon: 'orangeDotIcon',
