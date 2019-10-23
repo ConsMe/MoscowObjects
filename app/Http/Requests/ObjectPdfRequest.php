@@ -43,7 +43,7 @@ class ObjectPdfRequest extends FormRequest
             'object.groundPlan' => 'required_if:object.type,ZU|array',
             'object.groundPlan.is' => 'required_if:object.type,ZU|boolean',
             'object.groundPlan.full' => [
-                Rule::requiredIf($this->object['groundPlan']['is']),
+                Rule::requiredIf($this->object['type'] === 'ZU' && $this->object['groundPlan']['is']),
                 'string'
             ],
             'object.buildingType' => 'required_if:object.type,Invest|array',

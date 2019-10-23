@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // UsersTableSeeder::class,
             // ObjectsTableSeeder::class,
-            ChangeIPNBgColor::class
+            // ChangeIPNBgColor::class
         ]);
     }
 }
