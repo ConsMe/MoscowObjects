@@ -167,7 +167,7 @@ export default {
           const ZUType = object.ZUType === 'ЗУ' ? 'ZU' : 'OKS';
           const fit = Object.keys(getters.modifiedFilters).every((name) => {
             const filter = getters.modifiedFilters[name];
-            if (filter.hidden === rootState.currentCategorySlug) return true;
+            if (filter.hidden.includes(rootState.currentCategorySlug)) return true;
             if (filter.type === 'checkbox') {
               if (filter.value.length && filter.value.length !== filter.values.length) {
                 if (name === 'buildingType') {

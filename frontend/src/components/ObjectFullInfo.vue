@@ -12,7 +12,7 @@
           <div class="col" style="min-height: 21rem;">
             <div class="row h-100">
               <div class="col col-12">
-                <p class="mt-1 mb-2">
+                <p class="mt-1 mb-3">
                   Лот
                   {{ object.id }}
                   <span class="buttons">
@@ -24,11 +24,11 @@
                     >X</button>
                   </span>
                 </p>
-                <p class="mb-2" v-if="object.type === 'Invest'">{{ object.buildingType.full }}</p>
-                <p class="mb-2">{{ object.district }}</p>
-                <p class="mb-2">{{ object.address }}</p>
+                <p class="mb-3" v-if="object.type === 'Invest'">{{ object.buildingType.full }}</p>
+                <p class="mb-0">{{ object.district }}</p>
+                <p class="mb-3">{{ object.address }}</p>
                 <div class="row mt-4 mb-4" v-if="object.type === 'ZU'">
-                  <div class="col border-right">
+                  <div class="col">
                     <p class="mb-2">Земельный участок</p>
                     <p class="mb-2" v-if="object.kadastrNumberZU && object.kadastrNumberZU.length">
                       <span class="d-block" v-for="(kadastr, i) in object.kadastrNumberZU.split(',')" :key="i">
@@ -37,9 +37,9 @@
                     </p>
                     <p class="mb-2">{{ object.groundS }}</p>
                     <p class="mb-2">{{ object.purposeZU }}</p>
-                    <p class="mb-2" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</p>
+                    <p class="mb-2 text-black" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</p>
                   </div>
-                  <div class="col ml-3">
+                  <div class="col ml-3 border-left" v-if="object.kadastrNumberOKS || object.areaS || object.purposeOKS">
                     <p class="mb-2">ОКС</p>
                     <p class="mb-2" v-if="object.kadastrNumberOKS && object.kadastrNumberOKS.length">
                       <span class="d-block" v-for="(kadastr, i) in object.kadastrNumberOKS.split(',')" :key="i">
@@ -51,15 +51,22 @@
                   </div>
                 </div>
                 <template v-if="object.type === 'Invest'">
-                  <p class="mb-2" v-html="object.areaS"></p>
-                  <p class="mb-2" v-if="object.GAP">
-                    ГАП
-                    {{ object.GAP }}
-                    <strong>₽</strong>
-                  </p>
-                  <p class="mb-2 mb-4" v-if="object.caprate">
-                    Caprate {{ object.caprate + '%' }}
-                  </p>
+                  <p class="mb-3" v-html="object.areaS"></p>
+                  <div class="row mb-4" v-if="object.GAP || object.caprate">
+                    <div class="col-auto pr-0">
+                      <p class="mb-0" v-if="object.GAP">ГАП</p>
+                      <p class="mb-0" v-if="object.caprate">Caprate</p>
+                    </div>
+                    <div class="col">
+                      <p class="mb-0" v-if="object.GAP">
+                        {{ object.GAP }}
+                        <strong>₽</strong>
+                      </p>
+                      <p class="mb-0" v-if="object.caprate">
+                        {{ object.caprate + '%' }}
+                      </p>
+                    </div>
+                  </div>
                 </template>
               </div>
               <div class="col">
@@ -234,7 +241,7 @@
       text-shadow: 0px 0px 1px #cc0000 !important;
     }
     p {
-      line-height: 1.7rem;
+      line-height: 1.5rem;
     }
     .download {
       position: absolute;

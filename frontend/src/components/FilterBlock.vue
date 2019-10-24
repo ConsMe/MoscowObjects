@@ -4,7 +4,7 @@
       <div class="col col-auto col-lg-12">
         <div class="form-group">
           <div v-for="(filter, name) in filters" :key="name">
-            <template v-if="filter.hidden !== currentCategorySlug">
+            <template v-if="!filter.hidden.includes(currentCategorySlug)">
               <label class="control-label mt-3 mb-0" :class="{'mt-4': filter.label === 'Назначение'}">
                 <span class="text-uppercase">{{ filter.label }}</span>
               </label>
@@ -232,7 +232,7 @@ export default {
       this.modifyLabels();
     },
     modifyLabels() {
-      this.filters.areaS.label = this.currentCategorySlug === 'Invest' ? 'Площадь' : 'Площадь ОКС';
+      this.filters.areaS.label = this.currentCategorySlug === 'ZU' ? 'Площадь ОКС' : 'Площадь';
     },
     applyFilter() {
       this.$store.commit('main/switchFavoritesState');

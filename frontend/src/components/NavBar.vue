@@ -19,7 +19,7 @@
               aria-expanded="false"
             >{{ currentCategoryName }}</a>
             <div
-              class="dropdown-menu my-dropdown-menu-center category"
+              class="dropdown-menu my-dropdown-menu-center category p-0"
               aria-labelledby="categoryDropdown"
             >
               <a
@@ -137,9 +137,6 @@
   transform: translateX(-50%);
   text-align: center !important;
 }
-.my-dropdown-menu-center:hover {
-  background-color: $primary !important;
-}
 .fa-heart,
 .fa-user {
   font-size: 1rem;
@@ -163,8 +160,12 @@ export default {
           slug: 'ZU',
         },
         {
-          name: 'Инвестобъекты',
+          name: 'Крупные Инвест.объекты',
           slug: 'Invest',
+        },
+        {
+          name: 'Коммерческие помещения',
+          slug: 'Retail',
         },
       ],
       appName: window.APP_NAME,
@@ -216,7 +217,7 @@ export default {
       return false;
     },
     isMainView() {
-      return ['ZU', 'Invest'].includes(this.$route.name);
+      return ['ZU', 'Invest', 'Retail'].includes(this.$route.name);
     },
     mobileViewportWidth() {
       return this.$store.state.mobileViewportWidth;

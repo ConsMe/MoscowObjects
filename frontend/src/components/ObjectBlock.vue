@@ -26,23 +26,23 @@
             <big>{{ object.buildingName }}</big>
           </span>
         </span>
-        <p class="mt-3 mb-2">
+        <p class="mt-3 mb-3">
           Лот
           {{ object.id }}
           <favourite-icon :object-id="object.id" class="float-right" />
         </p>
-        <p class="mb-2" v-if="object.type === 'Invest'">{{ object.buildingType.full }}</p>
-        <p class="mb-2">{{ object.district }}</p>
-        <p class="mb-2">{{ object.address }}</p>
+        <p class="mb-3" v-if="object.type === 'Invest'">{{ object.buildingType.full }}</p>
+        <p class="mb-0">{{ object.district }}</p>
+        <p class="mb-3">{{ object.address }}</p>
         <div class="row mt-4" v-if="object.type === 'ZU'">
-          <div class="col border-right">
+          <div class="col">
             <p class="mb-2">Земельный участок</p>
             <p class="mb-2">{{ object.kadastrNumberZU }}</p>
             <p class="mb-2">{{ object.groundS }}</p>
             <p class="mb-2">{{ object.purposeZU }}</p>
-            <p class="mb-0" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</p>
+            <p class="mb-0 text-white" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</p>
           </div>
-          <div class="col">
+          <div class="col border-left" v-if="object.kadastrNumberOKS || object.areaS || object.purposeOKS">
             <p class="mb-2">ОКС</p>
             <p class="mb-2">{{ object.kadastrNumberOKS }}</p>
             <p class="mb-2" v-html="object.areaS"></p>
@@ -50,14 +50,22 @@
           </div>
         </div>
         <template v-if="object.type === 'Invest'">
-          <p class="mb-2" v-html="object.areaS"></p>
-          <p class="mb-2" v-if="object.GAP">
-            {{ object.GAP }}
-            <strong>₽</strong>
-          </p>
-          <p class="mb-2" v-if="object.caprate">
-            {{ object.caprate + '%' }}
-          </p>
+          <p class="mb-3 text-white" v-html="object.areaS"></p>
+          <div class="row mb-2" v-if="object.GAP || object.caprate">
+            <div class="col-auto pr-0">
+              <p class="mb-0" v-if="object.GAP">ГАП</p>
+              <p class="mb-0" v-if="object.caprate">Caprate</p>
+            </div>
+            <div class="col">
+              <p class="mb-0" v-if="object.GAP">
+                {{ object.GAP }}
+                <strong>₽</strong>
+              </p>
+              <p class="mb-0" v-if="object.caprate">
+                {{ object.caprate + '%' }}
+              </p>
+            </div>
+          </div>
         </template>
         <p class="mt-4 mb-3 text-white">
           <big v-if="objectInfoVisibility[object.id].showPrice">

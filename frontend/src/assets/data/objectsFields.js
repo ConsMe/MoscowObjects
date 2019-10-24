@@ -35,6 +35,15 @@ const Invest = [
   'buildingType',
 ];
 
+const Retail = [
+  'isArendator',
+  'purposeRetail',
+  'underground',
+  'MAP',
+  'MAPCurrency',
+  'payback',
+];
+
 const numericFields = [
   'areaS',
   'groundS',
@@ -44,5 +53,5 @@ const numericFields = [
 ];
 
 export default {
-  any, ZU, Invest, numericFields,
+  any, ZU, Invest, numericFields, Retail,
 };

@@ -26,7 +26,7 @@ class ListPdfRequest extends FormRequest
     {
         // dd(gettype($this->objects[0]['cost']));
         return [
-            'currentCategorySlug' => 'required|string|in:ZU,Invest',
+            'currentCategorySlug' => 'required|string|in:ZU,Invest,Retail',
             'objects' => 'required|array',
             'objects.*.district' => 'required|string',
             'objects.*.address' => 'required|string',

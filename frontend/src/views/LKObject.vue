@@ -23,7 +23,8 @@
                         title="Категория">
                         <option value="">Категория</option>
                         <option value="ZU">Земельный участок</option>
-                        <option value="Invest">Инвестобъект</option>
+                        <option value="Invest">Крупный Инвест.объект</option>
+                        <option value="Retail">Коммерческие помещения</option>
                       </select>
                     </td>
                     <td width="50%" colspan="2"></td>
@@ -45,15 +46,38 @@
                         class="custom-select border"
                         v-model="object.buildingType"
                         required
-                        v-if="object.type === 'Invest'"
+                        v-else-if="object.type === 'Invest'"
                         title="Тип объекта">
                         <option value="">Тип объекта</option>
                         <option :value="type" v-for="(type, i) in buildingTypes" :key="i">
                             {{ type.full }}
                         </option>
                       </select>
+                      <select
+                        class="custom-select border"
+                        v-model="object.isArendator"
+                        required
+                        v-else-if="object.type === 'Retail'"
+                        title="Наличие арендатора">
+                        <option value="">Наличие арендатора</option>
+                        <option value="1">С арендатором</option>
+                        <option value="0">Без арендатора</option>
+                      </select>
                     </td>
-                    <td width="50%" colspan="2"></td>
+                    <td width="50%" colspan="2">
+                      <select
+                        class="custom-select border"
+                        v-model="object.purposeRetail"
+                        required
+                        v-if="object.type === 'Retail'"
+                        title="Назначение помещения">
+                        <option value="">Назначение помещения</option>
+                        <option value="trade">Торговое</option>
+                        <option value="office">Офис</option>
+                        <option value="catering">Общепит</option>
+                        <option value="PSN">Свободного назначения (ПСН)</option>
+                      </select>
+                    </td>
                   </tr>
                   <tr>
                     <td width="25%">
@@ -100,7 +124,15 @@
                         required
                         title="Название"
                         v-model="object.buildingName"
-                        v-if="object.type === 'Invest'"
+                        v-else-if="object.type === 'Invest'"
+                      />
+                      <input
+                        type="text"
+                        class="form-control border"
+                        placeholder="Станция метро (список)"
+                        title="Станция метро (список)"
+                        v-model="object.underground"
+                        v-else-if="object.type === 'Retail'"
                       />
                     </td>
                     <td width="50%" class="pl-4" colspan="2">
@@ -156,7 +188,16 @@
                         required
                         title="Площадь здания, кв.м."
                         v-model="object.areaS"
-                        v-if="object.type === 'Invest'"
+                        v-else-if="object.type === 'Invest'"
+                      />
+                      <input
+                        type="text"
+                        class="form-control border"
+                        placeholder="Площадь, кв.м."
+                        required
+                        title="Площадь, кв.м."
+                        v-model="object.areaS"
+                        v-else-if="object.type === 'Retail'"
                       />
                     </td>
                     <td width="50%" class="pl-4" colspan="2">
@@ -191,7 +232,15 @@
                         placeholder="ГАП"
                         title="ГАП"
                         v-model="object.GAP"
-                        v-if="object.type === 'Invest'"
+                        v-else-if="object.type === 'Invest'"
+                      />
+                      <input
+                        type="text"
+                        class="form-control border"
+                        placeholder="МАП"
+                        title="МАП"
+                        v-model="object.MAP"
+                        v-else-if="object.type === 'Retail'"
                       />
                     </td>
                     <td width="50%" class="pl-4" colspan="2">
@@ -200,6 +249,17 @@
                         v-model="object.GAPCurrency"
                         :required="object.GAP.length > 0"
                         v-if="object.type === 'Invest'"
+                        title="Валюта">
+                          <option value="">Валюта</option>
+                          <option value="rouble">руб.</option>
+                          <option value="dollar">долл.</option>
+                          <option value="euro">евро</option>
+                      </select>
+                      <select class="custom-select border"
+                        style="width: 7rem;"
+                        v-model="object.MAPCurrency"
+                        :required="object.MAP.length > 0"
+                        v-else-if="object.type === 'Retail'"
                         title="Валюта">
                           <option value="">Валюта</option>
                           <option value="rouble">руб.</option>
@@ -216,6 +276,18 @@
                         placeholder="Caprate, %"
                         title="Caprate, %"
                         v-model="object.caprate"
+                      />
+                    </td>
+                    <td width="50%" class="pr-4" colspan="2"></td>
+                  </tr>
+                  <tr v-if="object.type === 'Retail'">
+                    <td width="50%" class="pr-4" colspan="2">
+                      <input
+                        type="text"
+                        class="form-control border"
+                        placeholder="Окупаемость, лет"
+                        title="Окупаемость, лет"
+                        v-model="object.payback"
                       />
                     </td>
                     <td width="50%" class="pr-4" colspan="2"></td>
@@ -457,6 +529,7 @@ import objectFields from '../assets/data/objectsFields';
 import buildingTypes from '../assets/data/buildingTypes';
 import LKYandexMap from '../components/LKYandexMap.vue';
 import BackButton from '../components/elements/BackButton.vue';
+import filters from '../assets/data/filters';
 
 export default {
   name: 'LKObject',
@@ -472,6 +545,7 @@ export default {
       disabled: false,
       districts: ['Москва, ЦАО', 'Москва, САО', 'Москва, СВАО', 'Москва, ВАО', 'Москва, ЮВАО', 'Москва, ЮАО', 'Москва, ЮЗАО', 'Москва, ЗАО', 'Москва, СЗАО', 'Новая Москва и Зеленоград', 'Московская область'],
       yandexSearchAddress: '',
+      filters,
     };
   },
   mounted() {
@@ -497,7 +571,7 @@ export default {
       return this.isNew ? 'Разместить объект' : 'Сохранить изменения';
     },
     allObjectFields() {
-      return this.objectFields.any.concat(this.objectFields.ZU, this.objectFields.Invest);
+      return this.objectFields.any.concat(this.objectFields.ZU, this.objectFields.Invest, this.objectFields.Retail);
     },
   },
   methods: {
@@ -594,6 +668,12 @@ export default {
         if (!object.GAP.toString().length) {
           delete object.GAP;
           delete object.GAPCurrency;
+        }
+      } else if (object.type === 'Retail') {
+        if (!object.payback.toString().length) delete object.payback;
+        if (!object.MAP.toString().length) {
+          delete object.MAP;
+          delete object.MAPCurrency;
         }
       }
       const params = { data: object, method: 'post' };

@@ -83,6 +83,12 @@ class SendNewObjects extends Command
                 }
                 $object['GAP'] = preg_replace('/\B(?=(\d{3})+(?!\d))/', ' ', $object['GAP']);
             }
+            if ($object['type'] === 'Retail') {
+                if ($object['MAPCurrency'] !== 'rouble') {
+                    $object['MAP'] = round($object['MAP'] * $currencies[$object['MAPCurrency']]);
+                }
+                $object['MAP'] = preg_replace('/\B(?=(\d{3})+(?!\d))/', ' ', $object['MAP']);
+            }
             if (isset($object['areaS'])) {
                 $object['areaS'] = preg_replace('/\B(?=(\d{3})+(?!\d))/', ' ', $object['areaS']);
             }

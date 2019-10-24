@@ -23,6 +23,11 @@ const router = new Router({
       component: () => import('./views/Main.vue'),
     },
     {
+      path: '/retail/:objectId(\\d+)?',
+      name: 'Retail',
+      component: () => import('./views/Main.vue'),
+    },
+    {
       path: '/lk',
       name: 'lk',
       component: () => import('./views/LK.vue'),

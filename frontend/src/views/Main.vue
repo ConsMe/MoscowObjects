@@ -22,6 +22,8 @@
 </template>
 
 <style lang="scss">
+@import "../assets/css/_variables.scss";
+
 .content {
   display: flex;
   flex-direction: row;
@@ -46,6 +48,9 @@
   &:disabled, &.disabled {
     opacity: .65;
   }
+}
+.text-black {
+  color: $black !important;
 }
 
 @keyframes bounce-in {

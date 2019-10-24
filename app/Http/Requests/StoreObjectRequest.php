@@ -25,8 +25,30 @@ class StoreObjectRequest extends FormRequest
      */
     public function rules()
     {
-        $districts = ['Москва, ЦАО', 'Москва, САО', 'Москва, СВАО', 'Москва, ВАО', 'Москва, ЮВАО', 'Москва, ЮАО', 'Москва, ЮЗАО', 'Москва, ЗАО', 'Москва, СЗАО', 'Новая Москва и Зеленоград', 'Московская область'];
+        $rules = $this->any();
+        if ($this->type === 'ZU') {
+            $rules = array_merge($rules, $this->zu());
+        } elseif ($this->type === 'Invest') {
+            $rules = array_merge($rules, $this->invest());
+        } elseif ($this->type === 'Retail') {
+            $rules = array_merge($rules, $this->retail());
+        }
+        return $rules;
+    }
+
+    public function messages()
+    {
         return [
+            //
+        ];
+    }
+
+    public function any()
+    {
+        $districts = ['Москва, ЦАО', 'Москва, САО', 'Москва, СВАО', 'Москва, ВАО', 'Москва, ЮВАО', 'Москва, ЮАО', 'Москва, ЮЗАО', 'Москва, ЗАО', 'Москва, СЗАО', 'Новая Москва и Зеленоград', 'Московская область'];
+
+        return [
+            'type' => 'required|string|in:ZU,Invest,Retail',
             'images' => 'required|array',
             'images.*.id' => ['required', 'integer', 'exists:files,id'],
             'images.*.caption' => [
@@ -39,46 +61,18 @@ class StoreObjectRequest extends FormRequest
             'docs' => 'array',
             'docs.*.id' => ['required', 'integer', 'exists:files,id'],
             'cost' => 'required|numeric',
-            'type' => 'required|string|in:ZU,Invest',
-            'areaS' => [
-                Rule::requiredIf(($this->type === 'ZU' && $this->ZUType === 'ОКС') || $this->type === 'Invest'),
-                'numeric'
-            ],
-            'ZUType' => 'required_if:type,ZU|string|in:ЗУ,ОКС',
             'address' => 'required|string',
-            'groundS' => 'required_if:type,ZU|numeric',
             'district' => [
                 'required',
                 'string',
                 Rule::in($districts),
             ],
             'location' => 'required|string|in:Moscow,MO,New_Moscow',
-            'purposeZU' => 'required_if:type,ZU|string|in:Жилое,Нежилое,Апартаменты',
-            'groundPlan' => [
-                'required_if:type,ZU',
-                Rule::in([true, false, 'in_process']),
-            ],
-            'purposeOKS' => [
-                Rule::requiredIf($this->type === 'ZU' && $this->ZUType === 'ОКС'),
-                'string',
-                'in:Жилое,Нежилое,Апартаменты'
-            ],
             'coordinates' => 'required|array',
             'coordinates.*' => 'required|numeric',
             'costCurrency' => 'required|string|in:rouble,dollar,euro',
-            'kadastrNumberZU' => 'string',
-            'kadastrNumberOKS' => 'string',
-            'responsible' => 'string',
+            'responsible' => 'required|string',
             'description' => 'required|string',
-            'GAP' => 'numeric',
-            'GAPCurrency' => 'required_with:GAP|string|in:rouble,dollar,euro',
-            'caprate' => 'numeric',
-            'buildingName' => 'required_if:type,Invest|string',
-            'buildingType' => 'required_if:type,Invest|array',
-            'buildingType.short' => 'required_if:type,Invest|string',
-            'buildingType.full' => 'required_if:type,Invest|string',
-            'buildingType.bg' => 'required_if:type,Invest|string',
-            'buildingType.icon' => 'required_if:type,Invest|string',
             'only_auth' => 'required|boolean',
             'price_admins_only' => 'required|boolean',
             'object_admins_only' => 'required|boolean',
@@ -86,10 +80,44 @@ class StoreObjectRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function zu()
     {
         return [
-            //
+            'areaS' => 'required_if:ZUType,ОКС|numeric',
+            'ZUType' => 'required|string|in:ЗУ,ОКС',
+            'groundS' => 'required|numeric',
+            'purposeZU' => 'required|string|in:Жилое,Нежилое,Апартаменты',
+            'groundPlan' => [
+                'required',
+                Rule::in([true, false, 'in_process']),
+            ],
+            'purposeOKS' => 'required_if:ZUType,ОКС|string|in:Жилое,Нежилое,Апартаменты',
+            'kadastrNumberZU' => 'string',
+            'kadastrNumberOKS' => 'string',
+        ];
+    }
+
+    public function invest()
+    {
+        return [
+            'areaS' => 'required|numeric',
+            'GAP' => 'numeric',
+            'GAPCurrency' => 'required_with:GAP|string|in:rouble,dollar,euro',
+            'caprate' => 'numeric',
+            'buildingName' => 'required|string',
+            'buildingType' => 'required|array',
+            'buildingType.short' => 'required|string',
+            'buildingType.full' => 'required|string',
+            'buildingType.bg' => 'required|string',
+            'buildingType.icon' => 'required|string',
+        ];
+    }
+
+    public function retail()
+    {
+        return [
+            'areaS' => 'required|numeric',
+            'underground' => 'string',
         ];
     }
 }

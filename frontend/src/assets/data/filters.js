@@ -4,7 +4,7 @@ export default {
   ZUType: {
     type: 'checkbox',
     label: 'Тип',
-    hidden: 'Invest',
+    hidden: ['Invest', 'Retail'],
     values: [
       {
         id: 0,
@@ -21,10 +21,56 @@ export default {
     ],
     value: [],
   },
+  isArendator: {
+    type: 'checkbox',
+    label: 'Наличие арендатора',
+    hidden: ['ZU', 'Invest'],
+    values: [
+      {
+        id: 0,
+        title: 'С арендатором',
+        slug: true,
+      },
+      {
+        id: 1,
+        title: 'Без арендатора',
+        slug: false,
+      },
+    ],
+    value: [],
+  },
+  purposeRetail: {
+    type: 'checkbox',
+    label: 'Назначение помещения',
+    hidden: ['ZU', 'Invest'],
+    values: [
+      {
+        id: 0,
+        title: 'Торговое',
+        slug: 'trade',
+      },
+      {
+        id: 1,
+        title: 'Офис',
+        slug: 'office',
+      },
+      {
+        id: 2,
+        title: 'Общепит',
+        slug: 'catering',
+      },
+      {
+        id: 3,
+        title: 'Свободного назначения (ПСН)',
+        slug: 'PSN',
+      },
+    ],
+    value: [],
+  },
   buildingType: {
     type: 'checkbox',
     label: 'Тип',
-    hidden: 'ZU',
+    hidden: ['ZU', 'Retail'],
     values: buildingTypes.map((type, i) => ({
       id: i + 1,
       title: `${type.full} (${type.short})`,
@@ -36,7 +82,7 @@ export default {
   location: {
     type: 'checkbox',
     label: 'Расположение',
-    hidden: '',
+    hidden: ['Retail'],
     values: [
       {
         id: 0,
@@ -62,7 +108,7 @@ export default {
   groundS: {
     type: 'interval',
     label: 'Площадь ЗУ',
-    hidden: 'Invest',
+    hidden: ['Invest', 'Retail'],
     unit: 'Га',
     maxFractional: 4,
     values: {
@@ -73,7 +119,7 @@ export default {
   areaS: {
     type: 'interval',
     label: 'Площадь ОКС',
-    hidden: '',
+    hidden: [''],
     unit: 'м<sup>2</sup>',
     maxFractional: 2,
     values: {
@@ -84,7 +130,7 @@ export default {
   cost: {
     type: 'interval',
     label: 'Стоимость',
-    hidden: '',
+    hidden: [''],
     unit: '&#8381;',
     maxFractional: 2,
     currency: 'rouble',
@@ -96,9 +142,20 @@ export default {
   caprate: {
     type: 'interval',
     label: 'Caprate',
-    hidden: 'ZU',
+    hidden: ['ZU', 'Retail'],
     unit: '%',
     maxFractional: 2,
+    values: {
+      from: '',
+      to: '',
+    },
+  },
+  payback: {
+    type: 'interval',
+    label: 'Окупаемость',
+    hidden: ['ZU', 'Invest'],
+    unit: 'лет',
+    maxFractional: 1,
     values: {
       from: '',
       to: '',
@@ -107,7 +164,7 @@ export default {
   purpose: {
     type: 'checkbox',
     label: 'Назначение',
-    hidden: 'Invest',
+    hidden: ['Invest', 'Retail'],
     values: [
       {
         id: 0,
@@ -130,7 +187,7 @@ export default {
   groundPlan: {
     type: 'checkbox',
     label: 'Наличие ГПЗУ',
-    hidden: 'Invest',
+    hidden: ['Invest', 'Retail'],
     values: [
       {
         id: 0,

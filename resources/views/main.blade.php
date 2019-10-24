@@ -222,8 +222,8 @@
                   ПОРТФЕЛИ НЕДВИЖИМОСТИ</span></h5>
               <p
                 class="text-uppercase position-relative text-white h2 pb-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold">
-                <strong>{{ $investCount }} ПРЕДЛОЖЕНИЯ</strong></p>
-              <p class="position-relative text-white h2 mt-4 font-weight-bold"><strong>{{ $investAreaS }} м2</strong></p>
+                <strong>{{ $investCount }} ПРЕДЛОЖЕНИЙ</strong></p>
+              <p class="position-relative text-white h2 mt-4 font-weight-bold"><strong>{{ $investAreaS }} м<sup>2<sup></strong></p>
             </div>
             <div
               class="col-12 d-flex flex-column justify-content-center align-items-center block3 pt-4 pb-3 pl-2 pr-2 block-shadow"
@@ -233,9 +233,8 @@
                   class="d-block">ГОТОВЫЙ АРЕНДНЫЙ БИЗНЕС</span></h5>
               <p
                 class="text-uppercase position-relative text-white h2 pb-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold">
-                <strong>20 ПРЕДЛОЖЕНИЙ</strong><br /></p>
-              <p class="position-relative text-white h2 mt-4 font-weight-bold"><strong>4
-                  370 м2</strong><br /></p>
+                <strong>{{ $retailCount }} ПРЕДЛОЖЕНИЙ</strong><br /></p>
+              <p class="position-relative text-white h2 mt-4 font-weight-bold"><strong>{{ $retailAreaS }} м<sup>2<sup></strong><br /></p>
             </div>
           </div>
         </div>
