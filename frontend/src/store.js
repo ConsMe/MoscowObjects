@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { buildingTypes } from './assets/fakeData/objects';
 import Http from './modules/Http';
 import toastr from './components/elements/toastr';
 import mainModule from './store_modules/main';
@@ -10,7 +9,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     objectsPre: [],
-    buildingTypes: [],
     currentCategorySlug: '',
     filterWidth: null,
     objectBlockWidth: null,
@@ -101,7 +99,6 @@ export default new Vuex.Store({
           state.objectsPre = objects;
         })
         .catch(() => toastr.warning('Обнаружены проблемы на сервере, обратитесь к разработчикам'));
-      state.buildingTypes = buildingTypes;
     },
     changeCurrentCategorySlug(state, newSlug) {
       state.currentCategorySlug = newSlug;

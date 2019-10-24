@@ -21,6 +21,8 @@ export default {
     isYmapReady: window.ymapsState,
     blocksVisibilityLogs: [],
     objectsListBlockScroll: 0,
+    selectedBuildingTypes: [],
+    isSelectedBuildingTypesChanged: 0,
   },
   mutations: {
     getAllInitData(state, isAuthorized) {
@@ -90,13 +92,17 @@ export default {
     changeCurrentObject(state, object) {
       state.currentObject = object;
     },
-    applyFilter(state, filters) {
+    applyFilter(state, { filters, currentCategorySlug }) {
       state.filters = filters;
       state.favouritesOn = false;
       state.filtersOn = true;
+      if (currentCategorySlug === 'Invest') {
+        state.selectedBuildingTypes = filters.buildingType.value.slice(0);
+      }
     },
     filterReset(state) {
       state.filtersOn = false;
+      state.selectedBuildingTypes = [];
     },
     showObjectAtMap(state, coordinates) {
       state.objectCoordinatesForShow = coordinates;
@@ -106,6 +112,15 @@ export default {
     },
     setObjectsListBlockScroll(state, scroll) {
       state.objectsListBlockScroll = scroll;
+    },
+    selectBuildingType(state, buildingType) {
+      const index = state.selectedBuildingTypes.indexOf(buildingType);
+      if (index >= 0) {
+        state.selectedBuildingTypes.splice(index, 1);
+      } else {
+        state.selectedBuildingTypes.push(buildingType);
+      }
+      state.isSelectedBuildingTypesChanged += 1;
     },
   },
   getters: {

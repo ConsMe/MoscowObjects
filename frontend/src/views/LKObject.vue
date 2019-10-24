@@ -16,7 +16,11 @@
                 <tbody>
                   <tr>
                     <td width="50%" class="pr-4" colspan="2">
-                      <select class="custom-select border" v-model="object.type" required>
+                      <select
+                        class="custom-select border"
+                        v-model="object.type"
+                        required
+                        title="Категория">
                         <option value="">Категория</option>
                         <option value="ZU">Земельный участок</option>
                         <option value="Invest">Инвестобъект</option>
@@ -31,7 +35,8 @@
                         class="custom-select border"
                         v-model="object.ZUType"
                         required
-                        v-if="object.type === 'ZU'">
+                        v-if="object.type === 'ZU'"
+                        title="Тип объекта">
                           <option value="">Тип объекта</option>
                           <option value="ЗУ">Земельные участки (ЗУ)</option>
                           <option value="ОКС">ОКС под реконструкцию</option>
@@ -40,7 +45,8 @@
                         class="custom-select border"
                         v-model="object.buildingType"
                         required
-                        v-if="object.type === 'Invest'">
+                        v-if="object.type === 'Invest'"
+                        title="Тип объекта">
                         <option value="">Тип объекта</option>
                         <option :value="type" v-for="(type, i) in buildingTypes" :key="i">
                             {{ type.full }}
@@ -51,7 +57,12 @@
                   </tr>
                   <tr>
                     <td width="25%">
-                        <select v-model="object.district" class="custom-select border" required @change="setLocation">
+                        <select
+                          v-model="object.district"
+                          class="custom-select border"
+                          required
+                          @change="setLocation"
+                          title="Субъект">
                           <option value="">Субъект</option>
                           <option :value="district" v-for="(district, i) in districts" :key="i">
                             {{ district }}
@@ -103,7 +114,7 @@
                       />
                     </td>
                   </tr>
-                  <tr>
+                  <tr v-if="object.type === 'ZU'">
                     <td width="50%" class="pr-4" :class="{borderRight: object.type === 'ZU'}" colspan="2">
                       <input
                         type="text"
@@ -122,13 +133,17 @@
                         :required="object.ZUType === 'ОКС'"
                         title="Площадь ОКС, кв.м."
                         v-model="object.areaS"
-                        v-if="object.type === 'ZU'"
                       />
                     </td>
                   </tr>
                   <tr>
                     <td width="50%" class="pr-4"  :class="{borderRight: object.type === 'ZU'}" colspan="2">
-                      <select class="custom-select border" v-model="object.purposeZU" v-if="object.type === 'ZU'" required>
+                      <select
+                        class="custom-select border"
+                        v-model="object.purposeZU"
+                        v-if="object.type === 'ZU'"
+                        required
+                        title="Назначение ЗУ">
                         <option value="">Назначение ЗУ</option>
                         <option value="Жилое">Жилое</option>
                         <option value="Нежилое">Нежилое</option>
@@ -148,7 +163,8 @@
                       <select class="custom-select border"
                         v-model="object.purposeOKS"
                         v-if="object.type === 'ZU'"
-                        :required="object.ZUType === 'ОКС'">
+                        :required="object.ZUType === 'ОКС'"
+                        title="Назначение ОКС">
                         <option value="">Назначение ОКС</option>
                         <option value="Жилое">Жилое</option>
                         <option value="Нежилое">Нежилое</option>
@@ -158,7 +174,12 @@
                   </tr>
                   <tr>
                     <td width="50%" class="pr-4" colspan="2">
-                      <select class="custom-select border" v-model="object.groundPlan" v-if="object.type === 'ZU'" required>
+                      <select
+                        class="custom-select border"
+                        v-model="object.groundPlan"
+                        v-if="object.type === 'ZU'"
+                        required
+                        title="Наличие ГПЗУ">
                         <option value="">Наличие ГПЗУ</option>
                         <option :value="true">Есть</option>
                         <option :value="false">Нет</option>
@@ -178,7 +199,8 @@
                         style="width: 7rem;"
                         v-model="object.GAPCurrency"
                         :required="object.GAP.length > 0"
-                        v-if="object.type === 'Invest'">
+                        v-if="object.type === 'Invest'"
+                        title="Валюта">
                           <option value="">Валюта</option>
                           <option value="rouble">руб.</option>
                           <option value="dollar">долл.</option>
@@ -210,7 +232,12 @@
                       />
                     </td>
                     <td class="pl-4 position-relative" colspan="2">
-                      <select class="custom-select border" style="width: 7rem;" v-model="object.costCurrency" required>
+                      <select
+                        class="custom-select border"
+                        style="width: 7rem;"
+                        v-model="object.costCurrency"
+                        required
+                        title="Валюта">
                         <option value="">Валюта</option>
                         <option value="rouble">руб.</option>
                         <option value="dollar">долл.</option>

@@ -40,7 +40,14 @@
 }
 .bg-ipn {
   background-color: #0d4678;
+  &:hover, &:focus {
+    background-color: #0a2238;
+  }
+  &:disabled, &.disabled {
+    opacity: .65;
+  }
 }
+
 @keyframes bounce-in {
   0% {
     transform: translate(-100%);

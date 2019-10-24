@@ -48,7 +48,9 @@ class PdfController extends Controller
     {
         $object = $request->object;
         $object['description'] = explode("\n", $object['description']);
-        $hide_company_info_in_tizer = DB::table('hide_company_info_in_tizer')->where('object_id', $object['id'])->first();
+        $isUserPartner = auth()->check() && $request->user()->role === 'partner';
+        $hide_company_info_in_tizer = DB::table('hide_company_info_in_tizer')
+            ->where('object_id', $object['id'])->first() || $isUserPartner;
         if ($hide_company_info_in_tizer) {
             $size = '227,450';
         } else {

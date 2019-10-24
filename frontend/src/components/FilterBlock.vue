@@ -191,6 +191,12 @@ export default {
     singleCodes() {
       return [...this.codes.deleteBackspace, ...this.codes.arrows, ...this.codes.homeEnd];
     },
+    selectedBuildingTypes() {
+      return this.$store.state.main.selectedBuildingTypes;
+    },
+    isSelectedBuildingTypesChanged() {
+      return this.$store.state.main.isSelectedBuildingTypesChanged;
+    },
   },
   mounted() {
     this.getFilters();
@@ -208,6 +214,14 @@ export default {
       });
       this.modifyLabels();
     },
+    isSelectedBuildingTypesChanged() {
+      if (!this.selectedBuildingTypes.length) {
+        this.$store.commit('main/filterReset');
+      } else {
+        this.filters.buildingType.value = this.selectedBuildingTypes.slice(0);
+        this.applyFilter();
+      }
+    },
   },
   methods: {
     getFilters() {
@@ -222,7 +236,10 @@ export default {
     },
     applyFilter() {
       this.$store.commit('main/switchFavoritesState');
-      this.$store.commit('main/applyFilter', JSON.parse(JSON.stringify(this.filters)));
+      this.$store.commit('main/applyFilter', {
+        filters: JSON.parse(JSON.stringify(this.filters)),
+        currentCategorySlug: this.currentCategorySlug,
+      });
       this.$store.commit('main/toggleBlocksVisibility', {
         block: 'FilterBlock',
         visible: false,

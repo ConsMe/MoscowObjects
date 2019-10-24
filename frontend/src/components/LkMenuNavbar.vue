@@ -59,9 +59,6 @@
 </style>
 
 <script>
-import toastr from 'toastr';
-import Http from '../modules/Http';
-
 export default {
   name: 'LkMenuNavbar',
   computed: {

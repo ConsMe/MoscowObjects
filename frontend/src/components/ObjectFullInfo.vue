@@ -52,7 +52,6 @@
                 </div>
                 <template v-if="object.type === 'Invest'">
                   <p class="mb-2" v-html="object.areaS"></p>
-                  <p class="mb-2" v-html="object.groundS"></p>
                   <p class="mb-2" v-if="object.GAP">
                     ГАП
                     {{ object.GAP }}
@@ -161,7 +160,6 @@
         <template v-if="object.type === 'Invest'">
           <div class="row mt-4 mb-3">
             <div class="col text-nowrap" v-html="object.areaS"></div>
-            <div class="col text-nowrap text-center">{{ object.groundS }}</div>
             <div class="col text-nowrap text-center" v-if="object.GAP">
               {{ object.GAP }}
               <strong>₽</strong>

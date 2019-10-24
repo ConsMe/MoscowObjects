@@ -291,7 +291,6 @@
                             </table>
                         @else
                             <p>{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></p>
-                            <p>{{ $object['groundS'] }}</p>
                             @if (isset($object['GAP']))
                               <p>ГАП {{ $object['GAP'] }} ₽</p>
                             @endif
