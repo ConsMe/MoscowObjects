@@ -60,8 +60,8 @@
                         v-else-if="object.type === 'Retail'"
                         title="Наличие арендатора">
                         <option value="">Наличие арендатора</option>
-                        <option value="1">С арендатором</option>
-                        <option value="0">Без арендатора</option>
+                        <option :value="true">С арендатором</option>
+                        <option :value="false">Без арендатора</option>
                       </select>
                     </td>
                     <td width="50%" colspan="2">
@@ -72,10 +72,9 @@
                         v-if="object.type === 'Retail'"
                         title="Назначение помещения">
                         <option value="">Назначение помещения</option>
-                        <option value="trade">Торговое</option>
-                        <option value="office">Офис</option>
-                        <option value="catering">Общепит</option>
-                        <option value="PSN">Свободного назначения (ПСН)</option>
+                        <option :value="purpose" v-for="(purpose, i) in purposesRetail" :key="i">
+                            {{ purpose.full }}
+                        </option>
                       </select>
                     </td>
                   </tr>
@@ -530,6 +529,7 @@ import buildingTypes from '../assets/data/buildingTypes';
 import LKYandexMap from '../components/LKYandexMap.vue';
 import BackButton from '../components/elements/BackButton.vue';
 import filters from '../assets/data/filters';
+import purposesRetail from '../assets/data/purposesRetail';
 
 export default {
   name: 'LKObject',
@@ -546,6 +546,7 @@ export default {
       districts: ['Москва, ЦАО', 'Москва, САО', 'Москва, СВАО', 'Москва, ВАО', 'Москва, ЮВАО', 'Москва, ЮАО', 'Москва, ЮЗАО', 'Москва, ЗАО', 'Москва, СЗАО', 'Новая Москва и Зеленоград', 'Московская область'],
       yandexSearchAddress: '',
       filters,
+      purposesRetail,
     };
   },
   mounted() {

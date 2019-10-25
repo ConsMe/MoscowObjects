@@ -87,7 +87,12 @@ class RetailsSeeder extends Seeder
         //             'coordinates' => explode(',', str_replace(' ', '', $address[1])),
         //             'costCurrency' => 'rouble',
         //             'areaS' => rand(300, 5000),
-        //             'underground' => $address[2]
+        //             'underground' => $address[2],
+        //             'isArendator' => rand(1, 100) > 50,
+        //             'purposeRetail' => $puposesRetail[rand(0, 3)],
+        //             'MAP' => rand(100000, 1000000),
+        //             'MAPCurrency' => 'rouble',
+        //             'payback' => rand(1, 10)
         //         ],
         //         'description' => $this->description,
         //         'responsible' => 'Иванов И.И.',
@@ -98,31 +103,57 @@ class RetailsSeeder extends Seeder
         //     EstateObject::create($object);
         // }
 
-        $objects = EstateObject::where('characteristics->type', 'Retail')->get(['id', 'characteristics'])->toArray();
+        // $objects = EstateObject::where('characteristics->type', 'Retail')->get(['id', 'characteristics'])->toArray();
+        // foreach ($objects as $object) {
+        //     $originalImage = Image::make(storage_path(env('TMP_FILES_PATH') . 'Retail.jpg'));
+        //     $big = $originalImage->resize(null, 500, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //         $constraint->upsize();
+        //     });
+        //     $newFilename = Str::random(40) . '.jpg';
+        //     $big->save(storage_path(env('BIG_IMAGES_PATH') . $newFilename));
+        //     $big_image_size = $big->width() . ',' . $big->height();
+        //     $small = $originalImage->resize(null, 300, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //         $constraint->upsize();
+        //     });
+        //     $small->save(storage_path(env('SMALL_IMAGES_PATH') . $newFilename));
+        //     $caption = rand(0, 1) ? 'Проект' : 'Фото';
+        //     File::create([
+        //         'object_id' => $object['id'],
+        //         'original_filename' => 'Retail.jpg',
+        //         'filename' => $newFilename,
+        //         'type' => 'images',
+        //         'caption' => $caption,
+        //         'isMain' => 1,
+        //         'big_image_size' => $big_image_size
+        //     ]);
+        // }
+        $puposesRetail = [
+            [
+                'short' => 'Торг', 'full' => 'Торговое', 'slug' => 'trade', 'icon' => 'blueDotIcon',
+            ],
+            [
+                'short' => 'Офис', 'full' => 'Офис', 'slug' => 'office', 'icon' => 'violetDotIcon',
+            ],
+            [
+                'short' => 'Общеп', 'full' => 'Общепит', 'slug' => 'catering', 'icon' => 'darkGreenDotIcon',
+            ],
+            [
+                'short' => 'ПСН', 'full' => 'Свободного назначения (ПСН)', 'slug' => 'PSN', 'icon' => 'nightDotIcon',
+            ],
+        ];
+
+        $objects = EstateObject::where('characteristics->type', 'Retail')->get();
         foreach ($objects as $object) {
-            $originalImage = Image::make(storage_path(env('TMP_FILES_PATH') . 'Retail.jpg'));
-            $big = $originalImage->resize(null, 500, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $newFilename = Str::random(40) . '.jpg';
-            $big->save(storage_path(env('BIG_IMAGES_PATH') . $newFilename));
-            $big_image_size = $big->width() . ',' . $big->height();
-            $small = $originalImage->resize(null, 300, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $small->save(storage_path(env('SMALL_IMAGES_PATH') . $newFilename));
-            $caption = rand(0, 1) ? 'Проект' : 'Фото';
-            File::create([
-                'object_id' => $object['id'],
-                'original_filename' => 'Retail.jpg',
-                'filename' => $newFilename,
-                'type' => 'images',
-                'caption' => $caption,
-                'isMain' => 1,
-                'big_image_size' => $big_image_size
-            ]);
+            $characteristics = $object->characteristics;
+            $characteristics['isArendator'] = rand(1, 100) > 50;
+            $characteristics['purposeRetail'] = $puposesRetail[rand(0, 3)];
+            $characteristics['MAP'] = rand(100000, 1000000);
+            $characteristics['MAPCurrency'] = 'rouble';
+            $characteristics['payback'] = rand(1, 10);
+            $object->characteristics = $characteristics;
+            $object->save();
         }
     }
 }

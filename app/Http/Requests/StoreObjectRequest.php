@@ -118,6 +118,15 @@ class StoreObjectRequest extends FormRequest
         return [
             'areaS' => 'required|numeric',
             'underground' => 'string',
+            'isArendator' => 'required|boolean',
+            'purposeRetail' => 'required|array',
+            'purposeRetail.short' => 'required|string',
+            'purposeRetail.full' => 'required|string',
+            'purposeRetail.slug' => 'required|string',
+            'purposeRetail.icon' => 'required|string',
+            'MAP' => 'numeric',
+            'MAPCurrency' => 'required_with:MAP|string|in:rouble,dollar,euro',
+            'payback' => 'numeric'
         ];
     }
 }

@@ -1,4 +1,5 @@
 import buildingTypes from './buildingTypes';
+import purposesRetail from './purposesRetail';
 
 export default {
   ZUType: {
@@ -43,28 +44,12 @@ export default {
     type: 'checkbox',
     label: 'Назначение помещения',
     hidden: ['ZU', 'Invest'],
-    values: [
-      {
-        id: 0,
-        title: 'Торговое',
-        slug: 'trade',
-      },
-      {
-        id: 1,
-        title: 'Офис',
-        slug: 'office',
-      },
-      {
-        id: 2,
-        title: 'Общепит',
-        slug: 'catering',
-      },
-      {
-        id: 3,
-        title: 'Свободного назначения (ПСН)',
-        slug: 'PSN',
-      },
-    ],
+    values: purposesRetail.map((purpose, i) => ({
+      id: i + 1,
+      title: purpose.full,
+      slug: purpose.slug,
+      checked: false,
+    })),
     value: [],
   },
   buildingType: {
