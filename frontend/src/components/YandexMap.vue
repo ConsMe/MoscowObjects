@@ -166,14 +166,14 @@ export default {
         : [[0, 0], [87, Math.round(1.5 * this.remInPx)]];
       const iconOffset = object.type === 'ZU' ? [0, (Math.round(3.875 * this.remInPx)) * -1]
         : [0, (Math.round(3 * this.remInPx) + 2) * -1];
-      const placemark = new ymaps.Placemark(
-        object.coordinates,
-        {
-          object,
-          hintContent: object.address,
-          isActive: object.id === this.currentObject.id ? ' activePlacemark' : '',
-        },
-        {
+      let options;
+      if (object.type === 'Retail') {
+        options = {
+          preset: `islands#${object.purposeRetail.icon}`,
+          cursor: 'pointer',
+        };
+      } else {
+        options = {
           iconLayout: this.flagTemplate,
           iconShape: {
             type: 'Rectangle',
@@ -181,11 +181,34 @@ export default {
           },
           iconOffset,
           cursor: 'pointer',
+        };
+      }
+      const placemark = new ymaps.Placemark(
+        object.coordinates,
+        {
+          object,
+          hintContent: object.address,
+          isActive: object.id === this.currentObject.id ? ' activePlacemark' : '',
         },
+        options,
       );
       return placemark;
     },
     getIconPlacemark(object) {
+      let preset;
+      switch (object.type) {
+        case 'ZU':
+          preset = 'islands#nightDotIcon';
+          break;
+        case 'Invest':
+          preset = `islands#${object.buildingType.icon}`;
+          break;
+        case 'Retail':
+          preset = `islands#${object.purposeRetail.icon}`;
+          break;
+        default:
+          break;
+      }
       const placemark = new ymaps.Placemark(
         object.coordinates,
         {
@@ -194,7 +217,7 @@ export default {
           isActive: object.id === this.currentObject.id ? ' activePlacemark' : '',
         },
         {
-          preset: object.type === 'ZU' ? 'islands#nightDotIcon' : `islands#${object.buildingType.icon}`,
+          preset,
           cursor: 'pointer',
         },
       );
