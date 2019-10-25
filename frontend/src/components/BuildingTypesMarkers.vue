@@ -1,27 +1,26 @@
 <template>
   <div class="building-types-marker">
     <div
-      v-for="(buildingType, i)
-      in allBuildingTypes"
-      :key="i"
-      :data-index="i"
+      v-for="(buildingType, slug, i) in allBuildingTypes"
+      :key="slug"
+      :data-slug="slug"
       class="d-inline-block dropdown">
       <button
           class="btn text-white pr-2 pl-2 pt-1 pb-1 text-uppercase rounded-0 border-dark"
           type="button"
-          :class="['bg-' + buildingType.bg, i < 4 ? 'mr-1' : '', isDisabled[i] ? 'translucent' : '']"
+          :class="['bg-' + buildingType.bg, i < 4 ? 'mr-1' : '', isDisabled.includes(slug) ? 'translucent' : '']"
           data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false"
       >{{ buildingType.short }}</button>
       <div
         class="dropdown-menu dropdown-menu-right p-0"
-        :class="{'d-none': selectedBuildingTypes.includes(buildingType.short)}">
+        :class="{'d-none': selectedBuildingTypes.includes(slug)}">
         <a
           class="dropdown-item pl-2 pr-2"
-          href="#"
+          href="/"
           :class="['bg-' + buildingType.bg]"
-          @click="selectBuildingType(buildingType)">
-          {{ `Выбрать ${buttonNames[i]}` }}
+          @click.prevent="selectBuildingType(slug)">
+          {{ `Выбрать ${buildingType.buttonName}` }}
         </a>
       </div>
     </div>
@@ -74,32 +73,14 @@ export default {
     };
   },
   computed: {
-    buttonNames() {
-      return this.allBuildingTypes.map((type) => {
-        switch (type.short.toLowerCase()) {
-          case 'тц':
-            return 'торговые центры';
-          case 'мфк':
-            return 'многофункциональные комплексы';
-          case 'бц':
-            return 'бизнес-центры';
-          case 'ипн':
-            return 'инвестиционные портфели недвижимости';
-          case 'го':
-            return 'гостиницы';
-          default:
-            return '';
-        }
-      });
-    },
     selectedBuildingTypes() {
       return this.$store.state.main.selectedBuildingTypes;
     },
     isDisabled() {
-      return this.allBuildingTypes.map((type) => {
+      return Object.keys(this.allBuildingTypes).filter((slug) => {
         if (!this.selectedBuildingTypes.length) return false;
         if (this.selectedBuildingTypes.length === this.allBuildingTypes.length) return false;
-        if (this.selectedBuildingTypes.includes(type.short)) return false;
+        if (this.selectedBuildingTypes.includes(slug)) return false;
         return true;
       });
     },
@@ -113,16 +94,15 @@ export default {
         e.preventDefault();
         e.stopPropagation();
       }
-      const index = parseInt($(e.target).attr('data-index'), 10);
-      const { short } = this.allBuildingTypes[index];
-      if (this.selectedBuildingTypes.includes(short)) {
-        this.$store.commit('main/selectBuildingType', short);
+      const slug = $(e.target).attr('data-slug');
+      if (this.selectedBuildingTypes.includes(slug)) {
+        this.$store.commit('main/selectBuildingType', slug);
       }
     });
   },
   methods: {
-    selectBuildingType(buildingType) {
-      this.$store.commit('main/selectBuildingType', buildingType.short);
+    selectBuildingType(slug) {
+      this.$store.commit('main/selectBuildingType', slug);
     },
   },
 };

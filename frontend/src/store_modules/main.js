@@ -113,12 +113,12 @@ export default {
     setObjectsListBlockScroll(state, scroll) {
       state.objectsListBlockScroll = scroll;
     },
-    selectBuildingType(state, buildingType) {
-      const index = state.selectedBuildingTypes.indexOf(buildingType);
+    selectBuildingType(state, slug) {
+      const index = state.selectedBuildingTypes.indexOf(slug);
       if (index >= 0) {
         state.selectedBuildingTypes.splice(index, 1);
       } else {
-        state.selectedBuildingTypes.push(buildingType);
+        state.selectedBuildingTypes.push(slug);
       }
       state.isSelectedBuildingTypesChanged += 1;
     },
@@ -170,9 +170,7 @@ export default {
             if (filter.hidden.includes(rootState.currentCategorySlug)) return true;
             if (filter.type === 'checkbox') {
               if (filter.value.length && filter.value.length !== filter.values.length) {
-                if (name === 'buildingType') {
-                  if (!filter.value.includes(object[name].short)) return false;
-                } else if (name === 'purpose') {
+                if (name === 'purpose') {
                   if (!filter.value.includes(object[name + ZUType])) return false;
                 } else if (!filter.value.includes(object[name])) {
                   return false;

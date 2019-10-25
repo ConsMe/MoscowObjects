@@ -1,17 +1,17 @@
-export default [
-  {
-    short: 'ТЦ', full: 'Торговый центр', bg: 'primary', icon: 'blueDotIcon',
+export default {
+  tc: {
+    short: 'ТЦ', full: 'Торговый центр', bg: 'primary', icon: 'blueDotIcon', buttonName: 'торговые центры',
   },
-  {
-    short: 'МФК', full: 'Многофункциональный комплекс', bg: 'info', icon: 'violetDotIcon',
+  mfk: {
+    short: 'МФК', full: 'Многофункциональный комплекс', bg: 'info', icon: 'violetDotIcon', buttonName: 'многофункциональные комплексы',
   },
-  {
-    short: 'БЦ', full: 'Бизнес-центр', bg: 'success', icon: 'darkGreenDotIcon',
+  bc: {
+    short: 'БЦ', full: 'Бизнес-центр', bg: 'success', icon: 'darkGreenDotIcon', buttonName: 'бизнес-центры',
   },
-  {
-    short: 'ИПН', full: 'Инвестиционный портфель недвижимости', bg: 'ipn', icon: 'nightDotIcon',
+  ipn: {
+    short: 'ИПН', full: 'Инвестиционный портфель недвижимости', bg: 'ipn', icon: 'nightDotIcon', buttonName: 'инвестиционные портфели недвижимости',
   },
-  {
-    short: 'ГО', full: 'Гостиница', bg: 'warning', icon: 'orangeDotIcon',
+  go: {
+    short: 'ГО', full: 'Гостиница', bg: 'warning', icon: 'orangeDotIcon', buttonName: 'гостиницы',
   },
-];
+};

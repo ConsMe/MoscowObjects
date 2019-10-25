@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
             // UsersTableSeeder::class,
             // ObjectsTableSeeder::class,
             // ChangeIPNBgColor::class
-            RetailsSeeder::class
+            // RetailsSeeder::class
+            ChangeBuildingTypes::class
         ]);
     }
 }

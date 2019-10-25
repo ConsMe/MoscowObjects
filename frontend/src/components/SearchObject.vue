@@ -2,7 +2,7 @@
   <li class="nav-item col-6 col-lg-auto dropdown">
     <form @submit.prevent>
       <input
-        class="form-control bg-transparent border-white text-white"
+        class="form-control bg-transparent border-white"
         :class="{disabled: !isMainView}"
         type="text"
         placeholder="Лот или адрес"
@@ -44,6 +44,10 @@
 
 input[type="text"] {
   border-color: $gray-400 !important;
+  color: rgb(173, 175, 174) !important;
+}
+input[type="text"]:focus {
+  color: white !important;
 }
 input[type="text"].disabled {
   border-color: #ffffff80 !important;

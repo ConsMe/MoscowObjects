@@ -56,10 +56,10 @@ export default {
     type: 'checkbox',
     label: 'Тип',
     hidden: ['ZU', 'Retail'],
-    values: buildingTypes.map((type, i) => ({
+    values: Object.keys(buildingTypes).map((type, i) => ({
       id: i + 1,
-      title: `${type.full} (${type.short})`,
-      slug: type.short,
+      title: `${buildingTypes[type].full} (${buildingTypes[type].short})`,
+      slug: type,
       checked: false,
     })),
     value: [],

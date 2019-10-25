@@ -49,7 +49,7 @@
                 <td class="align-middle">{{ object.groundPlan.short }}</td>
               </template>
               <template v-if="currentCategorySlug === 'Invest'">
-                <td class="align-middle">{{ object.buildingType.short }}</td>
+                <td class="align-middle">{{ buildingTypes[object.buildingType].short }}</td>
                 <td class="align-middle text-nowrap" v-html="object.areaS"></td>
                 <td class="align-middle text-nowrap">{{ object.GAP }}</td>
                 <td class="align-middle">{{ object.caprate + '%' }}</td>
@@ -103,6 +103,7 @@ import moment from 'moment';
 import toastr from '../components/elements/toastr';
 import Http from '../modules/Http';
 import BackButton from '../components/elements/BackButton.vue';
+import buildingTypes from '../assets/data/buildingTypes';
 
 export default {
   name: 'LKList',
@@ -110,6 +111,7 @@ export default {
   data() {
     return {
       moment,
+      buildingTypes,
     };
   },
   mounted() {

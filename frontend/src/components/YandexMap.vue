@@ -4,6 +4,7 @@
 
 <script>
 import $ from 'jquery';
+import buildingTypes from '../assets/data/buildingTypes';
 
 export default {
   name: 'YandexMap',
@@ -15,6 +16,8 @@ export default {
       currentZoom: 15,
       zoomChangeIconType: 11,
       remInPx: 0,
+      oneLineStyle: '',
+      buildingTypes,
     };
   },
   computed: {
@@ -30,9 +33,14 @@ export default {
     isYmapsReady() {
       return this.$store.state.main.isYmapReady.isReady;
     },
+    currentCategorySlug() {
+      return this.$store.state.currentCategorySlug;
+    },
   },
   mounted() {
     this.remInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const oneLineHeight = `${1.5 * this.remInPx + 2}px`;
+    this.oneLineStyle = `height: ${oneLineHeight}; line-height: ${oneLineHeight}; padding: 0`;
     if (this.isYmapsReady) {
       this.init();
     } else {
@@ -65,17 +73,28 @@ export default {
         this.collection.each((placemark) => {
           const object = placemark.properties.get('object');
           if (placemark && object.id === ov.id) {
-            const element = this.getDomElement(placemark);
-            if (element) $(element).find('.row').removeClass('activePlacemark');
+            if (this.currentZoom <= this.zoomChangeIconType || object.type === 'Retail') {
+              const color = this.getIconColor(object);
+              placemark.options.set('preset', `islands#${color}`);
+            } else {
+              const element = this.getDomElement(placemark);
+              if (element) $(element).find('.row').removeClass('activePlacemark');
+            }
+            return false;
           }
+          return true;
         });
       }
       if (Object.keys(nv).length && this.collection) {
         this.collection.each((placemark) => {
           const object = placemark.properties.get('object');
           if (object.id === nv.id) {
-            const element = this.getDomElement(placemark);
-            $(element).find('.row').addClass('activePlacemark');
+            if (this.currentZoom <= this.zoomChangeIconType || object.type === 'Retail') {
+              placemark.options.set('preset', 'islands#redDotIcon');
+            } else {
+              const element = this.getDomElement(placemark);
+              $(element).find('.row').addClass('activePlacemark');
+            }
             return false;
           }
           return true;
@@ -89,11 +108,15 @@ export default {
         `<div class="map-icon">
             {% if properties.object.type === 'ZU' %}
                 <div class="row mb-0 text-center bg-flag$[properties.isActive]">
-                    <div class="col-12 with-border">$[properties.object.groundS]</div>
-                    <div class="col-12 small">$[properties.object.areaS]</div>
+                    {% if properties.object.areaS %}
+                      <div class="col-12">$[properties.object.groundS]</div>
+                      <div class="col-12 with-border small">$[properties.object.areaS]</div>
+                    {% else %}
+                      <div class="col-12" style="$[properties.oneLineStyle]">$[properties.object.groundS]</div>
+                    {% endif %}
                 </div>
             {% elseif properties.object.type === 'Invest' %}
-                <div class="row mb-0 text-center bg-{{ properties.object.buildingType.bg }} p-35$[properties.isActive]">
+                <div class="row mb-0 text-center bg-{{ properties.bg }} p-35$[properties.isActive]">
                     <div class="col-12 text-uppercase p-0">$[properties.object.buildingName]</div>
                 </div>
             {% endif %}
@@ -129,18 +152,31 @@ export default {
     hoverPlacemark(e) {
       const event = e.get('type');
       const placemark = e.get('target');
+      const object = placemark.properties.get('object');
+      if (event === 'click') {
+        this.$store.commit('main/changeCurrentObject', object);
+        this.$store.commit('main/toggleBlocksVisibility', {
+          block: 'ObjectBlock',
+          visible: true,
+        });
+        return;
+      }
+      if (this.currentZoom <= this.zoomChangeIconType || object.type === 'Retail') {
+        if (event === 'mouseenter') {
+          placemark.options.set('preset', 'islands#redDotIcon');
+        } else if (event === 'mouseleave') {
+          if (object.id === this.currentObject.id) return;
+          const color = this.getIconColor(object);
+          placemark.options.set('preset', `islands#${color}`);
+        }
+        return;
+      }
       const element = this.getDomElement(placemark);
       const target = $(element).find('.row');
       if (event === 'mouseenter') {
         $(target).addClass('hoverPlacemark');
       } else if (event === 'mouseleave') {
         $(target).removeClass('hoverPlacemark');
-      } else if (event === 'click') {
-        this.$store.commit('main/changeCurrentObject', placemark.properties.get('object'));
-        this.$store.commit('main/toggleBlocksVisibility', {
-          block: 'ObjectBlock',
-          visible: true,
-        });
       }
     },
     getDomElement(placemark) {
@@ -162,14 +198,14 @@ export default {
       placemark.events.add(['mouseenter', 'mouseleave', 'click'], e => this.hoverPlacemark(e));
     },
     getFlagPlacemark(object) {
-      const coordinates = object.type === 'ZU' ? [[0, 0], [Math.round(5.6 * this.remInPx), Math.round(2.375 * this.remInPx)]]
+      const coordinates = object.type === 'ZU' && object.areaS ? [[0, 0], [Math.round(5.6 * this.remInPx), Math.round(2.375 * this.remInPx)]]
         : [[0, 0], [87, Math.round(1.5 * this.remInPx)]];
-      const iconOffset = object.type === 'ZU' ? [0, (Math.round(3.875 * this.remInPx)) * -1]
+      const iconOffset = object.type === 'ZU' && object.areaS ? [0, (Math.round(3.875 * this.remInPx)) * -1]
         : [0, (Math.round(3 * this.remInPx) + 2) * -1];
       let options;
       if (object.type === 'Retail') {
         options = {
-          preset: `islands#${object.purposeRetail.icon}`,
+          preset: object.id === this.currentObject.id ? 'islands#redDotIcon' : `islands#${object.purposeRetail.icon}`,
           cursor: 'pointer',
         };
       } else {
@@ -189,26 +225,15 @@ export default {
           object,
           hintContent: object.address,
           isActive: object.id === this.currentObject.id ? ' activePlacemark' : '',
+          oneLineStyle: this.oneLineStyle,
+          bg: object.type === 'Invest' ? this.buildingTypes[object.buildingType].bg : null,
         },
         options,
       );
       return placemark;
     },
     getIconPlacemark(object) {
-      let preset;
-      switch (object.type) {
-        case 'ZU':
-          preset = 'islands#nightDotIcon';
-          break;
-        case 'Invest':
-          preset = `islands#${object.buildingType.icon}`;
-          break;
-        case 'Retail':
-          preset = `islands#${object.purposeRetail.icon}`;
-          break;
-        default:
-          break;
-      }
+      const color = object.id === this.currentObject.id ? 'redDotIcon' : this.getIconColor(object);
       const placemark = new ymaps.Placemark(
         object.coordinates,
         {
@@ -217,11 +242,28 @@ export default {
           isActive: object.id === this.currentObject.id ? ' activePlacemark' : '',
         },
         {
-          preset,
+          preset: `islands#${color}`,
           cursor: 'pointer',
         },
       );
       return placemark;
+    },
+    getIconColor(object) {
+      let color = 'grayDotIcon';
+      switch (object.type) {
+        case 'ZU':
+          color = 'nightDotIcon';
+          break;
+        case 'Invest':
+          color = this.buildingTypes[object.buildingType].icon;
+          break;
+        case 'Retail':
+          color = object.purposeRetail.icon;
+          break;
+        default:
+          break;
+      }
+      return color;
     },
   },
 };
@@ -291,7 +333,7 @@ export default {
     left: 0;
     height: 0;
     border-top: 1px solid gray;
-    bottom: 0;
+    top: -1px;
   }
 }
 .bg-flag, .bg-icon {

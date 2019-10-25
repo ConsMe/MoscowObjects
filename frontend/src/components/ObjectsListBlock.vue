@@ -5,7 +5,7 @@
         <table class="table table-hover m-0 sticky-thead">
           <thead>
             <tr>
-              <th scope="col" :class="[sort.buildingName ? `sort-${sort.buildingName}` : null]" @click="sortTo('buildingName')">{{ currentCategorySlug === 'ZU' ? '' : 'Название' }}</th>
+              <th scope="col" :class="[sort.buildingName ? `sort-${sort.buildingName}` : null]" @click="sortTo('buildingName')">{{ currentCategorySlug === 'Invest' ? 'Название' : ''}}</th>
               <th scope="col" :class="[sort.id ? `sort-${sort.id}` : null]" @click="sortTo('id')">Лот</th>
               <th scope="col" :class="[sort.district ? `sort-${sort.district}` : null]" @click="sortTo('district')">Субъект</th>
               <th scope="col" :class="[sort.address ? `sort-${sort.address}` : null]" @click="sortTo('address')">Адрес</th>
@@ -16,11 +16,17 @@
                 <th scope="col" :class="[sort.purpose ? `sort-${sort.purpose}` : null]" @click="sortTo('purpose')">Назначение</th>
                 <th scope="col" :class="[sort.groundPlan ? `sort-${sort.groundPlan}` : null]" @click="sortTo('groundPlan')">ГПЗУ</th>
               </template>
-              <template v-if="currentCategorySlug === 'Invest'">
+              <template v-else-if="currentCategorySlug === 'Invest'">
                 <th scope="col" :class="[sort.type ? `sort-${sort.type}` : null]" @click="sortTo('type')">Тип</th>
                 <th scope="col" :class="[sort.areaS ? `sort-${sort.areaS}` : null]" @click="sortTo('areaS')">S</th>
                 <th scope="col" :class="[sort.GAP ? `sort-${sort.GAP}` : null]" @click="sortTo('GAP')">ГАП, ₽</th>
                 <th scope="col" :class="[sort.caprate ? `sort-${sort.caprate}` : null]" @click="sortTo('caprate')">Caprate</th>
+              </template>
+              <template v-else-if="currentCategorySlug === 'Retail'">
+                <th scope="col" :class="[sort.purposeRetail ? `sort-${sort.purposeRetail}` : null]" @click="sortTo('purposeRetail')">Назначение</th>
+                <th scope="col" :class="[sort.areaS ? `sort-${sort.areaS}` : null]" @click="sortTo('areaS')">S</th>
+                <th scope="col" :class="[sort.MAP ? `sort-${sort.MAP}` : null]" @click="sortTo('MAP')">МАП, ₽</th>
+                <th scope="col" :class="[sort.payback ? `sort-${sort.payback}` : null]" @click="sortTo('payback')">Окупаемость</th>
               </template>
               <th scope="col" class="text-right" :class="[sort.cost ? `sort-${sort.cost}` : null]" @click="sortTo('cost')">Стоимость, ₽</th>
             </tr>
@@ -38,7 +44,7 @@
                   <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
                   <span
                     class="bg-primary text-white pr-2 pl-2 pt-1 pb-1 image-type"
-                    v-if="currentCategorySlug === 'ZU' && object.images[0].caption"
+                    v-if="['ZU', 'Retail'].includes(currentCategorySlug) && object.images[0].caption"
                   >
                     <small>{{ object.images[0].caption }}</small>
                   </span>
@@ -62,11 +68,17 @@
                 </td>
                 <td class="align-middle">{{ object.groundPlan.short }}</td>
               </template>
-              <template v-if="currentCategorySlug === 'Invest'">
-                <td class="align-middle">{{ object.buildingType.short }}</td>
+              <template v-else-if="currentCategorySlug === 'Invest'">
+                <td class="align-middle">{{ buildingTypes[object.buildingType].short }}</td>
                 <td class="align-middle text-nowrap" v-html="object.areaS"></td>
                 <td class="align-middle text-nowrap">{{ object.GAP }}</td>
                 <td class="align-middle">{{ object.caprate ? `${object.caprate}%` : '' }}</td>
+              </template>
+              <template v-else-if="currentCategorySlug === 'Retail'">
+                <td class="align-middle">{{ object.purposeRetail.short }}</td>
+                <td class="align-middle text-nowrap" v-html="object.areaS"></td>
+                <td class="align-middle text-nowrap">{{ object.MAP }}</td>
+                <td class="align-middle text-nowrap">{{ object.payback ? `${object.payback} лет` : '' }}</td>
               </template>
               <td class="text-right align-middle position-relative text-nowrap">
                 <div class="position-absolute d-inline-block w-100 h-100 link-wrap">
@@ -93,7 +105,7 @@
                 <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
                 <span
                   class="bg-primary text-white pr-3 pl-3 pt-1 pb-1 image-type"
-                  v-if="object.type === 'ZU' && object.images[0].caption"
+                  v-if="['ZU', 'Retail'].includes(object.type) && object.images[0].caption"
                 >
                   <big>{{ object.images[0].caption }}</big>
                 </span>
@@ -117,9 +129,33 @@
                       <favourite-icon :object-id="object.id" />
                     </div>
                   </div>
-                  <p class="mb-2" v-if="object.type === 'Invest'">{{ object.buildingType.full }}</p>
-                  <p class="mb-2">{{ object.district }}</p>
-                  <p class="mb-2">{{ object.address }}</p>
+                  <p class="mb-2 l-height-normal" v-if="object.type === 'Invest'">{{ buildingTypes[object.buildingType].full }}</p>
+                  <p class="mb-0">{{ object.district }}</p>
+                  <p class="mb-2 l-height-normal">{{ object.address }}</p>
+                  <div class="mb-2 underground" v-if="object.underground">
+                    <img src="../assets/Moscow_Metro.svg" alt="M" class="d-inline-block mr-2">
+                    <span class="d-inline-block">
+                      {{ object.underground }}
+                    </span>
+                  </div>
+                  <template v-if="object.type === 'Retail'">
+                    <p class="mb-2 text-white" v-html="object.areaS"></p>
+                    <div class="row mb-0" v-if="object.MAP || object.payback">
+                      <div class="col-auto pr-0">
+                        <p class="mb-0" v-if="object.MAP">МАП</p>
+                        <p class="mb-0" v-if="object.payback">Окупаемость</p>
+                      </div>
+                      <div class="col">
+                        <p class="mb-0" v-if="object.MAP">
+                          {{ object.MAP }}
+                          <strong>₽</strong>
+                        </p>
+                        <p class="mb-0" v-if="object.payback">
+                          {{ object.payback + ' лет' }}
+                        </p>
+                      </div>
+                    </div>
+                  </template>
                 </div>
               </div>
               <p class="mt-4 mb-0 text-white">
@@ -258,6 +294,14 @@
     cursor: pointer;
     position: relative;
   }
+  .underground {
+    img {
+      height: .7rem;
+    }
+    * {
+      vertical-align: middle;
+    }
+  }
 }
 .showInMap {
   position: absolute;
@@ -310,6 +354,8 @@ import { mapState } from 'vuex';
 import FavouriteIcon from './elements/FavouriteIcon.vue';
 import toastr from './elements/toastr';
 import Http from '../modules/Http';
+import objectsFields from '../assets/data/objectsFields';
+import buildingTypes from '../assets/data/buildingTypes';
 
 export default {
   name: 'ObjectsListBlock',
@@ -323,9 +369,8 @@ export default {
         downloadPdf: false,
       },
       sort: { id: 'down' },
-      numericFields: [
-        'id', 'areaS', 'cost', 'groundS', 'GAP', 'caprate',
-      ],
+      numericFields: ['id', ...objectsFields.numericFields],
+      buildingTypes,
     };
   },
   computed: {
@@ -348,6 +393,9 @@ export default {
         } else if (field === 'type' && this.currentCategorySlug === 'Invest') {
           a = object1.buildingType.short;
           b = object2.buildingType.short;
+        } else if (field === 'purposeRetail' && this.currentCategorySlug === 'Retail') {
+          a = object1.purposeRetail.short;
+          b = object2.purposeRetail.short;
         } else {
           a = isFieldNumeric ? parseFloat(object1[field].toString().replace(/\s/g, '')) : object1[field];
           b = isFieldNumeric ? parseFloat(object2[field].toString().replace(/\s/g, '')) : object2[field];
@@ -410,26 +458,32 @@ export default {
     },
     checkForPdf() {
       this.disabled.downloadPdf = true;
+      const objects = JSON.parse(JSON.stringify(this.objects));
+      if (this.currentCategorySlug === 'Invest') {
+        objects.forEach((object, i) => {
+          objects[i].buildingType = { short: this.buildingTypes[object.buildingType].short };
+        });
+      }
       Http.post('/pdf/list/check', {
-        objects: this.objects,
+        objects,
         currentCategorySlug: this.currentCategorySlug,
         check: true,
       }).then(() => {
-        this.downloadPdf();
+        this.downloadPdf(objects);
       }).catch(() => {
         toastr.warning('Что-то пошло не так, попробуйте перегрузить страницу');
       }).finally(() => {
         this.disabled.downloadPdf = false;
       });
     },
-    downloadPdf() {
+    downloadPdf(objects) {
       toastr.info('Идет подготовка файла для скачивания');
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = '/pdf/list';
       const input = document.createElement('input');
       input.name = 'objects';
-      input.value = JSON.stringify(this.objects);
+      input.value = JSON.stringify(objects);
       const input2 = document.createElement('input');
       input2.name = '_token';
       input2.value = document.head.querySelector('meta[name=csrf-token]').getAttribute('content');
@@ -443,7 +497,7 @@ export default {
       form.submit();
     },
     sortTo(column) {
-      if (column === 'buildingName' && this.currentCategorySlug === 'ZU') return;
+      if (column === 'buildingName' && this.currentCategorySlug !== 'Invest') return;
       const direction = column in this.sort && this.sort[column] === 'down' ? 'up' : 'down';
       this.sort = { [column]: direction };
     },

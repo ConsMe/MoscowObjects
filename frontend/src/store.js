@@ -32,6 +32,9 @@ export default new Vuex.Store({
         if ('GAP' in object) {
           modifiedObject.GAP = object.GAP.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
         }
+        if ('MAP' in object) {
+          modifiedObject.MAP = object.MAP.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
         if ('areaS' in object) {
           modifiedObject.areaS = `${modifiedObject.areaS.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} м<sup>2</sup>`;
         }
@@ -93,6 +96,11 @@ export default new Vuex.Store({
               const GAPCurrency = modifiedObject.GAPCurrency === 'dollar' ? 'USD' : 'EUR';
               modifiedObject.GAP = Math.round(modifiedObject.GAP * state.currencies[GAPCurrency]);
               modifiedObject.GAPCurrency = 'rouble';
+            }
+            if ('MAP' in modifiedObject && modifiedObject.MAPCurrency !== 'rouble') {
+              const MAPCurrency = modifiedObject.MAPCurrency === 'dollar' ? 'USD' : 'EUR';
+              modifiedObject.MAP = Math.round(modifiedObject.MAP * state.currencies[MAPCurrency]);
+              modifiedObject.MAPCurrency = 'rouble';
             }
             return modifiedObject;
           });

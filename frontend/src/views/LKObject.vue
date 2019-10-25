@@ -49,7 +49,7 @@
                         v-else-if="object.type === 'Invest'"
                         title="Тип объекта">
                         <option value="">Тип объекта</option>
-                        <option :value="type" v-for="(type, i) in buildingTypes" :key="i">
+                        <option :value="slug" v-for="(type, slug) in buildingTypes" :key="slug">
                             {{ type.full }}
                         </option>
                       </select>
@@ -672,6 +672,7 @@ export default {
         }
       } else if (object.type === 'Retail') {
         if (!object.payback.toString().length) delete object.payback;
+        if (!object.underground.length) delete object.underground;
         if (!object.MAP.toString().length) {
           delete object.MAP;
           delete object.MAPCurrency;

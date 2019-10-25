@@ -24,7 +24,17 @@
                     >X</button>
                   </span>
                 </p>
-                <p class="mb-3" v-if="object.type === 'Invest'">{{ object.buildingType.full }}</p>
+                <p class="mb-3" v-if="object.type === 'Invest'">{{ buildingTypes[object.buildingType].full }}</p>
+                <template v-else-if="object.type === 'Retail'">
+                  <p class="mb-0">{{ object.purposeRetail.full }}</p>
+                  <p class="mb-3">{{ object.isArendator ? 'С арендатором' : 'Без арендатора' }}</p>
+                  <div class="mb-2 underground" v-if="object.underground">
+                    <img src="../assets/Moscow_Metro.svg" alt="M" class="d-inline-block mr-2">
+                    <span class="d-inline-block">
+                      {{ object.underground }}
+                    </span>
+                  </div>
+                </template>
                 <p class="mb-0">{{ object.district }}</p>
                 <p class="mb-3">{{ object.address }}</p>
                 <div class="row mt-4 mb-4" v-if="object.type === 'ZU'">
@@ -50,7 +60,7 @@
                     <p class="mb-2">{{ object.purposeOKS }}</p>
                   </div>
                 </div>
-                <template v-if="object.type === 'Invest'">
+                <template v-else-if="object.type === 'Invest'">
                   <p class="mb-3" v-html="object.areaS"></p>
                   <div class="row mb-4" v-if="object.GAP || object.caprate">
                     <div class="col-auto pr-0">
@@ -68,11 +78,29 @@
                     </div>
                   </div>
                 </template>
+                <template v-else-if="object.type === 'Retail'">
+                  <p class="mb-3" v-html="object.areaS"></p>
+                  <div class="row mb-3" v-if="object.MAP || object.payback">
+                    <div class="col-auto pr-0">
+                      <p class="mb-0" v-if="object.MAP">МАП</p>
+                      <p class="mb-0" v-if="object.payback">Окупаемость</p>
+                    </div>
+                    <div class="col">
+                      <p class="mb-0" v-if="object.MAP">
+                        {{ object.MAP }}
+                        <strong>₽</strong>
+                      </p>
+                      <p class="mb-0" v-if="object.payback">
+                        {{ object.payback + ' лет' }}
+                      </p>
+                    </div>
+                  </div>
+                </template>
               </div>
               <div class="col">
                 <div class="row h-100">
                   <div class="col align-self-end pb-2">
-                    <p class="mb-0">
+                    <p class="mb-0 text-black">
                       <big v-if="objectInfoVisibility[object.id].showPrice">
                         {{ object.cost }}
                         <strong>₽</strong>
@@ -127,7 +155,7 @@
                     </button>
                   </div>
                 </div>
-                <p class="mb-2" v-if="object.type === 'Invest'">{{ object.buildingType.full }}</p>
+                <p class="mb-2" v-if="object.type === 'Invest'">{{ buildingTypes[object.buildingType].full }}</p>
                 <p class="mb-2">{{ object.district }}</p>
                 <p class="mb-2">{{ object.address }}</p>
               </div>
@@ -285,6 +313,14 @@
   .close-btn {
     padding: .3rem 0.8rem;
   }
+  .underground {
+    img {
+      height: 1rem;
+    }
+    * {
+      vertical-align: middle;
+    }
+  }
 }
 .object-full-info > .row::-webkit-scrollbar {
   background: transparent;
@@ -323,6 +359,7 @@ import FavouriteIcon from './elements/FavouriteIcon.vue';
 import Http from '../modules/Http';
 import toastr from './elements/toastr';
 import Carousel from './elements/Carousel.vue';
+import buildingTypes from '../assets/data/buildingTypes';
 
 export default {
   name: 'ObjectFullInfo',
@@ -338,6 +375,7 @@ export default {
       disabled: {
         downloadTizer: false,
       },
+      buildingTypes,
     };
   },
   computed: {
@@ -399,6 +437,9 @@ export default {
       input.name = 'object';
       const object = JSON.parse(JSON.stringify(this.object));
       object.description = this.description;
+      if (object.type === 'Invest') {
+        object.buildingType = { full: this.buildingTypes[object.buildingType].full };
+      }
       input.value = JSON.stringify(object);
       const input2 = document.createElement('input');
       input2.name = '_token';

@@ -50,6 +50,8 @@ const numericFields = [
   'cost',
   'GAP',
   'caprate',
+  'MAP',
+  'payback',
 ];
 
 export default {

@@ -105,11 +105,7 @@ class StoreObjectRequest extends FormRequest
             'GAPCurrency' => 'required_with:GAP|string|in:rouble,dollar,euro',
             'caprate' => 'numeric',
             'buildingName' => 'required|string',
-            'buildingType' => 'required|array',
-            'buildingType.short' => 'required|string',
-            'buildingType.full' => 'required|string',
-            'buildingType.bg' => 'required|string',
-            'buildingType.icon' => 'required|string',
+            'buildingType' => 'required|string|in:tc,mfk,bc,ipn,go',
         ];
     }
 
