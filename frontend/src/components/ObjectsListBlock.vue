@@ -75,7 +75,7 @@
                 <td class="align-middle">{{ object.caprate ? `${object.caprate}%` : '' }}</td>
               </template>
               <template v-else-if="currentCategorySlug === 'Retail'">
-                <td class="align-middle">{{ object.purposeRetail.short }}</td>
+                <td class="align-middle">{{ purposesRetail[object.purposeRetail].short }}</td>
                 <td class="align-middle text-nowrap" v-html="object.areaS"></td>
                 <td class="align-middle text-nowrap">{{ object.MAP }}</td>
                 <td class="align-middle text-nowrap">{{ object.payback ? `${object.payback} лет` : '' }}</td>
@@ -356,6 +356,7 @@ import toastr from './elements/toastr';
 import Http from '../modules/Http';
 import objectsFields from '../assets/data/objectsFields';
 import buildingTypes from '../assets/data/buildingTypes';
+import purposesRetail from '../assets/data/purposesRetail';
 
 export default {
   name: 'ObjectsListBlock',
@@ -371,6 +372,7 @@ export default {
       sort: { id: 'down' },
       numericFields: ['id', ...objectsFields.numericFields],
       buildingTypes,
+      purposesRetail,
     };
   },
   computed: {
@@ -394,8 +396,8 @@ export default {
           a = object1.buildingType.short;
           b = object2.buildingType.short;
         } else if (field === 'purposeRetail' && this.currentCategorySlug === 'Retail') {
-          a = object1.purposeRetail.short;
-          b = object2.purposeRetail.short;
+          a = this.purposesRetail[object1.purposeRetail].short;
+          b = this.purposesRetail[object2.purposeRetail].short;
         } else {
           a = isFieldNumeric ? parseFloat(object1[field].toString().replace(/\s/g, '')) : object1[field];
           b = isFieldNumeric ? parseFloat(object2[field].toString().replace(/\s/g, '')) : object2[field];

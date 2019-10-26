@@ -5,6 +5,7 @@
 <script>
 import $ from 'jquery';
 import buildingTypes from '../assets/data/buildingTypes';
+import purposesRetail from '../assets/data/purposesRetail';
 
 export default {
   name: 'YandexMap',
@@ -18,6 +19,7 @@ export default {
       remInPx: 0,
       oneLineStyle: '',
       buildingTypes,
+      purposesRetail,
     };
   },
   computed: {
@@ -205,7 +207,7 @@ export default {
       let options;
       if (object.type === 'Retail') {
         options = {
-          preset: object.id === this.currentObject.id ? 'islands#redDotIcon' : `islands#${object.purposeRetail.icon}`,
+          preset: object.id === this.currentObject.id ? 'islands#redDotIcon' : `islands#${this.purposesRetail[object.purposeRetail].icon}`,
           cursor: 'pointer',
         };
       } else {
@@ -258,7 +260,7 @@ export default {
           color = this.buildingTypes[object.buildingType].icon;
           break;
         case 'Retail':
-          color = object.purposeRetail.icon;
+          color = this.purposesRetail[object.purposeRetail].icon;
           break;
         default:
           break;

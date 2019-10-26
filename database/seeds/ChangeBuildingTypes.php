@@ -12,28 +12,10 @@ class ChangeBuildingTypes extends Seeder
      */
     public function run()
     {
-        $objects = EstateObject::where('characteristics->type', 'Invest')->get();
+        $objects = EstateObject::where('characteristics->type', 'Retail')->get();
         foreach ($objects as $object) {
             $characteristics = $object->characteristics;
-            switch ($characteristics['buildingType']['short']) {
-                case 'ТЦ':
-                    $characteristics['buildingType'] = 'tc';
-                    break;
-                case 'МФК':
-                    $characteristics['buildingType'] = 'mfk';
-                    break;
-                case 'БЦ':
-                    $characteristics['buildingType'] = 'bc';
-                    break;
-                case 'ИПН':
-                    $characteristics['buildingType'] = 'ipn';
-                    break;
-                case 'ГО':
-                    $characteristics['buildingType'] = 'go';
-                    break;
-                default:
-                    break;
-            }
+            $characteristics['purposeRetail'] = $characteristics['purposeRetail']['slug'];
             $object->characteristics = $characteristics;
             $object->save();
         }

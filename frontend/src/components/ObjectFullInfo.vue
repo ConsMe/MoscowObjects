@@ -26,7 +26,7 @@
                 </p>
                 <p class="mb-3" v-if="object.type === 'Invest'">{{ buildingTypes[object.buildingType].full }}</p>
                 <template v-else-if="object.type === 'Retail'">
-                  <p class="mb-0">{{ object.purposeRetail.full }}</p>
+                  <p class="mb-0">{{ purposesRetail[object.purposeRetail].full }}</p>
                   <p class="mb-3">{{ object.isArendator ? 'С арендатором' : 'Без арендатора' }}</p>
                   <div class="mb-2 underground" v-if="object.underground">
                     <img src="../assets/Moscow_Metro.svg" alt="M" class="d-inline-block mr-2">
@@ -360,6 +360,7 @@ import Http from '../modules/Http';
 import toastr from './elements/toastr';
 import Carousel from './elements/Carousel.vue';
 import buildingTypes from '../assets/data/buildingTypes';
+import purposesRetail from '../assets/data/purposesRetail';
 
 export default {
   name: 'ObjectFullInfo',
@@ -376,6 +377,7 @@ export default {
         downloadTizer: false,
       },
       buildingTypes,
+      purposesRetail,
     };
   },
   computed: {

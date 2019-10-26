@@ -1,14 +1,14 @@
-export default [
-  {
-    short: 'Торг', full: 'Торговое', slug: 'trade', icon: 'blueDotIcon',
+export default {
+  trade: {
+    short: 'Торг', full: 'Торговое', icon: 'blueDotIcon',
   },
-  {
-    short: 'Офис', full: 'Офис', slug: 'office', icon: 'darkGreenDotIcon',
+  office: {
+    short: 'Офис', full: 'Офис', icon: 'darkGreenDotIcon',
   },
-  {
-    short: 'Общеп', full: 'Общепит', slug: 'catering', icon: 'brownDotIcon',
+  catering: {
+    short: 'Общеп', full: 'Общепит', icon: 'brownDotIcon',
   },
-  {
-    short: 'ПСН', full: 'Свободного назначения (ПСН)', slug: 'PSN', icon: 'nightDotIcon',
+  PSN: {
+    short: 'ПСН', full: 'Свободного назначения (ПСН)', icon: 'nightDotIcon',
   },
-];
+};

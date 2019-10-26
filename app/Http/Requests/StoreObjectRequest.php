@@ -115,11 +115,7 @@ class StoreObjectRequest extends FormRequest
             'areaS' => 'required|numeric',
             'underground' => 'string',
             'isArendator' => 'required|boolean',
-            'purposeRetail' => 'required|array',
-            'purposeRetail.short' => 'required|string',
-            'purposeRetail.full' => 'required|string',
-            'purposeRetail.slug' => 'required|string',
-            'purposeRetail.icon' => 'required|string',
+            'purposeRetail' => 'required|string|in:trade,office,catering,PSN',
             'MAP' => 'numeric',
             'MAPCurrency' => 'required_with:MAP|string|in:rouble,dollar,euro',
             'payback' => 'numeric'

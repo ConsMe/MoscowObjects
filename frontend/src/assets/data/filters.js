@@ -44,10 +44,10 @@ export default {
     type: 'checkbox',
     label: 'Назначение помещения',
     hidden: ['ZU', 'Invest'],
-    values: purposesRetail.map((purpose, i) => ({
+    values: Object.keys(purposesRetail).map((purpose, i) => ({
       id: i + 1,
-      title: purpose.full,
-      slug: purpose.slug,
+      title: purposesRetail[purpose].full,
+      slug: purpose,
       checked: false,
     })),
     value: [],

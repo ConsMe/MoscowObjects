@@ -72,7 +72,7 @@
                         v-if="object.type === 'Retail'"
                         title="Назначение помещения">
                         <option value="">Назначение помещения</option>
-                        <option :value="purpose" v-for="(purpose, i) in purposesRetail" :key="i">
+                        <option :value="slug" v-for="(purpose, slug) in purposesRetail" :key="slug">
                             {{ purpose.full }}
                         </option>
                       </select>
