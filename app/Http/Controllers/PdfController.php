@@ -79,7 +79,7 @@ class PdfController extends Controller
         $address = preg_replace("/[^a-zа-я0-9\-\._]/ui", '_', $object['address']);
         $filename = 'Лот_'.$object['id'].'_'.$address.'.pdf';
         return response(
-            $dompdf->stream($filename, ['Attachment' => 0]),
+            $dompdf->stream($filename, ['Attachment' => 1]),
             200,
             array(
                 'Content-Type'          => 'application/pdf',
