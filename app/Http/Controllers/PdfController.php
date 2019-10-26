@@ -57,6 +57,9 @@ class PdfController extends Controller
             $size = '250,450';
         }
         $img_url = 'https://static-maps.yandex.ru/1.x/?ll='.implode(',', array_reverse($object['coordinates'])).'&size='.$size.'&z=15&l=map';
+        if ($object['type'] === 'Retail') {
+            $img_url .= '&pt='. implode(',', array_reverse($object['coordinates'])). ',comma';
+        }
         $b64_url = 'php://filter/read=convert.base64-encode/resource='.$img_url;
         $b64_img = file_get_contents($b64_url);
         $params = [
@@ -76,7 +79,7 @@ class PdfController extends Controller
         $address = preg_replace("/[^a-zа-я0-9\-\._]/ui", '_', $object['address']);
         $filename = 'Лот_'.$object['id'].'_'.$address.'.pdf';
         return response(
-            $dompdf->stream($filename, ['Attachment' => 1]),
+            $dompdf->stream($filename, ['Attachment' => 0]),
             200,
             array(
                 'Content-Type'          => 'application/pdf',

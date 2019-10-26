@@ -10,8 +10,9 @@
         <objects-list-block
           v-if="blocksVisibility.ObjectsListBlock && objects.length"
         />
-        <building-types-markers
-          v-show="currentCategorySlug === 'Invest'"
+        <fast-filters
+          v-if="['Invest', 'Retail'].includes(currentCategorySlug)"
+          :filters-init="fastFiltersInit"
         />
         <object-full-info
           v-if="isObjectFullInfoVisible"
@@ -49,6 +50,15 @@
     opacity: .65;
   }
 }
+.bg-catering {
+  background-color: #783d0d;
+  &:hover, &:focus {
+    background-color: #582a03;
+  }
+  &:disabled, &.disabled {
+    opacity: .65;
+  }
+}
 .text-black {
   color: $black !important;
 }
@@ -69,8 +79,10 @@ import YandexMap from '../components/YandexMap.vue';
 import FilterBlock from '../components/FilterBlock.vue';
 import ObjectBlock from '../components/ObjectBlock.vue';
 import ObjectsListBlock from '../components/ObjectsListBlock.vue';
-import BuildingTypesMarkers from '../components/BuildingTypesMarkers.vue';
+import FastFilters from '../components/FastFilters.vue';
 import ObjectFullInfo from '../components/ObjectFullInfo.vue';
+import buildingTypes from '../assets/data/buildingTypes';
+import purposesRetail from '../assets/data/purposesRetail';
 
 export default {
   components: {
@@ -78,12 +90,14 @@ export default {
     FilterBlock,
     ObjectBlock,
     ObjectsListBlock,
-    BuildingTypesMarkers,
+    FastFilters,
     ObjectFullInfo,
   },
   data() {
     return {
       toastr,
+      buildingTypes,
+      purposesRetail,
     };
   },
   computed: {
@@ -104,6 +118,15 @@ export default {
     },
     isObjectFullInfoVisible() {
       return this.blocksVisibility.ObjectFullInfo && 'type' in this.currentObject;
+    },
+    fastFiltersInit() {
+      if (this.currentCategorySlug === 'Invest') {
+        return this.buildingTypes;
+      }
+      if (this.currentCategorySlug === 'Retail') {
+        return this.purposesRetail;
+      }
+      return {};
     },
   },
   mounted() {

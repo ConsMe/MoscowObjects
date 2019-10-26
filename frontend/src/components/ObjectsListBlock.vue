@@ -461,9 +461,13 @@ export default {
     checkForPdf() {
       this.disabled.downloadPdf = true;
       const objects = JSON.parse(JSON.stringify(this.objects));
-      if (this.currentCategorySlug === 'Invest') {
+      if (['Invest', 'Retail'].includes(this.currentCategorySlug)) {
         objects.forEach((object, i) => {
-          objects[i].buildingType = { short: this.buildingTypes[object.buildingType].short };
+          if (this.currentCategorySlug === 'Invest') {
+            objects[i].buildingType = { short: this.buildingTypes[object.buildingType].short };
+          } else if (this.currentCategorySlug === 'Retail') {
+            objects[i].purposeRetail = { short: this.purposesRetail[object.purposeRetail].short };
+          }
         });
       }
       Http.post('/pdf/list/check', {

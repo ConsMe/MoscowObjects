@@ -191,11 +191,11 @@ export default {
     singleCodes() {
       return [...this.codes.deleteBackspace, ...this.codes.arrows, ...this.codes.homeEnd];
     },
-    selectedBuildingTypes() {
-      return this.$store.state.main.selectedBuildingTypes;
+    selectedFastFilters() {
+      return this.$store.state.main.selectedFastFilters;
     },
-    isSelectedBuildingTypesChanged() {
-      return this.$store.state.main.isSelectedBuildingTypesChanged;
+    isSelectedFastFiltersChanged() {
+      return this.$store.state.main.isSelectedFastFiltersChanged;
     },
   },
   mounted() {
@@ -214,11 +214,12 @@ export default {
       });
       this.modifyLabels();
     },
-    isSelectedBuildingTypesChanged() {
-      if (!this.selectedBuildingTypes.length) {
+    isSelectedFastFiltersChanged() {
+      if (!this.selectedFastFilters.length) {
         this.$store.commit('main/filterReset');
       } else {
-        this.filters.buildingType.value = this.selectedBuildingTypes.slice(0);
+        const filter = this.currentCategorySlug === 'Invest' ? 'buildingType' : 'purposeRetail';
+        this.filters[filter].value = this.selectedFastFilters.slice(0);
         this.applyFilter();
       }
     },

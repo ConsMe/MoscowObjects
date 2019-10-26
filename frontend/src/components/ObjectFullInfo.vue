@@ -220,7 +220,7 @@
       <div class="col-12 text-right mt-3" v-if="objectInfoVisibility[object.id].fullInfo && description">
         <button
           class="btn btn-primary rounded-0"
-          @click="downloadTizer"
+          @click="checkForTizer"
           type="button"
           :disabled="disabled.downloadTizer"
         >Скачать тизер</button>
@@ -230,7 +230,7 @@
       <div class="download" v-show="show">
         <button
           class="btn btn-primary rounded-0 text-nowrap download-tizer w-100 mb-1 border border-left-0"
-          @click="downloadTizer"
+          @click="checkForTizer"
           type="button"
           :disabled="disabled.downloadTizer"
         >Скачать тизер</button>
@@ -420,29 +420,33 @@ export default {
       this.disabled.downloadTizer = true;
       const object = JSON.parse(JSON.stringify(this.object));
       object.description = this.description;
+      if (object.type === 'Invest') {
+        object.buildingType = { full: this.buildingTypes[object.buildingType].full };
+      } else if (object.type === 'Retail') {
+        object.purposeRetail = { full: this.purposesRetail[object.purposeRetail].full };
+      } else if (object.type === 'ZU' && !object.groundPlan.is) {
+        delete object.groundPlan.full;
+      }
       Http.post('/pdf/object/check', {
         object,
       }).then(() => {
-        this.downloadTizer();
+        this.downloadTizer(object);
       }).catch(() => {
         toastr.warning('Что-то пошло не так, попробуйте перегрузить страницу');
       }).finally(() => {
         this.disabled.downloadTizer = false;
       });
     },
-    downloadTizer() {
+    downloadTizer(object) {
       toastr.info('Идет подготовка файла для скачивания');
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = '/pdf/object';
       const input = document.createElement('input');
       input.name = 'object';
-      const object = JSON.parse(JSON.stringify(this.object));
-      object.description = this.description;
-      if (object.type === 'Invest') {
-        object.buildingType = { full: this.buildingTypes[object.buildingType].full };
-      }
       input.value = JSON.stringify(object);
+      // console.log(object);
+      // return;
       const input2 = document.createElement('input');
       input2.name = '_token';
       input2.value = document.head.querySelector('meta[name=csrf-token]').getAttribute('content');

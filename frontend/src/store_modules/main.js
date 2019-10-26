@@ -21,8 +21,8 @@ export default {
     isYmapReady: window.ymapsState,
     blocksVisibilityLogs: [],
     objectsListBlockScroll: 0,
-    selectedBuildingTypes: [],
-    isSelectedBuildingTypesChanged: 0,
+    selectedFastFilters: [],
+    isSelectedFastFiltersChanged: 0,
   },
   mutations: {
     getAllInitData(state, isAuthorized) {
@@ -96,13 +96,14 @@ export default {
       state.filters = filters;
       state.favouritesOn = false;
       state.filtersOn = true;
-      if (currentCategorySlug === 'Invest') {
-        state.selectedBuildingTypes = filters.buildingType.value.slice(0);
+      if (['Invest', 'Retail'].includes(currentCategorySlug)) {
+        const filter = currentCategorySlug === 'Invest' ? 'buildingType' : 'purposeRetail';
+        state.selectedFastFilters = filters[filter].value.slice(0);
       }
     },
     filterReset(state) {
       state.filtersOn = false;
-      state.selectedBuildingTypes = [];
+      state.selectedFastFilters = [];
     },
     showObjectAtMap(state, coordinates) {
       state.objectCoordinatesForShow = coordinates;
@@ -113,14 +114,14 @@ export default {
     setObjectsListBlockScroll(state, scroll) {
       state.objectsListBlockScroll = scroll;
     },
-    selectBuildingType(state, slug) {
-      const index = state.selectedBuildingTypes.indexOf(slug);
+    selectFastFilter(state, slug) {
+      const index = state.selectedFastFilters.indexOf(slug);
       if (index >= 0) {
-        state.selectedBuildingTypes.splice(index, 1);
+        state.selectedFastFilters.splice(index, 1);
       } else {
-        state.selectedBuildingTypes.push(slug);
+        state.selectedFastFilters.push(slug);
       }
-      state.isSelectedBuildingTypesChanged += 1;
+      state.isSelectedFastFiltersChanged += 1;
     },
   },
   getters: {

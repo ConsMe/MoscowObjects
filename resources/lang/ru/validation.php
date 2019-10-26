@@ -205,6 +205,7 @@ return [
         'GAP'                  => 'ГАП',
         'caprate'                  => 'Сaprate',
         'MAP'                   => 'МАП',
-        'payback'               => 'Окупаемость'
+        'payback'               => 'Окупаемость',
+        'underground'               => 'Станция метро'
     ],
 ];

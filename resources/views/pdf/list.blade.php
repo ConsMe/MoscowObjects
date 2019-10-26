@@ -55,8 +55,6 @@
             display: inline-block;
             color: white;
             padding: 5px 10px;
-            /* border-bottom: 1px solid white;
-            border-left: 1px solid white; */
         }
     </style>
 </head>
@@ -81,19 +79,24 @@
                       <th scope="col" class="nowrap">ГАП, ₽</th>
                       <th scope="col">Caprate</th>
                     @endif
+                    @if ($currentCategorySlug === 'Retail')
+                      <th scope="col">Назначение</th>
+                      <th scope="col">S</th>
+                      <th scope="col" class="nowrap">МАП, ₽</th>
+                      <th scope="col">Окупаемость</th>
+                    @endif
                     <th scope="col" class="nowrap">Стоимость, ₽</th>
                   </tr>
                 </thead>
                 <tbody>
                   @foreach ($objects as $object)
                   <tr>
-                    <td
-                      style="padding-left: 0; width: 150px;">
+                    <td style="padding-left: 0; width: 150px;">
                         <img src="{{ storage_path(env('SMALL_IMAGES_PATH')).$object['images'][0]['filename'] }}" >
-                        @if ($object['images'][0]['caption'] || $currentCategorySlug === 'Invest')
-                          <span class="caption" style="background-color: {{ $currentCategorySlug === 'ZU' ? '#2a9fd6' : '#c00' }};">
-                            {{ $currentCategorySlug === 'ZU' ? $object['images'][0]['caption'] : $object['buildingName'] }}
-                          </span>
+                        @if ($currentCategorySlug === 'Invest')
+                          <span class="caption" style="background-color: #c00;">{{ $object['buildingName'] }}</span>
+                        @elseif ($object['images'][0]['caption'])
+                          <span class="caption" style="background-color: #2a9fd6;">{{ $object['images'][0]['caption'] }}</span>
                         @endif
                     </td>
                     <td style="text-align: left;">{{ $object['id'] }}</td>
@@ -123,6 +126,15 @@
                       </td>
                       <td class="nowrap">{{ isset($object['GAP']) ? $object['GAP'] : '' }}</td>
                       <td >{{ isset($object['caprate']) ? $object['caprate'].'%' : '' }}</td>
+                    @endif
+                    @if ($currentCategorySlug === 'Retail')
+                      <td>{{ $object['purposeRetail']['short'] }}</td>
+                      <td class="nowrap">
+                        {{ str_replace('м<sup>2</sup>', '', $object['areaS']) }}
+                        м<sup>2</sup>
+                      </td>
+                      <td class="nowrap">{{ isset($object['MAP']) ? $object['MAP'] : '' }}</td>
+                      <td>{{ isset($object['payback']) ? $object['payback'].' лет' : '' }}</td>
                     @endif
                     <td class="nowrap">
                       {{ $object['cost'] }}

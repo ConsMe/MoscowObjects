@@ -221,7 +221,7 @@
                   </div>
                 </div>
               @endif
-            @else
+            @elseif ($object['type'] === 'Invest')
                 <div class="row" style="background-color: #c00;">
                     <div style="padding-bottom: 0.3rem; text-transform: uppercase;font-size: 0.8rem;">{{ $object['buildingName'] }}</div>
                 </div>
@@ -239,23 +239,32 @@
                         @if ($object['type'] === 'Invest' || strlen($object['images'][0]['caption']))
                             <span
                             class="caption"
-                            style="background-color: {{ $object['type'] === 'ZU' ? '#2a9fd6;' : '#c00; text-transform: uppercase;' }}">
-                                {{ $object['type'] === 'ZU' ? $object['images'][0]['caption'] : $object['buildingName'] }}
+                            style="background-color: {{ $object['type'] === 'Invest' ? '#c00; text-transform: uppercase;' : '#2a9fd6;' }}">
+                                {{ $object['type'] === 'Invest' ? $object['buildingName'] : $object['images'][0]['caption'] }}
                             </span>
                         @endif
                     </td>
                     <td style="padding-left: 10px;" class="info">
                         <p style="padding-top: 0; margin-top: 0;">Лот {{ $object['id'] }}</p>
                         @if ($object['type'] === 'Invest')
-                            <p>{{ $object['buildingType']['full'] }}</p>
+                            <p style="margin-top: 0.7rem;">{{ $object['buildingType']['full'] }}</p>
+                        @elseif ($object['type'] === 'Retail')
+                            <p>{{ $object['purposeRetail']['full'] }}</p>
+                            <p style="line-height: 0.5rem;">{{ $object['isArendator'] ? 'С арендатором' : 'Без арендатора' }}</p>
+                            @isset($object['underground'])
+                                <p style="margin-top: 0.7rem;">
+                                  <img src="{{ storage_path('app/logos/Moscow_Metro.svg') }}" style="height: 1rem; margin-right: 0.4rem;">
+                                  <span>{{ $object['underground'] }}</span>
+                                </p>
+                            @endisset
                         @endif
-                        <p>{{ $object['district'] }}</p>
-                        <p>{{ $object['address'] }}</p>
+                        <p style="margin-top: 0.7rem;">{{ $object['district'] }}</p>
+                        <p style="line-height: 0.5rem;">{{ $object['address'] }}</p>
                         @if ($object['type'] === 'ZU')
                             <table style="width: 100%; margin-top: 15px;">
                                 <tbody>
                                     <tr>
-                                        <td style="width: 45%;border-right: 1px solid #6d6c6c;">
+                                        <td style="width: 45%;">
                                             <p style="margin-top: 0;">Земельный участок</p>
                                             @if (isset($object['kadastrNumberZU']))
                                               <p>
@@ -270,32 +279,48 @@
                                               <p>{{ $object['groundPlan']['full'] }}</p>
                                             @endif
                                         </td>
-                                        <td style="padding-left: 10px;">
-                                            <p style="margin-top: 0;">ОКС</p>
-                                            @if (isset($object['kadastrNumberOKS']))
-                                              <p>
-                                                  @foreach (explode(",", $object['kadastrNumberOKS']) as $kadastr)
-                                                      <span style="display: block;">{{ trim($kadastr) }}</span>
-                                                  @endforeach
-                                              </p>
-                                            @endif
-                                            @if (isset($object['areaS']))
-                                              <p>{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></p>
-                                            @endif
-                                            @if (isset($object['purposeOKS']))
-                                              <p>{{ $object['purposeOKS'] }}</p>
-                                            @endif
-                                        </td>
+                                        @if (isset($object['kadastrNumberOKS']) || isset($object['areaS']) || isset($object['purposeOKS']))
+                                          <td style="padding-left: 10px;border-left: 1px solid #6d6c6c;">
+                                              <p style="margin-top: 0;">ОКС</p>
+                                              @if (isset($object['kadastrNumberOKS']))
+                                                <p>
+                                                    @foreach (explode(",", $object['kadastrNumberOKS']) as $kadastr)
+                                                        <span style="display: block;">{{ trim($kadastr) }}</span>
+                                                    @endforeach
+                                                </p>
+                                              @endif
+                                              @if (isset($object['areaS']))
+                                                <p>{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></p>
+                                              @endif
+                                              @if (isset($object['purposeOKS']))
+                                                <p>{{ $object['purposeOKS'] }}</p>
+                                              @endif
+                                          </td>
+                                        @endif
                                     </tr>
                                 </tbody>
                             </table>
-                        @else
-                            <p>{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></p>
+                        @elseif ($object['type'] === 'Invest')
+                            <p style="margin-top: 0.7rem;">{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></p>
                             @if (isset($object['GAP']))
-                              <p>ГАП {{ $object['GAP'] }} ₽</p>
+                              <p style="margin-top: 0.7rem;">
+                                ГАП {{ $object['GAP'] }}
+                                <span style="font-weight: 600;">₽</span>
+                              </p>
                             @endif
                             @if (isset($object['caprate']))
-                              <p>Caprate {{ $object['caprate'] }}%</p>
+                              <p style="line-height: 0.5rem;">Caprate {{ $object['caprate'] }}%</p>
+                            @endif
+                        @else
+                            <p style="margin-top: 0.7rem;">{{ str_replace('м<sup>2</sup>', '', $object['areaS']) }} м<sup>2</sup></p>
+                            @if (isset($object['MAP']))
+                              <p style="margin-top: 0.7rem;">
+                                МАП {{ $object['MAP'] }}
+                                <span style="font-weight: 600;">₽</span>
+                              </p>
+                            @endif
+                            @if (isset($object['payback']))
+                              <p style="line-height: 0.5rem;">Окупаемость {{ $object['payback'] }} лет</p>
                             @endif
                         @endif
                         @if (strlen($object['cost']))

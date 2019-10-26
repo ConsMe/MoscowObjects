@@ -22,11 +22,17 @@
                 <th scope="col">Назначение</th>
                 <th scope="col">ГПЗУ</th>
               </template>
-              <template v-if="currentCategorySlug === 'Invest'">
+              <template v-else-if="currentCategorySlug === 'Invest'">
                 <th scope="col">Тип</th>
                 <th scope="col">S</th>
                 <th scope="col">ГАП, ₽</th>
                 <th scope="col">Caprate</th>
+              </template>
+              <template v-else-if="currentCategorySlug === 'Retail'">
+                <th scope="col">Назначение</th>
+                <th scope="col">S</th>
+                <th scope="col">МАП, ₽</th>
+                <th scope="col">Окупаемость</th>
               </template>
               <th scope="col">Стоимость, ₽</th>
               <th scope="col">Ответственный</th>
@@ -48,11 +54,17 @@
                 </td>
                 <td class="align-middle">{{ object.groundPlan.short }}</td>
               </template>
-              <template v-if="currentCategorySlug === 'Invest'">
+              <template v-else-if="currentCategorySlug === 'Invest'">
                 <td class="align-middle">{{ buildingTypes[object.buildingType].short }}</td>
                 <td class="align-middle text-nowrap" v-html="object.areaS"></td>
                 <td class="align-middle text-nowrap">{{ object.GAP }}</td>
                 <td class="align-middle">{{ object.caprate + '%' }}</td>
+              </template>
+              <template v-else-if="currentCategorySlug === 'Retail'">
+                <td class="align-middle">{{ purposesRetail[object.purposeRetail].short }}</td>
+                <td class="align-middle text-nowrap" v-html="object.areaS"></td>
+                <td class="align-middle text-nowrap">{{ object.MAP }}</td>
+                <td class="align-middle">{{ object.payback + ' лет' }}</td>
               </template>
               <td class="align-middle text-nowrap">{{ object.cost }}</td>
               <td class="align-middle">{{ object.responsible }}</td>
@@ -104,6 +116,7 @@ import toastr from '../components/elements/toastr';
 import Http from '../modules/Http';
 import BackButton from '../components/elements/BackButton.vue';
 import buildingTypes from '../assets/data/buildingTypes';
+import purposesRetail from '../assets/data/purposesRetail';
 
 export default {
   name: 'LKList',
@@ -112,6 +125,7 @@ export default {
     return {
       moment,
       buildingTypes,
+      purposesRetail,
     };
   },
   mounted() {
