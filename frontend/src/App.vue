@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="app"
-    class="p-0"
-    :style="appStyle">
+  <div id="app" class="p-0" :style="appStyle">
     <nav-bar />
     <transition name="fade" mode="out-in">
       <router-view />
@@ -86,7 +83,7 @@ export default {
   },
   computed: {
     appStyle() {
-      if (!this.$store.state.main) return '';
+      if (!this.$store.state.main) return null;
       return this.$store.getters['main/mobileHeightStyles'].appStyle;
     },
   },

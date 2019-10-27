@@ -1,5 +1,5 @@
 <template>
-    <div id="map" :style="mapStyle"></div>
+    <div id="map" :style="mapStyle" ref="map"></div>
 </template>
 
 <script>
@@ -40,8 +40,11 @@ export default {
       return this.$store.state.currentCategorySlug;
     },
     mapStyle() {
-      if (!this.$store.state.main) return '';
+      if (!this.$store.state.main) return null;
       return this.$store.getters['main/mobileHeightStyles'].mapStyle;
+    },
+    isMobileDevice() {
+      return this.$store.getters.isMobileDevice;
     },
   },
   mounted() {
@@ -64,14 +67,29 @@ export default {
     objectCoordinatesForShow(nv) {
       if (!nv.length) return;
       const bounds = this.map.getBounds();
-      const longitudeDifference = bounds[1][1] - bounds[0][1];
-      const bodyWidth = window.innerWidth;
-      const degreesPerPixel = longitudeDifference / bodyWidth;
-      const offsetInPixels = bodyWidth * 0.8 - bodyWidth * 0.5;
-      const offsetInDegrees = offsetInPixels * degreesPerPixel;
-      const coordinates = JSON.parse(JSON.stringify(nv));
-      coordinates[1] -= offsetInDegrees;
-      this.map.setCenter(coordinates, this.currentZoom, { duration: 500 });
+      let coordinates;
+      let duration;
+      if (this.isMobileDevice) {
+        const attituedDifference = bounds[1][0] - bounds[0][0];
+        const { map } = this.$refs;
+        const mapHeight = map.offsetHeight;
+        const degreesPerPixel = attituedDifference / mapHeight;
+        const offsetInPixels = mapHeight / 2 - window.outerHeight / 4;
+        const offsetInDegrees = offsetInPixels * degreesPerPixel;
+        coordinates = JSON.parse(JSON.stringify(nv));
+        coordinates[0] = Number(coordinates[0]) + offsetInDegrees;
+        duration = 0;
+      } else {
+        const longitudeDifference = bounds[1][1] - bounds[0][1];
+        const bodyWidth = window.innerWidth;
+        const degreesPerPixel = longitudeDifference / bodyWidth;
+        const offsetInPixels = bodyWidth * 0.8 - bodyWidth * 0.5;
+        const offsetInDegrees = offsetInPixels * degreesPerPixel;
+        coordinates = JSON.parse(JSON.stringify(nv));
+        coordinates[1] -= offsetInDegrees;
+        duration = 500;
+      }
+      this.map.setCenter(coordinates, this.currentZoom, { duration });
       this.$store.commit('main/showObjectAtMap', []);
       this.$store.commit('main/toggleBlocksVisibility', { block: 'FilterBlock', visible: false });
     },

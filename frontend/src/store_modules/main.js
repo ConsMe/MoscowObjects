@@ -230,10 +230,10 @@ export default {
       return visibility;
     },
     mobileHeightStyles(state, getters, rootState, rootGetters) {
-      const heightStyles = { appStyle: '', mapStyle: '' };
+      const heightStyles = { appStyle: null, mapStyle: null };
       if (rootGetters.isMobileDevice && state.blocksVisibility.ObjectFullInfo && state.objectFullInfoBlockOffsetBottom) {
-        const restWindowHeight = window.innerHeight - state.objectFullInfoBlockOffsetBottom;
-        const offset = Math.round(window.innerHeight / 2) - restWindowHeight;
+        const restWindowHeight = window.outerHeight - state.objectFullInfoBlockOffsetBottom;
+        const offset = Math.round(window.outerHeight / 2) - restWindowHeight;
         if (offset > 0) {
           heightStyles.appStyle = {
             paddingBottom: `${offset}px !important`,

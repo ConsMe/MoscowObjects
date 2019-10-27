@@ -406,7 +406,7 @@ export default {
     this.show = true;
   },
   beforeDestroy() {
-    this.$store.commit('main/setObjectFullInfoBlockOffsetBottom', 0);
+    this.$store.commit('main/setObjectFullInfoBlockOffsetBottom', null);
   },
   watch: {
     currentCategorySlug() {
@@ -507,6 +507,7 @@ export default {
         const el = this.$refs.objectFullInfo;
         const bottom = $(el).outerHeight() + $(el).offset().top;
         this.$store.commit('main/setObjectFullInfoBlockOffsetBottom', bottom);
+        this.showObjectAtMap();
       }, 0);
     },
   },
