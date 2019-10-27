@@ -1,14 +1,13 @@
 <template>
-    <div id="app" class="p-0">
-        <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-        </div>-->
-        <nav-bar />
-        <transition name="fade" mode="out-in">
-          <router-view />
-        </transition>
-    </div>
+  <div
+    id="app"
+    class="p-0"
+    :style="appStyle">
+    <nav-bar />
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
+  </div>
 </template>
 
 <style lang="scss">
@@ -85,8 +84,11 @@ export default {
   components: {
     NavBar,
   },
-  beforeCreate() {
-    // this.$store.dispatch('getAllInitData');
+  computed: {
+    appStyle() {
+      if (!this.$store.state.main) return '';
+      return this.$store.getters['main/mobileHeightStyles'].appStyle;
+    },
   },
 };
 </script>

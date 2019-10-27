@@ -2,7 +2,8 @@
   <div
     class="object-full-info shadow"
     :class="{'bg-white': !isMobileDevice}"
-    :style="{width: isMobileDevice ? '100%' : '60%'}">
+    :style="{width: isMobileDevice ? '100%' : '60%'}"
+    ref="objectFullInfo">
     <div class="row p-3 m-0 bg-white" v-if="!isMobileDevice">
       <div class="col">
         <div class="row">
@@ -136,7 +137,7 @@
       <div class="col mt-4">
         <div class="row">
           <div class="col pr-3">
-            <carousel :object="object" :path="imageFolders.big" />
+            <carousel :object="object" :path="imageFolders.big" @image-loaded="mobileImageLoaded = true" />
           </div>
           <div class="col pl-3 d-flex flex-column">
             <div class="row flex-grow-1">
@@ -355,6 +356,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import $ from 'jquery';
 import FavouriteIcon from './elements/FavouriteIcon.vue';
 import Http from '../modules/Http';
 import toastr from './elements/toastr';
@@ -378,6 +380,7 @@ export default {
       },
       buildingTypes,
       purposesRetail,
+      mobileImageLoaded: false,
     };
   },
   computed: {
@@ -402,6 +405,9 @@ export default {
     }
     this.show = true;
   },
+  beforeDestroy() {
+    this.$store.commit('main/setObjectFullInfoBlockOffsetBottom', 0);
+  },
   watch: {
     currentCategorySlug() {
       this.$store.commit('main/toggleBlocksVisibility', {
@@ -413,6 +419,12 @@ export default {
       if (nv.id) {
         this.getObjectDescription();
       }
+    },
+    mobileImageLoaded(nv) {
+      if (nv && this.description) this.getFullInfoBlockBottom();
+    },
+    description(nv) {
+      if (nv && this.mobileImageLoaded) this.getFullInfoBlockBottom();
     },
   },
   methods: {
@@ -445,8 +457,6 @@ export default {
       const input = document.createElement('input');
       input.name = 'object';
       input.value = JSON.stringify(object);
-      // console.log(object);
-      // return;
       const input2 = document.createElement('input');
       input2.name = '_token';
       input2.value = document.head.querySelector('meta[name=csrf-token]').getAttribute('content');
@@ -490,6 +500,14 @@ export default {
         .catch(() => {
           toastr.warning('Документация не найдена, возможно она была уже удалена');
         });
+    },
+    getFullInfoBlockBottom() {
+      if (!this.isMobileDevice) return;
+      setTimeout(() => {
+        const el = this.$refs.objectFullInfo;
+        const bottom = $(el).outerHeight() + $(el).offset().top;
+        this.$store.commit('main/setObjectFullInfoBlockOffsetBottom', bottom);
+      }, 0);
     },
   },
 };

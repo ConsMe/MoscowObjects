@@ -6,6 +6,7 @@
           :src="path + object.images[0].filename"
           alt="image"
           class="img-fluid"
+          @load="$emit('image-loaded')"
           @click="fancy(0)" />
         <span
           class="text-white pr-3 pl-3 pt-1 pb-1 image-type"

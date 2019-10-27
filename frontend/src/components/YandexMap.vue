@@ -1,5 +1,5 @@
 <template>
-    <div id="map"></div>
+    <div id="map" :style="mapStyle"></div>
 </template>
 
 <script>
@@ -14,12 +14,13 @@ export default {
       map: null,
       collection: null,
       flagTemplate: null,
-      currentZoom: 15,
+      currentZoom: 12,
       zoomChangeIconType: 11,
       remInPx: 0,
       oneLineStyle: '',
       buildingTypes,
       purposesRetail,
+      mapMarginTopStyle: null,
     };
   },
   computed: {
@@ -37,6 +38,10 @@ export default {
     },
     currentCategorySlug() {
       return this.$store.state.currentCategorySlug;
+    },
+    mapStyle() {
+      if (!this.$store.state.main) return '';
+      return this.$store.getters['main/mobileHeightStyles'].mapStyle;
     },
   },
   mounted() {
@@ -201,7 +206,7 @@ export default {
     },
     getFlagPlacemark(object) {
       const coordinates = object.type === 'ZU' && object.areaS ? [[0, 0], [Math.round(5.6 * this.remInPx), Math.round(2.375 * this.remInPx)]]
-        : [[0, 0], [87, Math.round(1.5 * this.remInPx)]];
+        : [[0, 0], [87, Math.round(1.6 * this.remInPx)]];
       const iconOffset = object.type === 'ZU' && object.areaS ? [0, (Math.round(3.875 * this.remInPx)) * -1]
         : [0, (Math.round(3 * this.remInPx) + 2) * -1];
       let options;
@@ -358,6 +363,9 @@ export default {
 }
 .bg-warning::after {
   border-top-color: $warning !important;
+}
+.bg-ipn::after {
+  border-top-color: #0d4678 !important;
 }
 .hoverPlacemark::after, .activePlacemark::after {
   border-top-color: #cc374f !important;
