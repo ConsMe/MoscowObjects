@@ -4,32 +4,7 @@
       <div class="col p-0 pb-1">
         <table class="table table-hover m-0 sticky-thead">
           <thead>
-            <tr>
-              <th scope="col" :class="[sort.buildingName ? `sort-${sort.buildingName}` : null]" @click="sortTo('buildingName')">{{ currentCategorySlug === 'Invest' ? 'Название' : ''}}</th>
-              <th scope="col" :class="[sort.id ? `sort-${sort.id}` : null]" @click="sortTo('id')">Лот</th>
-              <th scope="col" :class="[sort.district ? `sort-${sort.district}` : null]" @click="sortTo('district')">Субъект</th>
-              <th scope="col" :class="[sort.address ? `sort-${sort.address}` : null]" @click="sortTo('address')">Адрес</th>
-              <template v-if="currentCategorySlug === 'ZU'">
-                <th scope="col" :class="[sort.ZUType ? `sort-${sort.ZUType}` : null]" @click="sortTo('ZUType')">Тип</th>
-                <th scope="col" :class="[sort.groundS ? `sort-${sort.groundS}` : null]" @click="sortTo('groundS')">S ЗУ</th>
-                <th scope="col" :class="[sort.areaS ? `sort-${sort.areaS}` : null]" @click="sortTo('areaS')">S ОКС</th>
-                <th scope="col" :class="[sort.purpose ? `sort-${sort.purpose}` : null]" @click="sortTo('purpose')">Назначение</th>
-                <th scope="col" :class="[sort.groundPlan ? `sort-${sort.groundPlan}` : null]" @click="sortTo('groundPlan')">ГПЗУ</th>
-              </template>
-              <template v-else-if="currentCategorySlug === 'Invest'">
-                <th scope="col" :class="[sort.type ? `sort-${sort.type}` : null]" @click="sortTo('type')">Тип</th>
-                <th scope="col" :class="[sort.areaS ? `sort-${sort.areaS}` : null]" @click="sortTo('areaS')">S</th>
-                <th scope="col" :class="[sort.GAP ? `sort-${sort.GAP}` : null]" @click="sortTo('GAP')">ГАП, ₽</th>
-                <th scope="col" :class="[sort.caprate ? `sort-${sort.caprate}` : null]" @click="sortTo('caprate')">Caprate</th>
-              </template>
-              <template v-else-if="currentCategorySlug === 'Retail'">
-                <th scope="col" :class="[sort.purposeRetail ? `sort-${sort.purposeRetail}` : null]" @click="sortTo('purposeRetail')">Назначение</th>
-                <th scope="col" :class="[sort.areaS ? `sort-${sort.areaS}` : null]" @click="sortTo('areaS')">S</th>
-                <th scope="col" :class="[sort.MAP ? `sort-${sort.MAP}` : null]" @click="sortTo('MAP')">МАП, ₽</th>
-                <th scope="col" :class="[sort.payback ? `sort-${sort.payback}` : null]" @click="sortTo('payback')">Окупаемость</th>
-              </template>
-              <th scope="col" class="text-right" :class="[sort.cost ? `sort-${sort.cost}` : null]" @click="sortTo('cost')">Стоимость, ₽</th>
-            </tr>
+            <sort-header :is-mobile-device="isMobileDevice" :sort="sort" @sort-to="sortTo" />
           </thead>
           <tbody>
             <tr
@@ -93,6 +68,11 @@
       </div>
     </div>
     <template v-else>
+      <div>
+        <select name="" id="" class="custom-select">
+          <option value="">Сортировать по</option>
+        </select>
+      </div>
       <div
         class="row m-0 mt-4 pb-0"
         v-for="object in objects"
@@ -133,7 +113,7 @@
                   <p class="mb-0">{{ object.district }}</p>
                   <p class="mb-2 l-height-normal">{{ object.address }}</p>
                   <div class="mb-2 underground" v-if="object.underground">
-                    <img src="../assets/Moscow_Metro.svg" alt="M" class="d-inline-block mr-2">
+                    <img src="../../assets/Moscow_Metro.svg" alt="M" class="d-inline-block mr-2">
                     <span class="d-inline-block">
                       {{ object.underground }}
                     </span>
@@ -210,7 +190,7 @@
 </template>
 
 <style lang="scss">
-@import "../assets/css/_variables.scss";
+@import "../../assets/css/_variables.scss";
 
 .objects-list-block {
   position: absolute;
@@ -256,6 +236,12 @@
       top: 0.5rem !important;
       cursor: pointer;
     }
+  }
+  .custom-select {
+    background-color: transparent;
+    color: rgb(234, 234, 234);
+    text-align: center;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23eaeaea' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 1rem center/8px 10px;
   }
 }
 .objects-list-block > .row::-webkit-scrollbar {
@@ -351,17 +337,18 @@
 
 <script>
 import { mapState } from 'vuex';
-import FavouriteIcon from './elements/FavouriteIcon.vue';
-import toastr from './elements/toastr';
-import Http from '../modules/Http';
-import objectsFields from '../assets/data/objectsFields';
-import buildingTypes from '../assets/data/buildingTypes';
-import purposesRetail from '../assets/data/purposesRetail';
+import FavouriteIcon from '../elements/FavouriteIcon.vue';
+import toastr from '../elements/toastr';
+import Http from '../../modules/Http';
+import objectsFields from '../../assets/data/objectsFields';
+import buildingTypes from '../../assets/data/buildingTypes';
+import purposesRetail from '../../assets/data/purposesRetail';
+import SortHeader from './SortHeader.vue';
 
 export default {
   name: 'ObjectsListBlock',
   components: {
-    FavouriteIcon,
+    FavouriteIcon, SortHeader,
   },
   data() {
     return {
@@ -503,7 +490,7 @@ export default {
       form.submit();
     },
     sortTo(column) {
-      if (column === 'buildingName' && this.currentCategorySlug !== 'Invest') return;
+      if (column === 'image') return;
       const direction = column in this.sort && this.sort[column] === 'down' ? 'up' : 'down';
       this.sort = { [column]: direction };
     },

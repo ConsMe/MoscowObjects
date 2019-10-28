@@ -218,7 +218,7 @@
           <p v-else class="font-italyc">{{ objectInfoVisibility[object.id].title }}</p>
         </div>
       </div>
-      <div class="col-12 text-right mt-3" v-if="objectInfoVisibility[object.id].fullInfo && description">
+      <div class="col-12 text-right mt-4" v-if="objectInfoVisibility[object.id].fullInfo && description">
         <button
           class="btn btn-primary rounded-0"
           @click="checkForTizer"

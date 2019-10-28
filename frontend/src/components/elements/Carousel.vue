@@ -10,6 +10,7 @@
           @click="fancy(0)" />
         <span
           class="text-white pr-3 pl-3 pt-1 pb-1 image-type"
+          v-if="images[0].caption && images[0].caption.length"
           :class="images[0].captionClass">
           <big>{{ images[0].caption }}</big>
         </span>
@@ -45,7 +46,7 @@
               @click="fancy(i)" />
             <span
               class="text-white pr-3 pl-3 pt-1 pb-1 d-inline-block position-absolute"
-              v-if="image.caption"
+              v-if="image.caption && image.caption.length"
               :class="image.captionClass"
               :style="{right: image.style.right, bottom: image.style.bottom}">
                 <big>{{ image.caption }}</big>

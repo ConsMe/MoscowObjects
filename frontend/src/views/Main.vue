@@ -78,7 +78,7 @@ import toastr from 'toastr';
 import YandexMap from '../components/YandexMap.vue';
 import FilterBlock from '../components/FilterBlock.vue';
 import ObjectBlock from '../components/ObjectBlock.vue';
-import ObjectsListBlock from '../components/ObjectsListBlock.vue';
+import ObjectsListBlock from '../components/ObjectsListBlock/ObjectsListBlock.vue';
 import FastFilters from '../components/FastFilters.vue';
 import ObjectFullInfo from '../components/ObjectFullInfo.vue';
 import buildingTypes from '../assets/data/buildingTypes';

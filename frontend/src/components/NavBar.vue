@@ -222,6 +222,9 @@ export default {
     mobileViewportWidth() {
       return this.$store.state.mobileViewportWidth;
     },
+    isMobileDevice() {
+      return this.$store.getters.isMobileDevice;
+    },
   },
   mounted() {
     this.$store.commit('setFavoritesOffsetLeft', this.$refs.favourites.offsetLeft);
@@ -243,13 +246,15 @@ export default {
       }
     },
     toggleBlocks(block, visible) {
-      if (block === 'ObjectsListBlock' && this.activeItems.map === visible) {
-        this.$store.commit('main/changeCurrentObject', {});
+      if (block === 'ObjectsListBlock') {
+        if (this.activeItems.map === visible) this.$store.commit('main/changeCurrentObject', {});
+        if (!this.isMainView) {
+          this.$router.push({ name: this.currentCategorySlug });
+        } else if (this.isMobileDevice) {
+          this.$store.commit('main/toggleBlocksVisibility', { block: 'FilterBlock', visible: false });
+        }
       }
       this.$store.commit('main/toggleBlocksVisibility', { block, visible });
-      if (block === 'ObjectsListBlock' && !this.isMainView) {
-        this.$router.push({ name: this.currentCategorySlug });
-      }
     },
     switchFavoritesState() {
       this.$store.commit('main/switchFavoritesState');

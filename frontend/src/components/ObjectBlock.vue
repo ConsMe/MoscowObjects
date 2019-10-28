@@ -12,7 +12,7 @@
           </button>
         </p>
         <span class="position-relative d-inline-block">
-          <img :src="imageFolders.big + object.images[0].filename" alt="Фото" class="img-fluid" />
+          <img :src="imageFolders.big + object.images[0].filename" alt="Фото" class="img-fluid overflow-hidden" />
           <span
             class="bg-primary text-white pr-3 pl-3 pt-1 pb-1 image-type"
             v-if="object.type === 'ZU' && object.images[0].caption"
