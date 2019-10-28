@@ -15,7 +15,7 @@
               :title="objectInfoVisibility[object.id].titleText"
             >
               <td width="25%">
-                <span class="position-relative d-inline-block">
+                <span class="position-relative d-inline-block overflow-hidden">
                   <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
                   <span
                     class="bg-primary text-white pr-2 pl-2 pt-1 pb-1 image-type"
@@ -81,7 +81,7 @@
         <div class="col pb-1">
           <div class="row">
             <div class="col pr-3">
-              <span class="position-relative d-inline-block">
+              <span class="position-relative d-inline-block overflow-hidden">
                 <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
                 <span
                   class="bg-primary text-white pr-3 pl-3 pt-1 pb-1 image-type"
