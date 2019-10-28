@@ -11,10 +11,44 @@
       </th>
     </template>
     <template v-else>
-
+      <div class="row ml-0 sort-string-mobile">
+        <div class="col-auto d-flex">
+          <label for="sortSelect" class="mb-0 align-self-center">Сортировать по:</label>
+        </div>
+        <div class="col pl-0">
+          <select id="sortSelect" class="custom-select ">
+            <option
+              v-for="(title, field, i) in fields"
+              :key="i"
+              :value="{ field, direction: 'up' }">
+              {{ title }}
+            </option>
+            <option
+              v-for="(title, field, i) in fields"
+              :key="`n${i}`"
+              :value="{ field, direction: 'down' }">
+              {{ title }}
+            </option>
+          </select>
+        </div>
+      </div>
     </template>
   </div>
 </template>
+
+<style lang="scss">
+  .sort-string-mobile {
+    .custom-select {
+      background-color: transparent;
+      color: rgb(234, 234, 234);
+      text-align: center;
+      background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23eaeaea' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 1rem center/8px 10px;
+    }
+    label {
+      color: rgb(234, 234, 234);
+    }
+  }
+</style>
 
 <script>
 export default {
@@ -73,6 +107,12 @@ export default {
           return '';
       }
     },
+    // fieldsWithDirections() {
+    //   const fields = {};
+    //   Object.keys(this.fields).forEacy((field) => {
+    //     fields[field] =
+    //   })
+    // },
   },
   methods: {
     sortTo() {

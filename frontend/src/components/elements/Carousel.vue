@@ -1,7 +1,7 @@
 <template>
   <div class="h-100">
     <div v-if="isMobileDevice" ref="carouselInner">
-      <span class="position-relative d-inline-block">
+      <span class="position-relative d-inline-block overflow-hidden">
         <img
           :src="path + object.images[0].filename"
           alt="image"

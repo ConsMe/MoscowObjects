@@ -69,9 +69,7 @@
     </div>
     <template v-else>
       <div>
-        <select name="" id="" class="custom-select">
-          <option value="">Сортировать по</option>
-        </select>
+        <sort-header :is-mobile-device="isMobileDevice" :sort="sort" @sort-to="sortTo" />
       </div>
       <div
         class="row m-0 mt-4 pb-0"
@@ -237,12 +235,6 @@
       cursor: pointer;
     }
   }
-  .custom-select {
-    background-color: transparent;
-    color: rgb(234, 234, 234);
-    text-align: center;
-    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23eaeaea' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 1rem center/8px 10px;
-  }
 }
 .objects-list-block > .row::-webkit-scrollbar {
   background: transparent;
@@ -380,14 +372,22 @@ export default {
           a = object1.groundPlan.short;
           b = object2.groundPlan.short;
         } else if (field === 'type' && this.currentCategorySlug === 'Invest') {
-          a = object1.buildingType.short;
-          b = object2.buildingType.short;
+          a = this.buildingTypes[object1.buildingType].short;
+          b = this.buildingTypes[object2.buildingType].short;
         } else if (field === 'purposeRetail' && this.currentCategorySlug === 'Retail') {
           a = this.purposesRetail[object1.purposeRetail].short;
           b = this.purposesRetail[object2.purposeRetail].short;
         } else {
-          a = isFieldNumeric ? parseFloat(object1[field].toString().replace(/\s/g, '')) : object1[field];
-          b = isFieldNumeric ? parseFloat(object2[field].toString().replace(/\s/g, '')) : object2[field];
+          if (!object1[field]) {
+            a = isFieldNumeric ? 0 : '';
+          } else {
+            a = isFieldNumeric ? parseFloat(object1[field].toString().replace(/\s/g, '')) : object1[field];
+          }
+          if (!object2[field]) {
+            b = isFieldNumeric ? 0 : '';
+          } else {
+            b = isFieldNumeric ? parseFloat(object2[field].toString().replace(/\s/g, '')) : object2[field];
+          }
         }
         if (direction === 'down') [a, b] = [b, a];
         if (a > b) return -1;
@@ -425,6 +425,10 @@ export default {
   watch: {
     currentCategorySlug() {
       this.sort = { id: 'down' };
+      setTimeout(() => {
+        const block = this.isMobileDevice ? this.$refs.objectsListBlock : this.$refs.scrollableDesktop;
+        block.scrollTop = 0;
+      }, 0);
     },
   },
   methods: {
