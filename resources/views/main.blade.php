@@ -58,12 +58,43 @@
     .icon {
       width: 3rem;
     }
+    i[class^='flaticon']::before {
+      font-size: 3rem;
+      margin-left: 0;
+    }
+    i.flaticon-builder::before {
+      font-size: 3.3rem;
+    }
     .block4 p {
       font-size: 0.8rem;
+    }
+    .fake-nav * {
+      font-size: 14px !important;
+    }
+    .fake-nav img {
+      height: 16px !important;
+    }
+    .fake-nav button {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
     }
     @media (max-width: 1699.98px){
       html {
         font-size: 14px;
+      }
+      .fake-nav * {
+        font-size: 11.9px !important;
+      }
+      .fake-nav img {
+        height: 13.6px !important;
+      }
+    }
+    @media (max-width: 1399.98px){
+      .fake-nav * {
+        font-size: 11.2px !important;
+      }
+      .fake-nav img {
+        height: 12.8px !important;
       }
     }
     @media (max-width: 991.98px){
@@ -84,9 +115,6 @@
       }
       .z-minus-1 {
         z-index: -1;
-      }
-      .icon {
-        width: 3rem;
       }
       .col-dropdown {
         padding-right: .2rem !important;
@@ -136,9 +164,40 @@
         max-width: 18%;
       }
     }
+    @media (max-width: 1279px) {
+      .fake-nav * {
+        font-size: 9.8px !important;
+      }
+      .fake-nav img {
+        height: 11.21px !important;
+      }
+    }
     @media (max-width: 1160px) {
       .icon {
         width: 2rem;
+      }
+      i[class^='flaticon']::before {
+        font-size: 2rem;
+      }
+      i.flaticon-builder::before {
+        font-size: 2.2rem;
+      }
+    }
+    @media (max-width: 991.98px) {
+      .icon {
+        width: 3rem;
+      }
+      i[class^='flaticon']::before {
+        font-size: 3rem;
+      }
+      i.flaticon-builder::before {
+        font-size: 3.3rem;
+      }
+      .real-nav img {
+        height: 1.12rem !important;
+      }
+      .real-nav * {
+        font-size: 0.98rem;
       }
     }
     nav {
@@ -179,6 +238,51 @@
     .custom-padding {
       padding-left: .25rem;
     }
+    @font-face {
+      font-family: "Flaticon";
+      src: url("/fonts/Flaticon.eot");
+      src: url("/fonts/Flaticon.eot?#iefix") format("embedded-opentype"),
+      url("/fonts/Flaticon.woff2") format("woff2"),
+      url("/fonts/Flaticon.woff") format("woff"),
+      url("/fonts/Flaticon.ttf") format("truetype"),
+      url("/fonts/Flaticon.svg#Flaticon") format("svg");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+      @font-face {
+        font-family: "Flaticon";
+        src: url("/fonts/Flaticon.svg#Flaticon") format("svg");
+      }
+    }
+
+    [class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+    [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
+      font-family: Flaticon;
+      font-size: 20px;
+      font-style: normal;
+      margin-left: 20px;
+    }
+
+    .flaticon-builder:before { content: "\f100"; }
+    .flaticon-file:before { content: "\f101"; }
+    .flaticon-locked-padlock:before { content: "\f102"; }
+    .flaticon-wrench:before { content: "\f103"; }
+    .flaticon-information-button:before { content: "\f104"; }
+
+    .fake-nav {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      visibility: hidden;
+    }
+    #realLogo {
+      -webkit-transition: opacity 1s ease-out 0.5s;
+      -moz-transition: opacity 1s ease-out 0.5s;
+      -o-transition: opacity 1s ease-out 0.5s;
+      transition: opacity 0.3s ease-out;
+    }
   </style>
 </head>
 
@@ -187,10 +291,10 @@
   <body
     style="min-height: 100%;position: absolute;left: 0;top: 0;width: 100%;overflow-x: hidden;font-family: Roboto, sans-serif;">
     <section class="d-flex flex-column" style="min-height: 100vh;overflow: hidden;">
-      <nav class="navbar navbar-dark navbar-expand-md" style="background-color: #060606;">
-        <div class="col-6 col-sm-1 offset-lg-1">
-          <a href="#" class="navbar-brand">
-            <img src="/img/title.png" style="height: 1rem;" />
+      <nav class="navbar navbar-dark navbar-expand-md real-nav" style="background-color: #060606;">
+        <div class="col-6 col-sm-1 pl-0">
+          <a href="/" class="navbar-brand">
+            <img src="/img/title.png" style="height: 1rem; opacity: 0;" id="realLogo" />
           </a>
         </div>
         <div class="col text-right">
@@ -210,6 +314,69 @@
                 </form>
               @endauth
             </div>
+          </div>
+        </div>
+      </nav>
+      <nav class="navbar navbar-expand navbar-dark bg-dark pl-0 pr-0 shadow pb-1 pb-lg-2 fake-nav">
+        <div class="row w-100 m-0">
+          <div class="col">
+            <ul class="navbar-nav row text-center">
+              <li class="nav-item col-5 col-lg pl-lg-0 pr-lg-0 text-left text-lg-center"><a href="/"
+                  class="navbar-brand mr-0"><img src="/img/title.png" style="height: 1rem;" id="fakeLogo"></a></li>
+              <li
+                class="nav-item col-6 col-lg dropdown text-uppercase pl-lg-0 pr-0 order-3 order-lg-1 border-sm-bottom">
+                <a href="/" id="categoryDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false"
+                  class="nav-link dropdown-toggle text-truncate text-left text-lg-center pl-xs-0">Земельные
+                  участки</a>
+                <div aria-labelledby="categoryDropdown"
+                  class="dropdown-menu my-dropdown-menu-center category p-0"><a href="/"
+                    class="dropdown-item">Крупные Инвест.объекты</a><a href="/"
+                    class="dropdown-item">Коммерческие помещения</a></div>
+              </li>
+              <li data-v-11d3cc11=""
+                class="nav-item col-6 col-lg-auto dropdown order-5 order-lg-2 padding-20 pr-xs-3">
+                <form data-v-11d3cc11=""><input data-v-11d3cc11="" type="text" placeholder="Лот или адрес"
+                    class="form-control bg-transparent border-white"></form>
+                <div data-v-11d3cc11="" class="dropdown-menu dropdown-search" style="opacity: 1;"><span
+                    data-v-11d3cc11="" class="dropdown-item notfound">
+                    Ничего не найдено
+                  </span></div>
+              </li>
+              <li class="nav-item col-6 col-lg-auto order-4 order-lg-3 border-sm-top">
+                <div role="group" class="btn-group"><button type="button"
+                    class="btn btn-outline-dark rounded-0 active">Карта</button><button type="button"
+                    class="btn btn-outline-dark rounded-0">Список</button></div>
+              </li>
+              <li class="nav-item col-4 col-lg-auto order-1 order-lg-4 pr-xs-0"><a href="/"
+                  class="nav-link"><i class="fa fa-heart mr-1 position-relative"></i>
+                  Избранное
+                </a></li>
+              <li class="nav-item col-3 col-lg-auto dropdown order-2 order-lg-5 px-xs-0"><a href="/"
+                  id="lkDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false" class="nav-link dropdown-toggle">
+                  Кабинет
+                  <i class="fa fa-user ml-2 text-primary"></i></a>
+                <div aria-labelledby="lkDropdown" class="dropdown-menu w-auto lk-menu"><a
+                    href="/lk/objects/new" class="dropdown-item">
+                    Новый объект
+                  </a><a href="/lk/objects" class="dropdown-item">
+                    Каталог
+                  </a><a href="/lk/users" class="dropdown-item">
+                    Пользователи
+                  </a><a href="/lk/account" class="dropdown-item">
+                    Аккаунт
+                  </a><a href="" class="dropdown-item">Выйти</a>
+                  <form action="/logout" method="POST" style="display: none;"><input type="hidden"
+                      name="_token"></form>
+                </div>
+              </li>
+              <li class="nav-item col-6 col-lg text-uppercase pl-0 pr-0 order-5 order-lg-6 padding-20"><a
+                  href="/" class="nav-link dropdown-toggle"><span
+                    class="d-inline-block position-relative">
+                    Фильтр
+                    <!----></span></a></li>
+            </ul>
           </div>
         </div>
       </nav>
@@ -260,37 +427,53 @@
             <div class="col">
               <p>Проект ИНВЕСТТЕХ.PRO является профессиональным инструментом поиска объектов недвижимости для целей девелопмента и крупных инвестиций.<br /></p>
             </div>
-            <div class="col-auto custom-padding"><img src="/img/002-wrench.png" class="icon" /></div>
+            <div class="col-auto custom-padding"><i class="flaticon-wrench"></i></div>
           </div>
           <div class="row">
             <div class="col">
               <p>Представленный каталог объектов предназначен, в первую очередь, для пользования представителями компаний-застройщиков, частных и институциональных инвесторов, а также брокеров по недвижимости.<br /></p>
             </div>
-            <div class="col-auto custom-padding"><img src="/img/003-builder.png" class="icon" /></div>
+            <div class="col-auto custom-padding"><i class="flaticon-builder"></i></div>
           </div>
           <div class="row">
             <div class="col">
               <p>Доступ к полному функционалу и каталогу проекта возможен только после идентификации нового пользователя и авторизации.<br /></p>
             </div>
-            <div class="col-auto custom-padding"><img src="/img/001-lock.png" class="icon" /></div>
+            <div class="col-auto custom-padding"><i class="flaticon-locked-padlock"></i></div>
           </div>
           <div class="row">
             <div class="col">
               <p>Настоящий сайт и любые размещенные на нем сведения носят информационный характер и не являются публичной офертой.<br /></p>
             </div>
-            <div class="col-auto custom-padding"><img src="/img/005-information-button.png" class="icon" />
+            <div class="col-auto custom-padding"><i class="flaticon-information-button"></i>
             </div>
           </div>
           <div class="row">
             <div class="col">
               <p>Проект разработан в ГК «Инвестиционные технологии». Использование материалов сайта разрешается только с согласия правообладателя.<br /></p>
             </div>
-            <div class="col-auto custom-padding"><img src="/img/004-document.png" class="icon" /></div>
+            <div class="col-auto custom-padding"><i class="flaticon-file"></i></div>
           </div>
         </div>
       </div>
     </section>
   </body>
+  <script>
+    $(document).ready(function() {
+      if (window.outerWidth < 980) {
+        $('#realLogo').css('margin-left', '5px').css('opacity', 1);
+      } else {
+        var left = $('#fakeLogo')[0].offsetLeft;
+        var pl;
+        if (window.outerWidth >= 1280) {
+          pl = 16;
+        } else {
+          pl = 14;
+        }
+        $('#realLogo').css('margin-left', (left - pl) + 'px').css('opacity', 1);
+      }
+    })
+  </script>
 </body>
 
 </html>
