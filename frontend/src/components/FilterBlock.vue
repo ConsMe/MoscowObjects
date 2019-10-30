@@ -117,10 +117,10 @@
 
   .custom-select {
     height: 100%;
-    padding: 0;
+    padding: 0 .35rem;
     text-align-last: center;
     background: transparent;
-    width: 1.5rem;
+    width: auto;
     margin-right: -0.5rem;
     color: $gray-500 !important;
     border-color: $gray-500 !important;
@@ -129,6 +129,11 @@
     height: auto;
     padding-top: .125rem !important;
     padding-bottom: .125rem !important;
+  }
+  @media (max-width: 991.98px) {
+    &, input[type="text"] {
+      font-size: 1.15rem;
+    }
   }
 }
 .filter-block > .row {

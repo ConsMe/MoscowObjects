@@ -6,7 +6,7 @@
         :key="i"
         scope="col"
         :class="[sort[field] ? `sort-${sort[field]}` : null]"
-        @click="$emit('sort-to', field)">
+        @click="sortTo(field)">
         {{ title ? title : ''}}
       </th>
     </template>
@@ -16,18 +16,12 @@
           <label for="sortSelect" class="mb-0 align-self-center">Сортировать по:</label>
         </div>
         <div class="col pl-0">
-          <select id="sortSelect" class="custom-select ">
+          <select id="sortSelect" class="custom-select" v-model="mobileField">
             <option
-              v-for="(title, field, i) in fields"
+              v-for="(option, i) in fieldsWithDirections"
               :key="i"
-              :value="{ field, direction: 'up' }">
-              {{ title }}
-            </option>
-            <option
-              v-for="(title, field, i) in fields"
-              :key="`n${i}`"
-              :value="{ field, direction: 'down' }">
-              {{ title }}
+              :value="{ field: option.field, direction: option.direction }"
+              v-html="option.title">
             </option>
           </select>
         </div>
@@ -60,6 +54,10 @@ export default {
         id: 'Лот',
         district: 'Субъект',
         address: 'Адрес',
+      },
+      mobileField: {
+        field: 'id',
+        direction: 'down',
       },
     };
   },
@@ -107,16 +105,36 @@ export default {
           return '';
       }
     },
-    // fieldsWithDirections() {
-    //   const fields = {};
-    //   Object.keys(this.fields).forEacy((field) => {
-    //     fields[field] =
-    //   })
-    // },
+    fieldsWithDirections() {
+      const fields = [];
+      Object.keys(this.fields).forEach((field) => {
+        if (!this.fields[field]) return;
+        fields.push({ title: `${this.fields[field]} &#65516;`, field, direction: 'down' });
+        fields.push({ title: `${this.fields[field]} &#65514;`, field, direction: 'up' });
+      });
+      return fields;
+    },
+  },
+  watch: {
+    mobileField(nv) {
+      this.sortTo(nv.field, nv.direction);
+    },
+    currentCategorySlug() {
+      if (this.isMobileDevice) {
+        this.mobileField = {
+          field: 'id',
+          direction: 'down',
+        };
+      }
+    },
   },
   methods: {
-    sortTo() {
-
+    sortTo(field, direction) {
+      let passDirection = direction;
+      if (!direction) {
+        passDirection = field in this.sort && this.sort[field] === 'down' ? 'up' : 'down';
+      }
+      this.$emit('sort-to', field, passDirection);
     },
   },
 };

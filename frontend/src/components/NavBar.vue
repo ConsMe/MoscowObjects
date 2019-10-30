@@ -1,16 +1,18 @@
 <template>
-  <nav class="navbar navbar-expand navbar-dark bg-dark pl-0 pr-0 shadow">
+  <nav
+    class="navbar navbar-expand navbar-dark bg-dark pl-0 pr-0 shadow pb-1 pb-lg-2"
+    :class="mobileClasses">
     <div class="row w-100 m-0">
       <div class="col">
         <ul class="navbar-nav row text-center">
-          <li class="nav-item col-5 col-lg pl-0 pr-0" ref="brandWidth">
+          <li class="nav-item col-5 col-lg pl-lg-0 pr-lg-0 text-left text-lg-center" ref="brandWidth">
             <a class="navbar-brand mr-0" href="/">
               <img src="/img/title.png" style="height: 1rem;" />
             </a>
           </li>
-          <li class="nav-item col-6 col-lg dropdown text-uppercase pl-0 pr-0 order-3 order-lg-1 border-sm-bottom">
+          <li class="nav-item col-6 col-lg dropdown text-uppercase pl-lg-0 pr-0 order-3 order-lg-1 border-sm-bottom">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link dropdown-toggle text-truncate text-left text-lg-center pl-xs-0"
               href="/"
               id="categoryDropdown"
               role="button"
@@ -31,7 +33,7 @@
               >{{ category.name }}</a>
             </div>
           </li>
-          <search-object :is-main-view="isMainView" class="order-5 order-lg-2" />
+          <search-object :is-main-view="isMainView" class="order-5 order-lg-2 padding-20 pr-xs-3" />
           <li class="nav-item col-6 col-lg-auto order-4 order-lg-3 border-sm-top">
             <div class="btn-group" role="group">
               <button
@@ -48,7 +50,7 @@
               >Список</button>
             </div>
           </li>
-          <li class="nav-item col-4 col-lg-auto order-1 order-lg-4" ref="favourites">
+          <li class="nav-item col-4 col-lg-auto order-1 order-lg-4 pr-xs-0" ref="favourites">
             <a
               class="nav-link"
               href="/"
@@ -61,8 +63,10 @@
               Избранное
             </a>
           </li>
-          <lk-menu-navbar class="order-2 order-lg-5" />
-          <li class="nav-item col-6 col-lg text-uppercase pl-0 pr-0 order-5 order-lg-6" ref="filterWidth">
+          <lk-menu-navbar class="order-2 order-lg-5 px-xs-0" />
+          <li
+            class="nav-item col-6 col-lg text-uppercase pl-0 pr-0 order-5 order-lg-6 padding-20"
+            ref="filterWidth">
             <a
               class="nav-link dropdown-toggle"
               :class="{active: (activeItems.filter || filtersOn) && isMainView, disabled: !isMainView}"
@@ -114,8 +118,8 @@
   @media (max-width: 991.98px){
     .nav-item {
       border: 1px solid transparent;
-      padding-top: 0.7rem;
-      margin-bottom: 0.4rem;
+      padding-top: 0.35rem;
+      margin-bottom: 0.2rem;
     }
     .border-sm-bottom {
       border-bottom: 1px solid $gray-500;
@@ -124,6 +128,22 @@
     .border-sm-top {
       border-top: 1px solid $gray-500;
       border-left: 0;
+    }
+    .padding-20 {
+      padding-top: .1rem !important;
+    }
+    .px-xs-0 {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    .pr-xs-0 {
+      padding-right: 0 !important;
+    }
+    .pr-xs-3 {
+      padding-right: 1rem !important;
+    }
+    .pl-xs-0 {
+      padding-left: 0 !important;
     }
   }
   .favouritesCount {
@@ -224,6 +244,12 @@ export default {
     },
     isMobileDevice() {
       return this.$store.getters.isMobileDevice;
+    },
+    mobileClasses() {
+      if (this.isMobileDevice) {
+        return ['pt-0', 'border-top-0'];
+      }
+      return null;
     },
   },
   mounted() {

@@ -108,92 +108,11 @@
       </div>
     </div>
     <div class="row ml-0 mr-0 pb-3" v-else>
-      <div class="col mt-4">
-        <div class="row">
-          <div class="col pr-3">
-            <span class="position-relative d-inline-block overflow-hidden">
-              <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
-              <span
-                class="bg-primary text-white pr-3 pl-3 pt-1 pb-1 image-type"
-                v-if="object.type === 'ZU' && object.images[0].caption"
-              >
-                <big>{{ object.images[0].caption }}</big>
-              </span>
-              <span
-                class="bg-danger text-white pr-3 pl-3 pt-1 pb-1 building-name-bottom text-uppercase"
-                v-else-if="object.type === 'Invest'"
-              >
-                <big>{{ object.buildingName }}</big>
-              </span>
-            </span>
-          </div>
-          <div class="col pl-3 d-flex flex-column">
-            <div class="row flex-grow-1">
-              <div class="col">
-                <div class="row mb-2">
-                  <div class="col">
-                    Лот
-                    {{ object.id }}
-                  </div>
-                  <div class="col-2 pl-0 ">
-                    <favourite-icon :object-id="object.id" />
-                  </div>
-                  <div class="col-auto">
-                    <button type="button" class="close" @click="closeObjectBlock">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                </div>
-                <p class="mb-2" v-if="object.type === 'Invest'">{{ buildingTypes[object.buildingType].full }}</p>
-                <p class="mb-2">{{ object.district }}</p>
-                <p class="mb-2">{{ object.address }}</p>
-              </div>
-            </div>
-            <p class="mt-4 mb-0 text-white">
-              <big v-if="objectInfoVisibility[object.id].showPrice">
-                {{ object.cost }}
-                <strong>₽</strong>
-              </big>
-              <span
-                v-else-if="objectInfoVisibility[object.id].priceMessage"
-                class="text-dark"
-              >{{ objectInfoVisibility[object.id].priceMessage }}</span>
-            </p>
-          </div>
-        </div>
-        <template v-if="object.type === 'ZU'">
-          <div class="row mt-4 mb-2">
-            <div class="col-5">Земельный участок</div>
-            <div class="col">{{ object.kadastrNumberZU }}</div>
-            <div class="col">{{ object.groundS }}</div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-5">{{ object.purposeZU }}</div>
-            <div class="col" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</div>
-          </div>
-          <div class="border-top-1 mb-3"></div>
-          <div class="row mt-2 mb-2">
-            <div class="col-5">ОКС</div>
-            <div class="col">{{ object.kadastrNumberOKS }}</div>
-            <div class="col" v-html="object.areaS"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-5">{{ object.purposeOKS }}</div>
-          </div>
-        </template>
-        <template v-if="object.type === 'Invest'">
-          <div class="row mt-4 mb-2">
-            <div class="col text-nowrap" v-html="object.areaS"></div>
-            <div class="col text-nowrap text-center" v-if="object.GAP">
-              {{ object.GAP }}
-              <strong>₽</strong>
-            </div>
-            <div class="col text-nowrap text-right" v-if="object.caprate">
-              {{ object.caprate + '%' }}
-            </div>
-          </div>
-        </template>
-      </div>
+      <object-info
+        :object="object"
+        :isMobileDevice="isMobileDevice"
+        type="info"
+        @close-object-block="closeObjectBlock" />
     </div>
     <button
       class="btn btn-block btn-primary text-uppercase rounded-0 btn-lg justify-content-center"
@@ -295,11 +214,12 @@ import FavouriteIcon from './elements/FavouriteIcon.vue';
 import toastr from './elements/toastr';
 import buildingTypes from '../assets/data/buildingTypes';
 import purposesRetail from '../assets/data/purposesRetail';
+import ObjectInfo from './ObjectsListBlock/ObjectMobileInfo.vue';
 
 export default {
   name: 'ObjectBlock',
   components: {
-    FavouriteIcon,
+    FavouriteIcon, ObjectInfo,
   },
   data() {
     return { buildingTypes, purposesRetail };

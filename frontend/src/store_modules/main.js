@@ -200,7 +200,9 @@ export default {
       const { role, accepted } = rootState.user;
       const visibility = {};
       rootGetters.objects.forEach((object) => {
-        let [title, titleText, lock, showPrice, fullInfo, priceMessage] = [null, null, false, true, true, null];
+        let [title, titleText, lock, showPrice, fullInfo, priceMessage, priceMessageShort] = [
+          null, null, false, true, true, null, null,
+        ];
         if (!isAuthorized) {
           if (object.price_admins_only || object.only_auth) {
             title = '<span class="action">Авторизуйтесь</span>, чтобы видеть больше информации';
@@ -222,9 +224,10 @@ export default {
         } else if (object.price_admins_only && !['admin', 'manager'].includes(role)) {
           showPrice = false;
           priceMessage = 'Информация о цене объекта закрыта';
+          priceMessageShort = 'Информация о цене закрыта';
         }
         visibility[object.id] = {
-          title, titleText, lock, showPrice, fullInfo, priceMessage,
+          title, titleText, lock, showPrice, fullInfo, priceMessage, priceMessageShort,
         };
       });
       return visibility;

@@ -68,7 +68,7 @@
       </div>
     </div>
     <template v-else>
-      <div>
+      <div style="border: 1px solid #282828;">
         <sort-header :is-mobile-device="isMobileDevice" :sort="sort" @sort-to="sortTo" />
       </div>
       <div
@@ -76,101 +76,7 @@
         v-for="object in objects"
         :key="object.id"
         @click="showObjectFullInfo(object)">
-        <div class="col pb-1">
-          <div class="row">
-            <div class="col pr-3">
-              <span class="position-relative d-inline-block overflow-hidden">
-                <img :src="imageFolders.small + object.images[0].filename" alt="Фото" class="img-fluid" />
-                <span
-                  class="bg-primary text-white pr-3 pl-3 pt-1 pb-1 image-type"
-                  v-if="['ZU', 'Retail'].includes(object.type) && object.images[0].caption"
-                >
-                  <big>{{ object.images[0].caption }}</big>
-                </span>
-                <span
-                  class="bg-danger text-white pr-3 pl-3 pt-1 pb-1 building-name-bottom text-uppercase"
-                  v-else-if="object.type === 'Invest'"
-                >
-                  <big>{{ object.buildingName }}</big>
-                </span>
-              </span>
-            </div>
-            <div class="col pl-3 d-flex flex-column">
-              <div class="row flex-grow-1">
-                <div class="col">
-                  <div class="row mb-2">
-                    <div class="col">
-                      Лот
-                      {{ object.id }}
-                    </div>
-                    <div class="col-auto pl-0 ">
-                      <favourite-icon :object-id="object.id" />
-                    </div>
-                  </div>
-                  <p class="mb-2 l-height-normal" v-if="object.type === 'Invest'">{{ buildingTypes[object.buildingType].full }}</p>
-                  <p class="mb-0">{{ object.district }}</p>
-                  <p class="mb-2 l-height-normal">{{ object.address }}</p>
-                  <div class="mb-2 underground" v-if="object.underground">
-                    <img src="../../assets/Moscow_Metro.svg" alt="M" class="d-inline-block mr-2">
-                    <span class="d-inline-block">
-                      {{ object.underground }}
-                    </span>
-                  </div>
-                  <template v-if="object.type === 'Retail'">
-                    <p class="mb-2 text-white" v-html="object.areaS"></p>
-                    <div class="row mb-0" v-if="object.MAP || object.payback">
-                      <div class="col-auto pr-0">
-                        <p class="mb-0" v-if="object.MAP">МАП</p>
-                        <p class="mb-0" v-if="object.payback">Окупаемость</p>
-                      </div>
-                      <div class="col">
-                        <p class="mb-0" v-if="object.MAP">
-                          {{ object.MAP }}
-                          <strong>₽</strong>
-                        </p>
-                        <p class="mb-0" v-if="object.payback">
-                          {{ object.payback + ' лет' }}
-                        </p>
-                      </div>
-                    </div>
-                  </template>
-                </div>
-              </div>
-              <p class="mt-4 mb-0 text-white">
-                <big v-if="objectInfoVisibility[object.id].showPrice">
-                  {{ object.cost }}
-                  <strong>₽</strong>
-                </big>
-                <span
-                  v-else-if="objectInfoVisibility[object.id].priceMessage"
-                  class="text-dark"
-                >{{ objectInfoVisibility[object.id].priceMessage }}</span>
-              </p>
-            </div>
-          </div>
-          <div class="row mt-4 mb-3">
-            <template v-if="object.type === 'ZU'">
-              <div class="col-auto">{{ object.ZUType }}</div>
-              <div class="col text-nowrap text-center">{{ object.groundS }}</div>
-              <div class="col text-nowrap text-center" v-html="object.areaS"></div>
-              <div class="col text-center">{{ object.ZUType === 'ЗУ' ? object.purposeZU : object.purposeOKS }}</div>
-              <div class="col text-right">
-                {{ object.groundPlan.is ? object.groundPlan.mobile : '' }}
-              </div>
-            </template>
-            <template v-if="object.type === 'Invest'">
-              <div class="col text-nowrap" v-html="object.areaS"></div>
-              <div class="col text-nowrap text-center">{{ object.groundS }}</div>
-              <div class="col text-nowrap text-center" v-if="object.GAP">
-                {{ object.GAP }}
-                <strong>₽</strong>
-              </div>
-              <div class="col" v-else></div>
-              <div class="col text-nowrap text-right">{{ object.caprate ? `${object.caprate}%` : '' }}</div>
-            </template>
-          </div>
-          <div class="border-top-1"></div>
-        </div>
+        <object-info :object="object" :isMobileDevice="isMobileDevice" type="list" />
       </div>
     </template>
     <transition name="bounce" v-if="!isMobileDevice && isAuthorized">
@@ -336,11 +242,12 @@ import objectsFields from '../../assets/data/objectsFields';
 import buildingTypes from '../../assets/data/buildingTypes';
 import purposesRetail from '../../assets/data/purposesRetail';
 import SortHeader from './SortHeader.vue';
+import ObjectInfo from './ObjectMobileInfo.vue';
 
 export default {
   name: 'ObjectsListBlock',
   components: {
-    FavouriteIcon, SortHeader,
+    FavouriteIcon, SortHeader, ObjectInfo,
   },
   data() {
     return {
@@ -493,10 +400,8 @@ export default {
       document.body.appendChild(form);
       form.submit();
     },
-    sortTo(column) {
-      if (column === 'image') return;
-      const direction = column in this.sort && this.sort[column] === 'down' ? 'up' : 'down';
-      this.sort = { [column]: direction };
+    sortTo(field, direction) {
+      this.sort = { [field]: direction };
     },
   },
 };

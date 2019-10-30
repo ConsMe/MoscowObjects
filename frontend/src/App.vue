@@ -14,6 +14,7 @@
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
 @import "./assets/css/toastr.scss";
+@import "./assets/css/icomoon.css";
 
 html {
   font-size: .7rem;
@@ -70,6 +71,9 @@ html {
   line-height: 0.875rem !important;
   margin-bottom: 0 !important;
   border: 0 !important;
+}
+.l-height-normal {
+  line-height: normal;
 }
 </style>
 

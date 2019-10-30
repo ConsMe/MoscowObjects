@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="format-detection" content="telephone=no">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{ env('APP_NAME') }}</title>
   <link rel="stylesheet"
@@ -51,6 +52,9 @@
     .block3::before {
       background-image: url('/img/022c0e63297843.5aabd3a73993f_2.jpg');
     }
+    .block1, .block2, .block3 {
+      background-color: rgba(0,0,0,0.72);
+    }
     .icon {
       width: 3rem;
     }
@@ -63,6 +67,12 @@
       }
     }
     @media (max-width: 991.98px){
+      html {
+        font-size: 10px;
+      }
+      .block1, .block2, .block3 {
+        height: 290px;
+      }
       .block4 > .row {
         margin-bottom: 2rem;
       }
@@ -87,14 +97,20 @@
       }
     }
     @media (max-width: 575.98px){
-      html {
-        font-size: 12px;
+      .block1, .block2, .block3 {
+        height: 180px;
       }
       .block4 p {
         font-size: 1.1rem;
       }
     }
     @media (min-width: 992px){
+      .h-lg-50 {
+        height: 50%;
+      }
+      .content {
+        flex: 1;
+      }
       .block-shadow-right {
         box-shadow: 10px 0px 15px -1px rgba(0, 0, 0, 0.28);
       }
@@ -158,7 +174,7 @@
       cursor: pointer;
     }
     .clickable:hover {
-      background-color: rgba(0, 0, 0, .5) !important;
+      background-color: rgba(0, 0, 0, .2) !important;
     }
     .custom-padding {
       padding-left: .25rem;
@@ -197,44 +213,44 @@
           </div>
         </div>
       </nav>
-      <div class="row no-gutters text-white ml-0 mr-0" style="flex: 1;">
+      <div class="row no-gutters text-white ml-0 mr-0 content">
         <div
           class="col-12 d-flex flex-column justify-content-center align-items-center col-lg-4 block1 pt-4 pb-3 pl-2 pr-2 block-shadow block-shadow-right clickable"
-          style="background-color: rgba(0,0,0,0.67);" onclick="location.href='/zu'">
+          onclick="location.href='/zu'">
           <h5 class="text-center text-white" style="position: relative;"><span
               class="d-block">ЗЕМЕЛЬНЫЕ УЧАСТКИ</span><span class="d-block">ДЛЯ НОВОГО
               СТРОИТЕЛЬСТВА</span><span class="d-block">И ОБЪЕКТЫ КАПИТАЛЬНОГО
               СТРОИТЕЛЬСТВА</span><span class="d-block">ПОД РЕКОНСТРУКЦИЮ</span></h5>
           <p
-            class="text-uppercase position-relative text-white h2 pb-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold">
+            class="text-uppercase position-relative text-white h2 pb-2 pb-lg-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold mb-0 mb-lg-2">
             {{ $zuCount }} Предложений</p>
-          <p class="position-relative text-white h2 mt-4 font-weight-bold">{{ $zuGroundS }} Га</p>
+          <p class="position-relative text-white h2 mt-2 mt-lg-4 font-weight-bold">{{ $zuGroundS }} Га</p>
         </div>
         <div class="col-12 col-lg-4 pl-0 pr-0">
           <div class="row h-100 ml-0 mr-0">
             <div
-              class="col-12 d-flex flex-column justify-content-center align-items-center block2 pt-4 pb-3 pl-2 pr-2 block-shadow block-shadow-down clickable"
-              style="background-color: rgba(0,0,0,0.67);" onclick="location.href='/invest'">
+              class="col-12 d-flex flex-column justify-content-center align-items-center block2 pt-4 pb-3 pl-2 pr-2 block-shadow block-shadow-down clickable h-lg-50"
+              onclick="location.href='/invest'">
               <h5 class="text-center text-white" style="z-index: 2;position: relative;">
                 <span class="d-block">ТОРГОВЫЕ, ОФИСНЫЕ,</span><span
                   class="d-block">МНОГОФУНКЦИОНАЛЬНЫЕ ЦЕНТРЫ,</span><span
                   class="d-block">ГОСТИНИЦЫ</span><span class="d-block">ИНВЕСТИЦИОННЫЕ
                   ПОРТФЕЛИ НЕДВИЖИМОСТИ</span></h5>
               <p
-                class="text-uppercase position-relative text-white h2 pb-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold">
+                class="text-uppercase position-relative text-white h2 pb-2 pb-lg-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold mb-0 mb-lg-2">
                 <strong>{{ $investCount }} ПРЕДЛОЖЕНИЙ</strong></p>
-              <p class="position-relative text-white h2 mt-4 font-weight-bold"><strong>{{ $investAreaS }} м<sup>2<sup></strong></p>
+              <p class="position-relative text-white h2 mt-2 mt-lg-4 font-weight-bold"><strong>{{ $investAreaS }} м<sup>2<sup></strong></p>
             </div>
             <div
-              class="col-12 d-flex flex-column justify-content-center align-items-center block3 pt-4 pb-3 pl-2 pr-2 block-shadow"
-              style="background-color: rgba(0,0,0,0.67);">
+              class="col-12 d-flex flex-column justify-content-center align-items-center block3 pt-4 pb-3 pl-2 pr-2 block-shadow clickable h-lg-50"
+              onclick="location.href='/retail'">
               <h5 class="text-center text-white" style="z-index: 2;position: relative;">
                 <span class="d-block">ТОРГОВЫЕ ПОМЕЩЕНИЯ, STREET-RETAIL,</span><span
                   class="d-block">ГОТОВЫЙ АРЕНДНЫЙ БИЗНЕС</span></h5>
               <p
-                class="text-uppercase position-relative text-white h2 pb-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold">
+                class="text-uppercase position-relative text-white h2 pb-2 pb-lg-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold mb-0 mb-lg-2">
                 <strong>{{ $retailCount }} ПРЕДЛОЖЕНИЙ</strong><br /></p>
-              <p class="position-relative text-white h2 mt-4 font-weight-bold"><strong>{{ $retailAreaS }} м<sup>2<sup></strong><br /></p>
+              <p class="position-relative text-white h2 mt-2 mt-lg-4 font-weight-bold"><strong>{{ $retailAreaS }} м<sup>2<sup></strong><br /></p>
             </div>
           </div>
         </div>
