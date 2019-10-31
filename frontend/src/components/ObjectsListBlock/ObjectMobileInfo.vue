@@ -27,6 +27,8 @@
           :object="object"
           :path="imageFolders.big"
           @image-loaded="$emit('image-loaded')"
+          @fancy-opened="isFancyOpened = true"
+          @fancy-closed="isFancyOpened = false"
           v-else-if="type === 'fullInfo'" />
       </div>
       <div class="col pl-3 d-flex flex-column">
@@ -46,7 +48,10 @@
                   style="top: .2rem"
                   :style="{right: type === 'list' ? '1.2rem' : '60%'}" />
               </div>
-              <div class="col-auto" v-if="['info', 'fullInfo'].includes(type)">
+              <div
+                class="col-auto"
+                v-if="['info', 'fullInfo'].includes(type)"
+                :class="{invisible: isFancyOpened}">
                 <i class="icon-close" @click="$emit('close-object-block')"></i>
               </div>
             </div>
@@ -194,6 +199,7 @@ export default {
     return {
       buildingTypes,
       purposesRetail,
+      isFancyOpened: false,
     };
   },
   computed: {

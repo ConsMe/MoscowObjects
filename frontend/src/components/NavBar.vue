@@ -216,7 +216,8 @@ export default {
       return false;
     },
     favouritesCount() {
-      return this.$store.state.main.favourites.length;
+      const favouritesCount = this.$store.getters['main/favouritesCount'];
+      return favouritesCount[this.currentCategorySlug];
     },
     currentCategorySlug() {
       return this.$store.state.currentCategorySlug;

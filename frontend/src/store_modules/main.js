@@ -104,6 +104,7 @@ export default {
     },
     filterReset(state) {
       state.filtersOn = false;
+      state.filters = {};
       state.selectedFastFilters = [];
     },
     showObjectAtMap(state, coordinates) {
@@ -248,6 +249,17 @@ export default {
         }
       }
       return heightStyles;
+    },
+    favouritesCount(state, getters, rootState) {
+      const count = {};
+      rootState.objectsPre.forEach((object) => {
+        if (state.favourites.includes(object.id)) {
+          const { type } = object;
+          if (!count[type]) count[type] = 0;
+          count[type] += 1;
+        }
+      });
+      return count;
     },
   },
   actions: {

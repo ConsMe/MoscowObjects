@@ -187,6 +187,9 @@ export default {
     objects() {
       return this.$store.getters['main/objects'];
     },
+    appliedFilters() {
+      return this.$store.state.main.filters;
+    },
     filtersOn() {
       return this.$store.state.main.filtersOn;
     },
@@ -226,6 +229,11 @@ export default {
         const filter = this.currentCategorySlug === 'Invest' ? 'buildingType' : 'purposeRetail';
         this.filters[filter].value = this.selectedFastFilters.slice(0);
         this.applyFilter();
+      }
+    },
+    appliedFilters(nv) {
+      if (!Object.keys(nv).length) {
+        this.getFilters();
       }
     },
   },

@@ -5,7 +5,7 @@
         v-for="(title, field, i) in fields"
         :key="i"
         scope="col"
-        :class="[sort[field] ? `sort-${sort[field]}` : null]"
+        :class="[sort[field] ? `sort-${sort[field]}` : null, field === 'buildingName' ? 'text-right': null]"
         @click="sortTo(field)">
         {{ title ? title : ''}}
       </th>
@@ -109,7 +109,7 @@ export default {
       const fields = [];
       Object.keys(this.fields).forEach((field) => {
         if (!this.fields[field]) return;
-        fields.push({ title: `${this.fields[field]} &#65516;`, field, direction: 'down' });
+        fields.push({ title: `${this.fields[field]} &#xFFEC;`, field, direction: 'down' });
         fields.push({ title: `${this.fields[field]} &#65514;`, field, direction: 'up' });
       });
       return fields;
@@ -130,6 +130,7 @@ export default {
   },
   methods: {
     sortTo(field, direction) {
+      if (field === 'image') return;
       let passDirection = direction;
       if (!direction) {
         passDirection = field in this.sort && this.sort[field] === 'down' ? 'up' : 'down';

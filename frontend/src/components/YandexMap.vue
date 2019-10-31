@@ -147,10 +147,15 @@ export default {
             {% endif %}
         </div>`,
       );
+      const typeSelector = new ymaps.control.TypeSelector({
+        options: {
+          float: this.isMobileDevice ? 'left' : 'right',
+        },
+      });
       this.map = new ymaps.Map('map', {
         center: [55.76141, 37.629708],
         zoom: this.currentZoom,
-        controls: ['typeSelector', 'zoomControl'],
+        controls: [typeSelector, 'zoomControl'],
       });
       this.collection = new ymaps.GeoObjectCollection({});
       this.map.geoObjects.add(this.collection);

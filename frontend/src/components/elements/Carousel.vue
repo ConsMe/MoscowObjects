@@ -145,7 +145,11 @@ export default {
         loop: true,
         animationEffect: 'zoom-in-out',
         transitionEffect: 'slide',
+        beforeClose: () => {
+          this.$emit('fancy-closed');
+        },
       }, index);
+      this.$emit('fancy-opened');
     },
     getImagePosition() {
       this.images.forEach((image, i) => {

@@ -50,6 +50,11 @@
     .dropdown-menu {
       margin-top: -.25rem;
     }
+    .my-dropdown-menu-center {
+      left: 50% !important;
+      transform: translateX(-50%);
+      text-align: center !important;
+    }
   }
 
   @media (max-width: 991.98px) {
@@ -101,13 +106,13 @@ export default {
   methods: {
     init() {
       $('.fast-filters > .dropdown').on('show.bs.dropdown', (e) => {
+        const slug = $(e.target).attr('data-slug');
         if (!this.isMobileDevice) {
           e.preventDefault();
           e.stopPropagation();
-        }
-        const slug = $(e.target).attr('data-slug');
-        if (this.selectedFastFilters.includes(slug)) {
-          this.$store.commit('main/selectFastFilter', slug);
+          this.selectFastFilter(slug);
+        } else if (this.selectedFastFilters.includes(slug)) {
+          this.selectFastFilter(slug);
         }
       });
     },
