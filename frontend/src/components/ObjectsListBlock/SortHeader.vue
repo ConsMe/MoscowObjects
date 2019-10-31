@@ -109,8 +109,8 @@ export default {
       const fields = [];
       Object.keys(this.fields).forEach((field) => {
         if (!this.fields[field]) return;
-        fields.push({ title: `${this.fields[field]} &#xFFEC;`, field, direction: 'down' });
-        fields.push({ title: `${this.fields[field]} &#65514;`, field, direction: 'up' });
+        fields.push({ title: `${this.fields[field]} ￬`, field, direction: 'down' });
+        fields.push({ title: `${this.fields[field]} ￪`, field, direction: 'up' });
       });
       return fields;
     },
