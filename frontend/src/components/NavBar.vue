@@ -41,7 +41,7 @@
                 class="btn btn-outline-dark rounded-0"
                 :class="{active: activeItems.map && isMainView}"
                 @click.prevent="toggleBlocks('ObjectsListBlock', false)"
-              >Карта ￪</button>
+              >Карта</button>
               <button
                 type="button"
                 class="btn btn-outline-dark rounded-0"
@@ -60,7 +60,7 @@
               <i class="fa fa-heart mr-1 position-relative" :class="{'text-danger': favouritesOn}">
                 <span class="favouritesCount" v-if="favouritesCount">{{ favouritesCount }}</span>
               </i>
-              Избранное
+              Избранное ￪
             </a>
           </li>
           <lk-menu-navbar class="order-2 order-lg-5 px-xs-0" />
