@@ -138,15 +138,17 @@
           <div class="col-4">{{ object.purposeZU }}</div>
           <div class="col text-white" v-if="object.groundPlan.is">{{ object.groundPlan.full }}</div>
         </div>
-        <div class="border-top-1 mb-0"></div>
-        <div class="row mt-2 mb-0">
-          <div class="col-4">ОКС</div>
-          <div class="col">{{ object.kadastrNumberOKS }}</div>
-          <div class="col" v-html="object.areaS"></div>
-        </div>
-        <div class="row mb-2">
-          <div class="col-4">{{ object.purposeOKS }}</div>
-        </div>
+        <template v-if="object.kadastrNumberOKS || object.areaS || object.purposeOKS">
+          <div class="border-top-1 mb-0"></div>
+          <div class="row mt-2 mb-0">
+            <div class="col-4">ОКС</div>
+            <div class="col">{{ object.kadastrNumberOKS }}</div>
+            <div class="col" v-html="object.areaS"></div>
+          </div>
+          <div class="row mb-2" v-if="object.purposeOKS">
+            <div class="col-4">{{ object.purposeOKS }}</div>
+          </div>
+        </template>
       </template>
     </template>
     <div class="border-top-1" v-if="type === 'list'"></div>

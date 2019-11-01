@@ -13,7 +13,7 @@
           aria-haspopup="true" aria-expanded="false"
       >{{ filter.short }}</button>
       <div
-        class="dropdown-menu dropdown-menu-right p-0"
+        class="dropdown-menu dropdown-menu-right p-0 rounded-0"
         :class="{'d-none': selectedFastFilters.includes(slug)}">
         <a
           class="dropdown-item pl-2 pr-2"
@@ -36,6 +36,9 @@
   padding: .25rem;
   background-color: #060606;
 
+  .dropdown-item {
+    border: 1px solid white;
+  }
   button {
     line-height: normal;
   }
@@ -44,6 +47,9 @@
   }
 
   @media (min-width: 992px) {
+    & {
+      z-index: 3;
+    }
     & > div:hover > .dropdown-menu {
       display: block;
     }

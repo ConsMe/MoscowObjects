@@ -41,7 +41,7 @@
                 class="btn btn-outline-dark rounded-0"
                 :class="{active: activeItems.map && isMainView}"
                 @click.prevent="toggleBlocks('ObjectsListBlock', false)"
-              >Карта</button>
+              >Карта ￪</button>
               <button
                 type="button"
                 class="btn btn-outline-dark rounded-0"
