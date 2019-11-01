@@ -60,7 +60,7 @@
               <i class="fa fa-heart mr-1 position-relative" :class="{'text-danger': favouritesOn}">
                 <span class="favouritesCount" v-if="favouritesCount">{{ favouritesCount }}</span>
               </i>
-              Избранное &#65514;
+              Избранное
             </a>
           </li>
           <lk-menu-navbar class="order-2 order-lg-5 px-xs-0" />
