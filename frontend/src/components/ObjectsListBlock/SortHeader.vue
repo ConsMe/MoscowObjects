@@ -59,6 +59,7 @@ export default {
         field: 'id',
         direction: 'down',
       },
+      isIOS: (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream,
     };
   },
   computed: {
@@ -105,12 +106,18 @@ export default {
           return '';
       }
     },
+    arrow() {
+      return {
+        up: this.isIOS ? '&#8593;' : '￪',
+        down: this.isIOS ? '&#8595;' : '￬',
+      };
+    },
     fieldsWithDirections() {
       const fields = [];
       Object.keys(this.fields).forEach((field) => {
         if (!this.fields[field]) return;
-        fields.push({ title: `${this.fields[field]} ￬`, field, direction: 'down' });
-        fields.push({ title: `${this.fields[field]} ￪`, field, direction: 'up' });
+        fields.push({ title: `${this.fields[field]} ${this.arrow.down}`, field, direction: 'down' });
+        fields.push({ title: `${this.fields[field]} ${this.arrow.up}`, field, direction: 'up' });
       });
       return fields;
     },
