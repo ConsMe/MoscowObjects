@@ -28,7 +28,7 @@
       <router-link
         class="dropdown-item"
         :to="{name: 'lk-users'}"
-        v-if="user.role === 'admin'">
+        v-if="user.role === 'admin' && !isMobileDevice">
         Пользователи
       </router-link>
       <router-link
@@ -67,6 +67,9 @@ export default {
     },
     user() {
       return this.$store.state.user;
+    },
+    isMobileDevice() {
+      return this.$store.getters.isMobileDevice;
     },
   },
   methods: {
