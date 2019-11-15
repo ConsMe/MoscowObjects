@@ -62,6 +62,19 @@
 .text-black {
   color: $black !important;
 }
+.btn-yellow {
+  background-color: #ffda4c;
+  color: black;
+  &:hover, &:focus {
+    background-color: #ffca00;
+    color: black;
+  }
+  &:disabled, &.disabled {
+    background-color: #ffe583;
+    color: #525252;
+    opacity: 1;
+  }
+}
 
 @keyframes bounce-in {
   0% {

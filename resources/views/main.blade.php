@@ -390,7 +390,7 @@
               СТРОИТЕЛЬСТВА</span><span class="d-block">ПОД РЕКОНСТРУКЦИЮ</span></h5>
           <p
             class="text-uppercase position-relative text-white h2 pb-2 pb-lg-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold mb-0 mb-lg-2">
-            {{ $zuCount }} Предложений</p>
+            {{ $zuCount }}</p>
           <p class="position-relative text-white h2 mt-2 mt-lg-4 font-weight-bold">{{ $zuGroundS }} Га</p>
         </div>
         <div class="col-12 col-lg-4 pl-0 pr-0">
@@ -405,7 +405,7 @@
                   ПОРТФЕЛИ НЕДВИЖИМОСТИ</span></h5>
               <p
                 class="text-uppercase position-relative text-white h2 pb-2 pb-lg-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold mb-0 mb-lg-2">
-                <strong>{{ $investCount }} ПРЕДЛОЖЕНИЙ</strong></p>
+                <strong>{{ $investCount }}</strong></p>
               <p class="position-relative text-white h2 mt-2 mt-lg-4 font-weight-bold"><strong>{{ $investAreaS }} м<sup>2<sup></strong></p>
             </div>
             <div
@@ -416,7 +416,7 @@
                   class="d-block">ГОТОВЫЙ АРЕНДНЫЙ БИЗНЕС</span></h5>
               <p
                 class="text-uppercase position-relative text-white h2 pb-2 pb-lg-4 border-bottom mt-4 pl-4 pr-4 font-weight-bold mb-0 mb-lg-2">
-                <strong>{{ $retailCount }} ПРЕДЛОЖЕНИЙ</strong><br /></p>
+                <strong>{{ $retailCount }}</strong><br /></p>
               <p class="position-relative text-white h2 mt-2 mt-lg-4 font-weight-bold"><strong>{{ $retailAreaS }} м<sup>2<sup></strong><br /></p>
             </div>
           </div>

@@ -154,7 +154,7 @@
     <transition name="bounce" v-if="!isMobileDevice">
       <div class="download" v-show="show">
         <button
-          class="btn btn-primary rounded-0 text-nowrap download-tizer w-100 mb-1 border border-left-0"
+          class="btn btn-yellow rounded-0 text-nowrap download-tizer w-100 mb-1 border border-left-0"
           @click="checkForTizer"
           type="button"
           :disabled="disabled.downloadTizer"

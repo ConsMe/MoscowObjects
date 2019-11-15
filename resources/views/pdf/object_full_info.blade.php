@@ -228,7 +228,7 @@
             @endif
         </div>
     </div>
-    <div style="width: 65%;position: relative; padding: 10px 10px {{ $hide_company_info_in_tizer ? '15px' : '50px' }} 10px;">
+    <div style="width: 65%;position: relative; padding: 10px 10px {{ $hide_company_info_in_tizer ? '15px' : '70px' }} 10px;">
         <table style="border: 0px solid black; width: 100%;">
             <tbody>
                 <tr>
