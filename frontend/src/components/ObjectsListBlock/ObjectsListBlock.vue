@@ -50,10 +50,10 @@
                 <td class="align-middle">{{ object.caprate ? `${object.caprate}%` : '' }}</td>
               </template>
               <template v-else-if="currentCategorySlug === 'Retail'">
-                <td class="align-middle">{{ purposesRetail[object.purposeRetail].short }}</td>
+                <td class="align-middle">{{ purposesRetail[object.purposeRetail].shortDestop }}</td>
                 <td class="align-middle text-nowrap" v-html="object.areaS"></td>
                 <td class="align-middle text-nowrap">{{ object.MAP }}</td>
-                <td class="align-middle text-nowrap">{{ object.payback ? `${object.payback} лет` : '' }}</td>
+                <td class="align-middle text-nowrap text-center">{{ object.payback ? object.payback : '' }}</td>
               </template>
               <td class="text-right align-middle position-relative text-nowrap">
                 <div class="position-absolute d-inline-block w-100 h-100 link-wrap">
@@ -106,6 +106,7 @@
   @media (max-width: 1099.98px){
     & {
       overflow-y: auto;
+      overflow-x: hidden;
     }
     .fa-heart-o,
     .fa-heart {

@@ -77,7 +77,7 @@ export default {
       },
       {
         id: 1,
-        title: 'Новая Москва',
+        title: 'Новая Москва и Зеленоград',
         slug: 'New_Moscow',
         checked: false,
       },

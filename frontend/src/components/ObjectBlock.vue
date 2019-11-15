@@ -90,7 +90,7 @@
                 <strong>₽</strong>
               </p>
               <p class="mb-0" v-if="object.payback">
-                {{ object.payback + ' лет' }}
+                {{ object.payback }}
               </p>
             </div>
           </div>

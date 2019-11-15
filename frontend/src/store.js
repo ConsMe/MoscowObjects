@@ -67,6 +67,20 @@ export default new Vuex.Store({
             };
           }
         }
+        if ('payback' in object) {
+          let text = 'лет';
+          const count = object.payback.toString();
+          if (object.payback || object.payback < 10) {
+            if (count === '1') {
+              text = 'год';
+            } else if (count.length > 1 && count[count.length - 1] === '1' && count[count.length - 2] !== '1') {
+              text = 'год';
+            } else if (['2', '3', '4'].includes(count[count.length - 1])) {
+              text = 'года';
+            }
+          }
+          modifiedObject.payback = `${object.payback} ${text}`;
+        }
         return modifiedObject;
       });
     },

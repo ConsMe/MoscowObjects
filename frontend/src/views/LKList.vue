@@ -64,7 +64,7 @@
                 <td class="align-middle">{{ purposesRetail[object.purposeRetail].short }}</td>
                 <td class="align-middle text-nowrap" v-html="object.areaS"></td>
                 <td class="align-middle text-nowrap">{{ object.MAP }}</td>
-                <td class="align-middle">{{ object.payback + ' лет' }}</td>
+                <td class="align-middle">{{ object.payback }}</td>
               </template>
               <td class="align-middle text-nowrap">{{ object.cost }}</td>
               <td class="align-middle">{{ object.responsible }}</td>

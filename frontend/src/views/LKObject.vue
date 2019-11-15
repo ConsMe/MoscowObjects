@@ -128,8 +128,8 @@
                       <input
                         type="text"
                         class="form-control border"
-                        placeholder="Станция метро (список)"
-                        title="Станция метро (список)"
+                        placeholder="Станция метро"
+                        title="Станция метро"
                         v-model="object.underground"
                         v-else-if="object.type === 'Retail'"
                       />

@@ -6,6 +6,7 @@
         :key="i"
         scope="col"
         :class="[sort[field] ? `sort-${sort[field]}` : null, field === 'buildingName' ? 'text-right': null]"
+        :style="{textAlign: title === 'S' ? 'center' : 'left'}"
         @click="sortTo(field)">
         {{ title ? title : ''}}
       </th>

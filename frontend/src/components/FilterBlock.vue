@@ -3,9 +3,15 @@
     <div class="row ml-0 mr-0 pb-1 justify-content-center">
       <div class="col col-auto col-lg-12">
         <div class="form-group">
-          <div v-for="(filter, name) in filters" :key="name">
+          <div class="row m-0 justify-content-center">
+          <div
+            v-for="(filter, name) in filters"
+            :key="name"
+            class="px-2"
+            :class="[['purpose', 'groundPlan'].includes(name) ? 'col-6 col-lg-12' : 'col-12']"
+            :style="{display: filter.hidden.includes(currentCategorySlug) ? 'none' : null}">
             <template v-if="!filter.hidden.includes(currentCategorySlug)">
-              <label class="control-label mt-3 mb-0" :class="{'mt-4': filter.label === 'Назначение'}">
+              <label class="control-label mt-3 mb-0" :class="{'mt-4': ['Назначение', 'Наличие ГПЗУ'].includes(filter.label)}">
                 <span class="text-uppercase">{{ filter.label }}</span>
               </label>
               <div v-if="filter.type == 'checkbox'">
@@ -93,6 +99,7 @@
               </div>
             </template>
           </div>
+          </div>
         </div>
       </div>
     </div>
@@ -133,6 +140,10 @@
   @media (max-width: 991.98px) {
     &, input[type="text"] {
       font-size: 1.15rem;
+    }
+    .btn-block {
+      padding-top: 1.7rem;
+      padding-bottom: 1.7rem;
     }
   }
 }

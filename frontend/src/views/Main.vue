@@ -25,6 +25,11 @@
 <style lang="scss">
 @import "../assets/css/_variables.scss";
 
+.main-wrap {
+  strong {
+    font-weight: normal;
+  }
+}
 .content {
   display: flex;
   flex-direction: row;

@@ -92,7 +92,7 @@
                         <strong>₽</strong>
                       </p>
                       <p class="mb-0" v-if="object.payback">
-                        {{ object.payback + ' лет' }}
+                        {{ object.payback }}
                       </p>
                     </div>
                   </div>
@@ -380,9 +380,9 @@ export default {
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = '/pdf/object';
-      if (this.isMobileDevice) {
-        form.target = '_blank';
-      }
+      // if (this.isMobileDevice) {
+      //   form.target = '_blank';
+      // }
       const input = document.createElement('input');
       input.name = 'object';
       input.value = JSON.stringify(object);

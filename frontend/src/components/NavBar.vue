@@ -93,7 +93,7 @@
 @import "../assets/css/_variables.scss";
 
 .navbar {
-  z-index: 3;
+  z-index: 4;
   border-left: none !important;
   button:focus {
     box-shadow: none !important;
