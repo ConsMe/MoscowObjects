@@ -4,13 +4,12 @@
       <div class="col col-auto col-lg-12">
         <div class="form-group">
           <div
-            class="row m-0 justify-content-center"
-            :class="{'mb-4': isMobileDevice && currentCategorySlug === 'ZU'}">
+            class="row m-0 justify-content-center">
             <div
               v-for="(filter, name) in filters"
               :key="name"
               class="px-2"
-              :class="[['purpose', 'groundPlan'].includes(name) ? 'col-6 col-lg-12' : 'col-12']"
+              :class="[['purpose', 'groundPlan'].includes(name) ? 'col-6 col-lg-12' : 'col-12', isMobileDevice && name === 'groundPlan' ? 'mb-4' : '']"
               :style="{display: filter.hidden.includes(currentCategorySlug) ? 'none' : null}">
               <template v-if="!filter.hidden.includes(currentCategorySlug)">
                 <label class="control-label mt-3 mb-0" :class="{'mt-4': ['Назначение', 'Наличие ГПЗУ'].includes(filter.label)}">
@@ -144,9 +143,8 @@
       font-size: 1.15rem;
     }
     .btn-block {
-      // padding-top: 1.7rem;
-      line-height: 4rem;
-      // padding-bottom: 1.7rem;
+      padding-top: 1.7rem;
+      padding-bottom: 1.7rem;
     }
   }
 }
