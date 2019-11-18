@@ -1,11 +1,11 @@
 <template>
   <div class="filter-block text-left shadow" ref="filterblock" :style="{width: filterWidth ? `${filterWidth}px` : '100%'}">
-    <div class="row ml-0 mr-0 pb-1 justify-content-center"
-      :class="{'pb-5': isMobileDevice && currentCategorySlug === 'ZU'}">
+    <div class="row ml-0 mr-0 pb-1 justify-content-center">
       <div class="col col-auto col-lg-12">
         <div class="form-group">
           <div
-            class="row m-0 justify-content-center">
+            class="row m-0 justify-content-center"
+            :class="{'mb-4': isMobileDevice && currentCategorySlug === 'ZU'}">
             <div
               v-for="(filter, name) in filters"
               :key="name"
@@ -143,10 +143,10 @@
     &, input[type="text"] {
       font-size: 1.15rem;
     }
-    .btn-block {
-      padding-top: 1.7rem;
-      padding-bottom: 1.7rem;
-    }
+    // .btn-block {
+    //   padding-top: 1.7rem;
+    //   padding-bottom: 1.7rem;
+    // }
   }
 }
 .filter-block > .row {
