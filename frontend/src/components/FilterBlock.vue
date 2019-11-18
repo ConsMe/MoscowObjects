@@ -143,10 +143,11 @@
     &, input[type="text"] {
       font-size: 1.15rem;
     }
-    // .btn-block {
-    //   padding-top: 1.7rem;
-    //   padding-bottom: 1.7rem;
-    // }
+    .btn-block {
+      // padding-top: 1.7rem;
+      line-height: 4rem;
+      // padding-bottom: 1.7rem;
+    }
   }
 }
 .filter-block > .row {
