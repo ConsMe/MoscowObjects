@@ -1,7 +1,7 @@
 <template>
   <div class="filter-block text-left shadow" ref="filterblock" :style="{width: filterWidth ? `${filterWidth}px` : '100%'}">
     <div class="row ml-0 mr-0 pb-1 justify-content-center"
-      :class="{'pb-3': isMobileDevice && currentCategorySlug === 'ZU'}">
+      :class="{'pb-5': isMobileDevice && currentCategorySlug === 'ZU'}">
       <div class="col col-auto col-lg-12">
         <div class="form-group">
           <div
