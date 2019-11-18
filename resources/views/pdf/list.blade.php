@@ -134,7 +134,7 @@
                         м<sup>2</sup>
                       </td>
                       <td class="nowrap">{{ isset($object['MAP']) ? $object['MAP'] : '' }}</td>
-                      <td>{{ isset($object['payback']) ? $object['payback'].' лет' : '' }}</td>
+                      <td>{{ isset($object['payback']) ? $object['payback'] : '' }}</td>
                     @endif
                     <td class="nowrap">
                       {{ $object['cost'] }}

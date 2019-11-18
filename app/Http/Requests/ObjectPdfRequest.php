@@ -55,7 +55,7 @@ class ObjectPdfRequest extends FormRequest
             'object.GAP' => 'string',
             'object.MAP' => 'string',
             'object.caprate' => 'numeric',
-            'object.payback' => 'numeric',
+            'object.payback' => 'string',
             'object.underground' => 'string',
             'object.cost' => 'present|string|nullable',
             'object.images' => 'required|array',

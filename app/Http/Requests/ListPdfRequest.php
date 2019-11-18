@@ -49,7 +49,7 @@ class ListPdfRequest extends FormRequest
             'objects.*.GAP' => 'string',
             'objects.*.MAP' => 'string',
             'objects.*.caprate' => 'numeric',
-            'objects.*.payback' => 'numeric',
+            'objects.*.payback' => 'string',
             'objects.*.underground' => 'string',
             'objects.*.cost' => 'present|string|nullable',
             'objects.*.images' => 'required|array',

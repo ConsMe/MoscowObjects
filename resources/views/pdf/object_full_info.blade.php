@@ -320,7 +320,7 @@
                               </p>
                             @endif
                             @if (isset($object['payback']))
-                              <p style="line-height: 0.5rem;">Окупаемость {{ $object['payback'] }} лет</p>
+                              <p style="line-height: 0.5rem;">Окупаемость {{ $object['payback'] }}</p>
                             @endif
                         @endif
                         @if (strlen($object['cost']))

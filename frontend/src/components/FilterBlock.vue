@@ -3,102 +3,104 @@
     <div class="row ml-0 mr-0 pb-1 justify-content-center">
       <div class="col col-auto col-lg-12">
         <div class="form-group">
-          <div class="row m-0 justify-content-center">
           <div
-            v-for="(filter, name) in filters"
-            :key="name"
-            class="px-2"
-            :class="[['purpose', 'groundPlan'].includes(name) ? 'col-6 col-lg-12' : 'col-12']"
-            :style="{display: filter.hidden.includes(currentCategorySlug) ? 'none' : null}">
-            <template v-if="!filter.hidden.includes(currentCategorySlug)">
-              <label class="control-label mt-3 mb-0" :class="{'mt-4': ['Назначение', 'Наличие ГПЗУ'].includes(filter.label)}">
-                <span class="text-uppercase">{{ filter.label }}</span>
-              </label>
-              <div v-if="filter.type == 'checkbox'">
-                <div
-                  class="custom-control custom-checkbox"
-                  v-for="value in filter.values"
-                  :key="value.id"
-                >
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    :id="name + value.id"
-                    :value="value.slug"
-                    v-model="filter.value"
-                  />
-                  <label class="custom-control-label" :for="name + value.id">{{ value.title }}</label>
-                </div>
-              </div>
-              <div v-else-if="filter.type == 'interval'">
-                <form>
-                  <div class="row no-gutters">
-                    <div class="col col-auto my-label-bottom">
-                      <label class="control-label mb-0">от</label>
-                    </div>
-                    <div class="col">
-                      <input
-                        type="text"
-                        class="form-control bg-transparent text-white p-0 text-right rounded-0 pr-1 pl-1"
-                        size="5"
-                        v-model="filter.values.from"
-                        @keydown="input(filter.values.from, name, $event)"
-                        @input="transform(name, 'from', $event)"
-                        @blur="cutZeros(name, 'from')"
-                        @focus="select"
-                      />
-                    </div>
-                    <div class="col col-auto my-label-bottom">
-                      <label class="control-label mb-0">до</label>
-                    </div>
-                    <div class="col">
-                      <input
-                        type="text"
-                        class="form-control bg-transparent text-white p-0 text-right rounded-0 pl-1"
-                        v-model="filter.values.to"
-                        @keydown="input(filter.values.to, name, $event)"
-                        @input="transform(name, 'to', $event)"
-                        @blur="cutZeros(name, 'to')"
-                        @focus="select"
-                      />
-                    </div>
-                    <div class="col col-auto my-label-bottom">
-                      <label
-                        class="control-label ml-1 mb-0"
-                        v-html="filter.unit"
-                        v-if="name !== 'cost'"
-                      ></label>
-                      <select
-                        class="custom-select d-inline-block text-secondary border-white ml-1 rounded-0"
-                        v-else
-                        v-model="filters.cost.currency"
-                      >
-                        <option value="rouble">&#8381;</option>
-                        <option value="USD">$</option>
-                        <option value="EUR">&#8364;</option>
-                      </select>
-                    </div>
+            class="row m-0 justify-content-center"
+            :class="{'mb-4': isMobileDevice && currentCategorySlug === 'ZU'}">
+            <div
+              v-for="(filter, name) in filters"
+              :key="name"
+              class="px-2"
+              :class="[['purpose', 'groundPlan'].includes(name) ? 'col-6 col-lg-12' : 'col-12']"
+              :style="{display: filter.hidden.includes(currentCategorySlug) ? 'none' : null}">
+              <template v-if="!filter.hidden.includes(currentCategorySlug)">
+                <label class="control-label mt-3 mb-0" :class="{'mt-4': ['Назначение', 'Наличие ГПЗУ'].includes(filter.label)}">
+                  <span class="text-uppercase">{{ filter.label }}</span>
+                </label>
+                <div v-if="filter.type == 'checkbox'">
+                  <div
+                    class="custom-control custom-checkbox"
+                    v-for="value in filter.values"
+                    :key="value.id"
+                  >
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      :id="name + value.id"
+                      :value="value.slug"
+                      v-model="filter.value"
+                    />
+                    <label class="custom-control-label" :for="name + value.id">{{ value.title }}</label>
                   </div>
-                </form>
-              </div>
-              <div v-else-if="filter.type == 'radio'">
-                <div
-                  class="custom-control custom-radio"
-                  v-for="value in filter.values"
-                  :key="value.id"
-                >
-                  <input
-                    type="radio"
-                    class="custom-control-input"
-                    :id="name + value.id"
-                    :value="value.slug"
-                    v-model="filter.value"
-                  />
-                  <label class="custom-control-label" :for="name + value.id">{{ value.title }}</label>
                 </div>
-              </div>
-            </template>
-          </div>
+                <div v-else-if="filter.type == 'interval'">
+                  <form>
+                    <div class="row no-gutters">
+                      <div class="col col-auto my-label-bottom">
+                        <label class="control-label mb-0">от</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          type="text"
+                          class="form-control bg-transparent text-white p-0 text-right rounded-0 pr-1 pl-1"
+                          size="5"
+                          v-model="filter.values.from"
+                          @keydown="input(filter.values.from, name, $event)"
+                          @input="transform(name, 'from', $event)"
+                          @blur="cutZeros(name, 'from')"
+                          @focus="select"
+                        />
+                      </div>
+                      <div class="col col-auto my-label-bottom">
+                        <label class="control-label mb-0">до</label>
+                      </div>
+                      <div class="col">
+                        <input
+                          type="text"
+                          class="form-control bg-transparent text-white p-0 text-right rounded-0 pl-1"
+                          v-model="filter.values.to"
+                          @keydown="input(filter.values.to, name, $event)"
+                          @input="transform(name, 'to', $event)"
+                          @blur="cutZeros(name, 'to')"
+                          @focus="select"
+                        />
+                      </div>
+                      <div class="col col-auto my-label-bottom">
+                        <label
+                          class="control-label ml-1 mb-0"
+                          v-html="filter.unit"
+                          v-if="name !== 'cost'"
+                        ></label>
+                        <select
+                          class="custom-select d-inline-block text-secondary border-white ml-1 rounded-0"
+                          v-else
+                          v-model="filters.cost.currency"
+                        >
+                          <option value="rouble">&#8381;</option>
+                          <option value="USD">$</option>
+                          <option value="EUR">&#8364;</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div v-else-if="filter.type == 'radio'">
+                  <div
+                    class="custom-control custom-radio"
+                    v-for="value in filter.values"
+                    :key="value.id"
+                  >
+                    <input
+                      type="radio"
+                      class="custom-control-input"
+                      :id="name + value.id"
+                      :value="value.slug"
+                      v-model="filter.value"
+                    />
+                    <label class="custom-control-label" :for="name + value.id">{{ value.title }}</label>
+                  </div>
+                </div>
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -215,6 +217,9 @@ export default {
     },
     isSelectedFastFiltersChanged() {
       return this.$store.state.main.isSelectedFastFiltersChanged;
+    },
+    isMobileDevice() {
+      return this.$store.getters.isMobileDevice;
     },
   },
   mounted() {
